@@ -2,6 +2,7 @@ package com.example.astroweather;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,9 +34,15 @@ public class MainActivity extends AppCompatActivity {
                     y = Double.parseDouble(y_input.getText().toString());
                     if (x < -90 || x > 90 || y < -180 || y > 180) {
                         about_dialog.show();
+                    } else {
+                        Intent intent = new Intent(MainActivity.this, FragmentView.class);
+                        Bundle b = new Bundle();
+                        b.putDouble("x", x);
+                        b.putDouble("y", y);
+                        intent.putExtras(b);
+                        startActivity(intent);
+                        finish();
                     }
-                    //Intent intent = new Intent(MainActivity.this, BasicCalculatorActivity.class);
-                    //startActivity(intent);
                 } catch (Exception e) {
                     about_dialog.show();
                 }

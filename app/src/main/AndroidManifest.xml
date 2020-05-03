@@ -16,6 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".FragmentView">
+        </activity>
+        <activity android:name=".SunFragment">
+        </activity>
     </application>
 
 </manifest>
