@@ -20,6 +20,8 @@
         </activity>
         <activity android:name=".SunFragment">
         </activity>
+        <activity android:name=".MoonFragment">
+        </activity>
     </application>
 
 </manifest>

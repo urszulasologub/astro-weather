@@ -30,7 +30,7 @@ public class FragmentView extends AppCompatActivity {
 
 	private void updateDateTime() {
 		Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-		Date date = calendar.getTime();
+		//Date date = calendar.getTime();
 		day = calendar.get(Calendar.DATE);
 		month = calendar.get(Calendar.MONTH) + 1;
 		year = calendar.get(Calendar.YEAR);
@@ -55,9 +55,9 @@ public class FragmentView extends AppCompatActivity {
 		y = this_intent.getDoubleExtra("y", 0);
 
 		TextView x_label = (TextView)findViewById(R.id.x_label);
-		x_label.setText(Double.toString(x));
+		x_label.setText("x: " + Double.toString(x));
 		TextView y_label = (TextView)findViewById(R.id.y_label);
-		y_label.setText(Double.toString(y));
+		y_label.setText("y: " + Double.toString(y));
 
 		final TextView current_time = (TextView)findViewById(R.id.current_time);
 		updateDateTime();
