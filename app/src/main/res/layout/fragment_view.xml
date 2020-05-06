@@ -1,63 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/linearLayout2"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical">
 
+	<LinearLayout
+		android:id="@+id/linearLayout3"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="25dp">
+
+		<TextView
+			android:id="@+id/x_label"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:text="x: -32"
+			android:textSize="24sp" />
+
+		<TextView
+			android:id="@+id/y_label"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:text="y: 13"
+			android:textSize="24sp" />
+
+		<TextView
+			android:id="@+id/current_time"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:text="TextView"
+			android:textSize="24sp" />
+
+	</LinearLayout>
+
 	<fragment
 		android:id="@+id/fragment_sun"
 		android:name="com.example.astroweather.SunFragment"
-		android:layout_width="0dp"
+		android:layout_width="match_parent"
 		android:layout_height="0dp"
-		android:layout_marginStart="25dp"
-		android:layout_marginLeft="25dp"
-		android:layout_marginTop="100dp"
-		android:layout_marginEnd="25dp"
-		android:layout_marginRight="25dp"
-		android:layout_marginBottom="25dp"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
+		android:layout_weight="1" />
 
-	<TextView
-		android:id="@+id/current_time"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginBottom="21dp"
-		android:text="TextView"
-		android:textSize="24sp"
-		app:layout_constraintBottom_toTopOf="@+id/fragment_sun"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintEnd_toStartOf="@+id/x_label"
-		app:layout_constraintHorizontal_bias="0.5"
-		app:layout_constraintStart_toStartOf="parent" />
-
-	<TextView
-		android:id="@+id/x_label"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginBottom="21dp"
-		android:text="x: -32"
-		android:textSize="24sp"
-		app:layout_constraintBottom_toTopOf="@+id/fragment_sun"
-		app:layout_constraintEnd_toEndOf="@+id/current_time"
-		app:layout_constraintEnd_toStartOf="@+id/y_label"
-		app:layout_constraintHorizontal_bias="0.5"
-		app:layout_constraintStart_toEndOf="@+id/current_time" />
-
-	<TextView
-		android:id="@+id/y_label"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginBottom="21dp"
-		android:text="y: 13"
-		android:textSize="24sp"
-		app:layout_constraintBottom_toTopOf="@+id/fragment_sun"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintHorizontal_bias="0.5"
-		app:layout_constraintStart_toEndOf="@+id/x_label" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
