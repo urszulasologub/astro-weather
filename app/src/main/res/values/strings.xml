@@ -1,13 +1,12 @@
 <resources>
 	<string name="app_name">AstroWeather</string>
 
-	<!-- TODO: Remove or change this placeholder text -->
 	<string name="hello_blank_fragment">Hello blank fragment</string>
 	<string name="enter_coords">Enter coords:</string>
-	<string name="sunrise_time">Sunrise time</string>
-	<string name="sunset_time">Sunset time</string>
-	<string name="dusk_time">Dusk time</string>
-	<string name="dawn_time">Dawn time</string>
+	<string name="sunrise_time">Sunrise</string>
+	<string name="sunset_time">Sunset</string>
+	<string name="dusk_time">Dusk</string>
+	<string name="dawn_time">Dawn</string>
 	<string name="azimuth">Azimuth</string>
 	<string name="lunar_day">Lunar day</string>
 	<string name="moon_phase">Moon phase</string>

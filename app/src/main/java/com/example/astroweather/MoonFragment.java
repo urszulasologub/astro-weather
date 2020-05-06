@@ -1,5 +1,6 @@
 package com.example.astroweather;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,58 +8,108 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.astrocalculator.AstroCalculator;
+import com.astrocalculator.AstroDateTime;
+
+import org.w3c.dom.Text;
+
+import java.util.Calendar;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MoonFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MoonFragment extends Fragment {
-	// TODO: Rename parameter arguments, choose names that match
-	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-	private static final String ARG_PARAM1 = "param1";
-	private static final String ARG_PARAM2 = "param2";
 
-	// TODO: Rename and change types of parameters
-	private String mParam1;
-	private String mParam2;
+	private int day;
+	private int month;
+	private int year;
+	private int hour;
+	private int minute;
+	private int second;
+	private Double x = 0.0;
+	private Double y = 0.0;
+	private String moon_rise;
+	private String moon_set;
+	private String new_moon;
+	private String full_moon;
+	private String phase;
+	private String lunar_day;
+
+	private void updateDateTime() {
+		Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+		day = calendar.get(Calendar.DATE);
+		month = calendar.get(Calendar.MONTH) + 1;
+		year = calendar.get(Calendar.YEAR);
+		hour = calendar.get(Calendar.HOUR_OF_DAY);
+		minute = calendar.get(Calendar.MINUTE);
+		second = calendar.get(Calendar.SECOND);
+	}
+
+	private int getOffsetHours(TimeZone timeZone) {
+		return (int) TimeUnit.MILLISECONDS.toHours(timeZone.getOffset(System.currentTimeMillis()));
+	}
+
+
+	private String formatDate(AstroDateTime date_time) {
+		String date = String.format("%02d/%02d/%04d", date_time.getDay(), date_time.getMonth(), date_time.getYear());
+		return date;
+	}
+
+
+	private String formatTime(AstroDateTime date_time) {
+		String time = String.format("%02d:%02d", date_time.getHour(), date_time.getMinute());
+		return time;
+	}
+
+
+	private void updateMoonInfo() {
+		updateDateTime();
+		AstroDateTime date_time = new AstroDateTime(year, month, day, hour, minute, second, getOffsetHours(TimeZone.getDefault()), true);
+		AstroCalculator.Location location = new AstroCalculator.Location(x, y);
+		AstroCalculator calculator = new AstroCalculator(date_time, location);
+		AstroCalculator.MoonInfo moon = calculator.getMoonInfo();
+		moon_rise = formatTime(moon.getMoonrise());
+		moon_set = formatTime(moon.getMoonset());
+		new_moon = formatDate(moon.getNextNewMoon());
+		full_moon = formatDate(moon.getNextFullMoon());
+		phase = Integer.toString((int)(moon.getIllumination() * 100)) + "%";
+		lunar_day = Integer.toString((int)moon.getAge());
+	}
+
 
 	public MoonFragment() {
-		// Required empty public constructor
 	}
 
-	/**
-	 * Use this factory method to create a new instance of
-	 * this fragment using the provided parameters.
-	 *
-	 * @param param1 Parameter 1.
-	 * @param param2 Parameter 2.
-	 * @return A new instance of fragment MoonFragment.
-	 */
-	// TODO: Rename and change types and number of parameters
-	public static MoonFragment newInstance(String param1, String param2) {
-		MoonFragment fragment = new MoonFragment();
-		Bundle args = new Bundle();
-		args.putString(ARG_PARAM1, param1);
-		args.putString(ARG_PARAM2, param2);
-		fragment.setArguments(args);
-		return fragment;
-	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (getArguments() != null) {
-			mParam1 = getArguments().getString(ARG_PARAM1);
-			mParam2 = getArguments().getString(ARG_PARAM2);
-		}
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.fragment_moon, container, false);
+	}
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+
+		updateMoonInfo();
+		TextView moonrise_time_value = (TextView)getView().findViewById(R.id.moonrise_time_value);
+		moonrise_time_value.setText(moon_rise);
+		TextView moonset_time_value = (TextView)getView().findViewById(R.id.moonset_time_value);
+		moonset_time_value.setText(moon_set);
+		TextView newmoon_time_value = (TextView)getView().findViewById(R.id.new_moon_time_value);
+		newmoon_time_value.setText(new_moon);
+		TextView fullmoon_time_value = (TextView)getView().findViewById(R.id.full_moon_time_value);
+		fullmoon_time_value.setText(full_moon);
+		TextView moonphase_value = (TextView)getView().findViewById(R.id.moon_phase_value);
+		moonphase_value.setText(phase);
+		TextView moonday_value = (TextView)getView().findViewById(R.id.moon_day_value);
+		moonday_value.setText(lunar_day);
 	}
 }
