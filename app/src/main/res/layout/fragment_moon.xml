@@ -18,31 +18,167 @@
 		app:layout_constraintTop_toTopOf="parent">
 
 		<LinearLayout
-			android:id="@+id/moonrise_moonset"
+			android:id="@+id/moonrise"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:orientation="vertical">
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center">
 
+			<TextView
+				android:id="@+id/moonrise_time"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="@string/moonrise"
+				android:textColor="#FFFFFF" />
+
+			<TextView
+				android:id="@+id/moonrise_time_value"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="TextView"
+				android:textColor="#FFFFFF" />
+		</LinearLayout>
+		<LinearLayout
+			android:id="@+id/moonset"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center">
+
+			<TextView
+				android:id="@+id/moonset_time"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="@string/moonset"
+				android:textColor="#FFFFFF" />
+
+			<TextView
+				android:id="@+id/moonset_time_value"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="TextView"
+				android:textColor="#FFFFFF" />
+		</LinearLayout>
+		<LinearLayout
+			android:id="@+id/new_moon"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center">
+
+			<TextView
+				android:id="@+id/new_moon_time"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="@string/new_moon"
+				android:textColor="#FFFFFF" />
+
+			<TextView
+				android:id="@+id/new_moon_time_value"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="TextView"
+				android:textColor="#FFFFFF" />
+		</LinearLayout>
+		<LinearLayout
+			android:id="@+id/full_moon"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center">
+
+			<TextView
+				android:id="@+id/full_moon_time"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="@string/full_moon"
+				android:textColor="#FFFFFF" />
+
+			<TextView
+				android:id="@+id/full_moon_time_value"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="TextView"
+				android:textColor="#FFFFFF" />
+		</LinearLayout>
+		<LinearLayout
+			android:id="@+id/moon_phase"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center">
+
+			<TextView
+				android:id="@+id/moon_phase_label"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="@string/moon_phase"
+				android:textColor="#FFFFFF" />
+
+			<TextView
+				android:id="@+id/moon_phase_value"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="TextView"
+				android:textColor="#FFFFFF" />
+		</LinearLayout>
+		<LinearLayout
+			android:id="@+id/moon_day"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center">
+
+			<TextView
+				android:id="@+id/moon_day_label"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="@string/lunar_day"
+				android:textColor="#FFFFFF" />
+
+			<TextView
+				android:id="@+id/moon_day_value"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="TextView"
+				android:textColor="#FFFFFF" />
 		</LinearLayout>
 
-		<LinearLayout
-			android:id="@+id/new_full_moon"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:orientation="vertical"></LinearLayout>
-
-		<LinearLayout
-			android:id="@+id/phase"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:orientation="vertical"></LinearLayout>
-
-		<LinearLayout
-			android:id="@+id/day"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:orientation="vertical"></LinearLayout>
-
 	</LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

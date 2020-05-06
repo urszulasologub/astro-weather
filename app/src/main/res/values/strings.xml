@@ -9,4 +9,10 @@
 	<string name="dusk_time">Dusk time</string>
 	<string name="dawn_time">Dawn time</string>
 	<string name="azimuth">Azimuth</string>
+	<string name="lunar_day">Lunar day</string>
+	<string name="moon_phase">Moon phase</string>
+	<string name="full_moon">Full moon</string>
+	<string name="new_moon">New moon</string>
+	<string name="moonset">Moonset</string>
+	<string name="moonrise">Moonrise</string>
 </resources>
