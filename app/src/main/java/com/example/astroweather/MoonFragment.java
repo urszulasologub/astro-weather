@@ -19,6 +19,10 @@ import java.util.Calendar;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
+import static com.example.astroweather.DateTimeUtils.formatDate;
+import static com.example.astroweather.DateTimeUtils.formatTime;
+import static com.example.astroweather.DateTimeUtils.getOffsetHours;
+
 
 public class MoonFragment extends Fragment {
 
@@ -37,6 +41,7 @@ public class MoonFragment extends Fragment {
 	private String phase;
 	private String lunar_day;
 
+
 	private void updateDateTime() {
 		Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
 		day = calendar.get(Calendar.DATE);
@@ -45,22 +50,6 @@ public class MoonFragment extends Fragment {
 		hour = calendar.get(Calendar.HOUR_OF_DAY);
 		minute = calendar.get(Calendar.MINUTE);
 		second = calendar.get(Calendar.SECOND);
-	}
-
-	private int getOffsetHours(TimeZone timeZone) {
-		return (int) TimeUnit.MILLISECONDS.toHours(timeZone.getOffset(System.currentTimeMillis()));
-	}
-
-
-	private String formatDate(AstroDateTime date_time) {
-		String date = String.format("%02d/%02d/%04d", date_time.getDay(), date_time.getMonth(), date_time.getYear());
-		return date;
-	}
-
-
-	private String formatTime(AstroDateTime date_time) {
-		String time = String.format("%02d:%02d", date_time.getHour(), date_time.getMinute());
-		return time;
 	}
 
 
@@ -93,6 +82,7 @@ public class MoonFragment extends Fragment {
 							 Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_moon, container, false);
 	}
+
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
