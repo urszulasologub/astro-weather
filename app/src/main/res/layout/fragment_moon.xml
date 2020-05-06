@@ -5,16 +5,44 @@
 	android:id="@+id/frameLayout"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context=".MoonFragment" >
+	android:background="@color/colorPrimaryDark"
+	tools:context=".MoonFragment">
 
-	<ImageView
-		android:id="@+id/image_moon"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:scaleType="centerCrop"
-		android:src="@drawable/moon"
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
+		app:layout_constraintTop_toTopOf="parent">
+
+		<LinearLayout
+			android:id="@+id/moonrise_moonset"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical">
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/new_full_moon"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical"></LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/phase"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical"></LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/day"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical"></LinearLayout>
+
+	</LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,16 +5,186 @@
 	android:id="@+id/frameLayout"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	android:background="@color/colorPrimary"
 	tools:context=".SunFragment">
 
-	<ImageView
-		android:id="@+id/image_sun"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:scaleType="centerCrop"
-		android:src="@drawable/sun"
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
+		app:layout_constraintTop_toTopOf="parent">
+
+		<LinearLayout
+			android:id="@+id/sunrise"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center">
+
+			<TextView
+				android:id="@+id/sunrise_time"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="@string/sunrise_time"
+				android:textColor="#FFFFFF" />
+
+			<TextView
+				android:id="@+id/sunrise_time_value"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="TextView"
+				android:textColor="#FFFFFF" />
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/sunrise2"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center">
+
+			<TextView
+				android:id="@+id/sunrise_azimuth"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="@string/azimuth"
+				android:textColor="#FFFFFF" />
+
+			<TextView
+				android:id="@+id/sunrise_azimuth_value"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="TextView"
+				android:textColor="#FFFFFF" />
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/sunset"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center">
+
+			<TextView
+				android:id="@+id/sunset_time"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="@string/sunset_time"
+				android:textColor="#FFFFFF" />
+
+			<TextView
+				android:id="@+id/sunset_time_value"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="TextView"
+				android:textColor="#FFFFFF" />
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/sunset2"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center">
+
+			<TextView
+				android:id="@+id/sunset_azimuth"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="@string/azimuth"
+				android:textColor="#FFFFFF" />
+
+			<TextView
+				android:id="@+id/sunset_azimuth_value"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="TextView"
+				android:textColor="#FFFFFF" />
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/dusk"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center">
+
+			<TextView
+				android:id="@+id/dusk_time"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="@string/dusk_time"
+				android:textColor="#FFFFFF" />
+
+			<TextView
+				android:id="@+id/dusk_time_value"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="TextView"
+				android:textColor="#FFFFFF" />
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/dawn"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:orientation="horizontal">
+
+			<TextView
+				android:id="@+id/dawn_time"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="@string/dawn_time"
+				android:textColor="#FFFFFF" />
+
+			<TextView
+				android:id="@+id/dawn_time_value"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_weight="1"
+				android:gravity="center_horizontal"
+				android:text="TextView"
+				android:textColor="#FFFFFF" />
+		</LinearLayout>
+
+	</LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
