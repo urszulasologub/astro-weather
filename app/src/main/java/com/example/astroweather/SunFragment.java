@@ -7,52 +7,71 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.astrocalculator.AstroCalculator;
+import com.astrocalculator.AstroDateTime;
+
+import org.w3c.dom.Text;
+
+import java.util.Calendar;
+import java.util.TimeZone;
+
+import static com.example.astroweather.DateTimeUtils.formatDate;
+import static com.example.astroweather.DateTimeUtils.formatTime;
+import static com.example.astroweather.DateTimeUtils.getOffsetHours;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SunFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SunFragment extends Fragment {
-	// TODO: Rename parameter arguments, choose names that match
-	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-	private static final String ARG_PARAM1 = "param1";
-	private static final String ARG_PARAM2 = "param2";
 
-	// TODO: Rename and change types of parameters
-	private String mParam1;
-	private String mParam2;
+	private int day;
+	private int month;
+	private int year;
+	private int hour;
+	private int minute;
+	private int second;
+	private Double x = 0.0;
+	private Double y = 0.0;
+	private String sunrise_time;
+	private String sunrise_azimuth;
+	private String sunset_time;
+	private String sunset_azimuth;
+	private String dusk;
+	private String dawn;
+
+
+	private void updateDateTime() {
+		Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+		day = calendar.get(Calendar.DATE);
+		month = calendar.get(Calendar.MONTH) + 1;
+		year = calendar.get(Calendar.YEAR);
+		hour = calendar.get(Calendar.HOUR_OF_DAY);
+		minute = calendar.get(Calendar.MINUTE);
+		second = calendar.get(Calendar.SECOND);
+	}
+
+	private void updateSunInfo() {
+		updateDateTime();
+		AstroDateTime date_time = new AstroDateTime(year, month, day, hour, minute, second, getOffsetHours(TimeZone.getDefault()), true);
+		AstroCalculator.Location location = new AstroCalculator.Location(x, y);
+		AstroCalculator calculator = new AstroCalculator(date_time, location);
+		AstroCalculator.SunInfo sun = calculator.getSunInfo();
+		sunrise_time = formatTime(sun.getSunrise());
+		sunrise_azimuth = Integer.toString((int)sun.getAzimuthRise());
+		sunset_time = formatTime(sun.getSunset());
+		sunset_azimuth = Integer.toString((int)sun.getAzimuthSet());
+		dusk = formatTime(sun.getTwilightMorning());
+		dawn = formatTime(sun.getTwilightEvening());
+	}
 
 	public SunFragment() {
 		// Required empty public constructor
 	}
 
-	/**
-	 * Use this factory method to create a new instance of
-	 * this fragment using the provided parameters.
-	 *
-	 * @param param1 Parameter 1.
-	 * @param param2 Parameter 2.
-	 * @return A new instance of fragment SunFragment.
-	 */
-	// TODO: Rename and change types and number of parameters
-	public static SunFragment newInstance(String param1, String param2) {
-		SunFragment fragment = new SunFragment();
-		Bundle args = new Bundle();
-		args.putString(ARG_PARAM1, param1);
-		args.putString(ARG_PARAM2, param2);
-		fragment.setArguments(args);
-		return fragment;
-	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (getArguments() != null) {
-			mParam1 = getArguments().getString(ARG_PARAM1);
-			mParam2 = getArguments().getString(ARG_PARAM2);
-		}
 	}
 
 	@Override
@@ -60,5 +79,25 @@ public class SunFragment extends Fragment {
 							 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.fragment_sun, container, false);
+	}
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+
+		updateSunInfo();
+		TextView sunrise_time_value = (TextView)getView().findViewById(R.id.sunrise_time_value);
+		sunrise_time_value.setText(sunrise_time);
+		TextView sunrise_azimuth_value = (TextView)getView().findViewById(R.id.sunrise_azimuth_value);
+		sunrise_azimuth_value.setText(sunrise_azimuth);
+		TextView sunset_time_value = (TextView)getView().findViewById(R.id.sunset_time_value);
+		sunset_time_value.setText(sunset_time);
+		TextView sunset_azimuth_value = (TextView)getView().findViewById(R.id.sunset_azimuth_value);
+		sunset_azimuth_value.setText(sunset_azimuth);
+		TextView dusk_time_value = (TextView)getView().findViewById(R.id.dusk_time_value);
+		dusk_time_value.setText(dusk);
+		TextView dawn_time_value = (TextView)getView().findViewById(R.id.dawn_time_value);
+		dawn_time_value.setText(dawn);
+
 	}
 }
