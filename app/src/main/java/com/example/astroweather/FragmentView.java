@@ -1,11 +1,15 @@
 package com.example.astroweather;
 
 import android.annotation.SuppressLint;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.astrocalculator.AstroDateTime;
 
@@ -15,7 +19,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class FragmentView extends AppCompatActivity {
+public class FragmentView extends FragmentActivity {
 
 	private int day;
 	private int month;
@@ -64,7 +68,6 @@ public class FragmentView extends AppCompatActivity {
 		setTime(current_time);
 
 		update_time_thread = new Thread() {
-
 			@Override
 			public void run() {
 				try {
@@ -78,13 +81,17 @@ public class FragmentView extends AppCompatActivity {
 							}
 						});
 					}
-				} catch (InterruptedException e) {
-				}
+				} catch (InterruptedException e) {}
 			}
 		};
 
-		update_time_thread.start();
-
-
+		/*update_time_thread.start();
+		FragmentManager fragmentManager = getFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		MoonFragment moon_fragment = (MoonFragment) fragmentManager.findFragmentById(R.id.fragment_moon);
+		fragmentTransaction.replace(R.id.fragment_sun, MoonFragment.newInstance());
+		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commit();*/
 	}
+
 }

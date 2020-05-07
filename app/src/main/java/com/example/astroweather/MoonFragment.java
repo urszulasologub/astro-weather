@@ -1,9 +1,10 @@
 package com.example.astroweather;
 
 import android.annotation.SuppressLint;
+import android.app.Fragment;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
+//import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,5 +102,10 @@ public class MoonFragment extends Fragment {
 		moonphase_value.setText(phase);
 		TextView moonday_value = (TextView)getView().findViewById(R.id.moon_day_value);
 		moonday_value.setText(lunar_day);
+	}
+
+	public static MoonFragment newInstance() {
+		MoonFragment fragment = new MoonFragment();
+		return fragment;
 	}
 }

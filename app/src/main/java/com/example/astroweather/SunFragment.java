@@ -2,7 +2,8 @@ package com.example.astroweather;
 
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
+import android.app.Fragment;
+//import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,5 +100,10 @@ public class SunFragment extends Fragment {
 		TextView dawn_time_value = (TextView)getView().findViewById(R.id.dawn_time_value);
 		dawn_time_value.setText(dawn);
 
+	}
+
+	public static SunFragment newInstance() {
+		SunFragment fragment = new SunFragment();
+		return fragment;
 	}
 }
