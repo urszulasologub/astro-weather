@@ -1,25 +1,21 @@
 package com.example.astroweather;
 
 import android.annotation.SuppressLint;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
-import androidx.viewpager.widget.ViewPager;
-
-import com.astrocalculator.AstroDateTime;
-
-import org.w3c.dom.Text;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStore;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
 
-public class FragmentView extends FragmentActivity {
+public class FragmentView extends AppCompatActivity {
 
 	private int day;
 	private int month;
@@ -53,6 +49,8 @@ public class FragmentView extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_view);
+
+		Model model = new ViewModelProvider(this).get(Model.class);
 
 		Intent this_intent = getIntent();
 		x = this_intent.getDoubleExtra("x", 0);
