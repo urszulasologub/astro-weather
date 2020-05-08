@@ -83,8 +83,9 @@ public class FragmentView extends AppCompatActivity {
 			}
 		};
 
-		/*update_time_thread.start();
-		FragmentManager fragmentManager = getFragmentManager();
+		update_time_thread.start();
+
+		/*FragmentManager fragmentManager = getFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		MoonFragment moon_fragment = (MoonFragment) fragmentManager.findFragmentById(R.id.fragment_moon);
 		fragmentTransaction.replace(R.id.fragment_sun, MoonFragment.newInstance());
