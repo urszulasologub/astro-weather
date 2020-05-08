@@ -1,12 +1,14 @@
 package com.example.astroweather;
 
+import android.util.Log;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
-public class ViewPagerAdapter extends FragmentPagerAdapter {
+public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
 	private SunFragment sun_fragment;
 	private MoonFragment moon_fragment;
@@ -27,10 +29,12 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 		return null;
 	}
 
+
 	@Override
 	public int getCount() {
 		return 2;
 	}
+
 
 	@Override
 	public Object instantiateItem(ViewGroup container, int position) {
@@ -48,25 +52,13 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 	}
 
 
-	public void updateFragmentsXY(double x, double y) {
-		if (sun_fragment != null) {
-			sun_fragment.setX(x);
-			sun_fragment.setY(y);
-		}
-		if (moon_fragment != null) {
-			moon_fragment.setX(x);
-			moon_fragment.setY(y);
-		}
-	}
-
-
-	public void updateFragmentsTextViews() {
-		if (sun_fragment != null) {
-			sun_fragment.updateTextViews();
-		}
-		if (moon_fragment != null) {
-			moon_fragment.updateTextViews();
-		}
-	}
+	/*@Override
+	public int getItemPosition(Object object) {
+		if (object instanceof SunFragment)
+			return 0;
+		else if (object instanceof MoonFragment)
+			return 1;
+		return POSITION_NONE;
+	}*/
 
 }

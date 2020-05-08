@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,8 @@ public class FragmentView extends AppCompatActivity {
 	private Double y;
 	private Thread update_time_thread;
 	private int update_time;
+	private SunFragment sun_fragment;
+	private MoonFragment moon_fragment;
 
 
 	private void updateDateTime() {
@@ -87,13 +90,13 @@ public class FragmentView extends AppCompatActivity {
 		// for big displays:
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		MoonFragment moon_fragment = (MoonFragment) fragmentManager.findFragmentById(R.id.fragment_moon);
+		moon_fragment = (MoonFragment) fragmentManager.findFragmentById(R.id.fragment_moon);
 		if (moon_fragment != null) {
 			moon_fragment.setX(x);
 			moon_fragment.setY(y);
 			moon_fragment.updateTextViews();
 		}
-		SunFragment sun_fragment = (SunFragment) fragmentManager.findFragmentById(R.id.fragment_sun);
+		sun_fragment = (SunFragment) fragmentManager.findFragmentById(R.id.fragment_sun);
 		if (sun_fragment != null) {
 			sun_fragment.setX(x);
 			sun_fragment.setY(y);
@@ -102,15 +105,20 @@ public class FragmentView extends AppCompatActivity {
 
 		// for smaller displays:
 		ViewPager view_pager = findViewById(R.id.view_pager);
-		ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 		if (view_pager != null) {
+			ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 			view_pager.setAdapter(adapter);
-			adapter.updateFragmentsXY(x, y);
-			adapter.updateFragmentsTextViews();
+			sun_fragment = (SunFragment)adapter.instantiateItem(view_pager, 0);
+			if (sun_fragment != null) {
+				sun_fragment.setX(x);
+				sun_fragment.setY(y);
+			}
+			moon_fragment = (MoonFragment)adapter.instantiateItem(view_pager, 1);
+			if (moon_fragment != null) {
+				moon_fragment.setX(x);
+				moon_fragment.setY(y);
+			}
 		}
-		/*fragmentTransaction.replace(R.id.fragment_sun, moon_fragment);
-		fragmentTransaction.addToBackStack(null);
-		fragmentTransaction.commit();*/
 	}
 
 	/*@Override
