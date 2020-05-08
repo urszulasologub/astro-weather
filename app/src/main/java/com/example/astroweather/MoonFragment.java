@@ -1,10 +1,10 @@
 package com.example.astroweather;
 
 import android.annotation.SuppressLint;
-import android.app.Fragment;
+//import android.app.Fragment;
 import android.os.Bundle;
 
-//import androidx.fragment.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,6 +87,7 @@ public class MoonFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	}
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

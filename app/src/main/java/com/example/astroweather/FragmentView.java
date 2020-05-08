@@ -1,15 +1,15 @@
 package com.example.astroweather;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -84,7 +84,8 @@ public class FragmentView extends AppCompatActivity {
 
 		update_time_thread.start();
 
-		FragmentManager fragmentManager = getFragmentManager();
+		// for big displays:
+		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		MoonFragment moon_fragment = (MoonFragment) fragmentManager.findFragmentById(R.id.fragment_moon);
 		if (moon_fragment != null) {
@@ -98,16 +99,25 @@ public class FragmentView extends AppCompatActivity {
 			sun_fragment.setY(y);
 			sun_fragment.updateTextViews();
 		}
+
+		// for smaller displays:
+		ViewPager view_pager = findViewById(R.id.view_pager);
+		ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+		if (view_pager != null) {
+			view_pager.setAdapter(adapter);
+			adapter.updateFragmentsXY(x, y);
+			adapter.updateFragmentsTextViews();
+		}
 		/*fragmentTransaction.replace(R.id.fragment_sun, moon_fragment);
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();*/
 	}
 
-	@Override
+	/*@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		if (update_time_thread != null)
-			update_time_thread.destroy();
-	}
+			update_time_thread.stop();
+	} */
 
 }

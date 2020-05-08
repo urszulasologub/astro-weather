@@ -47,13 +47,15 @@
 		android:name="com.example.astroweather.SunFragment"
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
-		android:layout_weight="1" />
+		android:layout_weight="1"
+		tools:layout="@layout/fragment_sun" />
 
 	<fragment
 		android:id="@+id/fragment_moon"
 		android:name="com.example.astroweather.MoonFragment"
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
-		android:layout_weight="1" />
+		android:layout_weight="1"
+		tools:layout="@layout/fragment_moon" />
 
 </LinearLayout>

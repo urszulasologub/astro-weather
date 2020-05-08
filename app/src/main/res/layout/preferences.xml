@@ -106,7 +106,7 @@
 				android:layout_height="match_parent"
 				android:layout_weight="2"
 				android:gravity="center_horizontal|left"
-				android:text="Refresh time" />
+				android:text="@string/refresh_time" />
 
 			<Spinner
 				android:id="@+id/time_spinner"

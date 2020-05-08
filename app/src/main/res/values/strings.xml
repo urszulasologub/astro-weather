@@ -15,4 +15,5 @@
 	<string name="moonset">Moonset</string>
 	<string name="moonrise">Moonrise</string>
 	<string name="preferences">Preferences</string>
+	<string name="refresh_time">Refresh time</string>
 </resources>
