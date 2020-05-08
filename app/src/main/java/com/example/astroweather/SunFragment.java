@@ -41,6 +41,16 @@ public class SunFragment extends Fragment {
 	private String dawn;
 
 
+	public void setX(double x) {
+		this.x = x;
+	}
+
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
+
 	private void updateDateTime() {
 		Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
 		day = calendar.get(Calendar.DATE);
@@ -70,22 +80,7 @@ public class SunFragment extends Fragment {
 	}
 
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.fragment_sun, container, false);
-	}
-
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-
+	public void updateTextViews() {
 		updateSunInfo();
 		TextView sunrise_time_value = (TextView)getView().findViewById(R.id.sunrise_time_value);
 		sunrise_time_value.setText(sunrise_time);
@@ -98,8 +93,27 @@ public class SunFragment extends Fragment {
 		TextView dusk_time_value = (TextView)getView().findViewById(R.id.dusk_time_value);
 		dusk_time_value.setText(dusk);
 		TextView dawn_time_value = (TextView)getView().findViewById(R.id.dawn_time_value);
-		dawn_time_value.setText(dawn);
+		dawn_time_value.setText(dawn + " x: " + x.toString());
+	}
 
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+	}
+
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+							 Bundle savedInstanceState) {
+		// Inflate the layout for this fragment
+		return inflater.inflate(R.layout.fragment_sun, container, false);
+	}
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		updateTextViews();
 	}
 
 	public static SunFragment newInstance() {

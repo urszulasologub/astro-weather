@@ -2,6 +2,8 @@ package com.example.astroweather;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -50,8 +52,6 @@ public class FragmentView extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_view);
 
-		Model model = new ViewModelProvider(this).get(Model.class);
-
 		Intent this_intent = getIntent();
 		x = this_intent.getDoubleExtra("x", 0);
 		y = this_intent.getDoubleExtra("y", 0);
@@ -85,10 +85,21 @@ public class FragmentView extends AppCompatActivity {
 
 		update_time_thread.start();
 
-		/*FragmentManager fragmentManager = getFragmentManager();
+		FragmentManager fragmentManager = getFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		MoonFragment moon_fragment = (MoonFragment) fragmentManager.findFragmentById(R.id.fragment_moon);
-		fragmentTransaction.replace(R.id.fragment_sun, MoonFragment.newInstance());
+		if (moon_fragment != null) {
+			moon_fragment.setX(x);
+			moon_fragment.setY(y);
+			moon_fragment.updateTextViews();
+		}
+		SunFragment sun_fragment = (SunFragment) fragmentManager.findFragmentById(R.id.fragment_sun);
+		if (sun_fragment != null) {
+			sun_fragment.setX(x);
+			sun_fragment.setY(y);
+			sun_fragment.updateTextViews();
+		}
+		/*fragmentTransaction.replace(R.id.fragment_sun, moon_fragment);
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();*/
 	}

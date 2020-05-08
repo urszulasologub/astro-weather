@@ -69,6 +69,16 @@ public class MoonFragment extends Fragment {
 	}
 
 
+	public void setX(double x) {
+		this.x = x;
+	}
+
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
+
 	public MoonFragment() {
 	}
 
@@ -85,10 +95,7 @@ public class MoonFragment extends Fragment {
 	}
 
 
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-
+	public void updateTextViews() {
 		updateMoonInfo();
 		TextView moonrise_time_value = (TextView)getView().findViewById(R.id.moonrise_time_value);
 		moonrise_time_value.setText(moon_rise);
@@ -101,7 +108,14 @@ public class MoonFragment extends Fragment {
 		TextView moonphase_value = (TextView)getView().findViewById(R.id.moon_phase_value);
 		moonphase_value.setText(phase);
 		TextView moonday_value = (TextView)getView().findViewById(R.id.moon_day_value);
-		moonday_value.setText(lunar_day);
+		moonday_value.setText(lunar_day + "x: " + x.toString());
+	}
+
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		updateTextViews();
 	}
 
 	public static MoonFragment newInstance() {
