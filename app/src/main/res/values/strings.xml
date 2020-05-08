@@ -14,4 +14,5 @@
 	<string name="new_moon">New moon</string>
 	<string name="moonset">Moonset</string>
 	<string name="moonrise">Moonrise</string>
+	<string name="preferences">Preferences</string>
 </resources>

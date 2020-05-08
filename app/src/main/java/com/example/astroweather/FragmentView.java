@@ -10,9 +10,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStore;
-import androidx.lifecycle.ViewModelStoreOwner;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -28,6 +25,7 @@ public class FragmentView extends AppCompatActivity {
 	private Double x;
 	private Double y;
 	private Thread update_time_thread;
+	private int update_time;
 
 
 	private void updateDateTime() {
@@ -55,6 +53,7 @@ public class FragmentView extends AppCompatActivity {
 		Intent this_intent = getIntent();
 		x = this_intent.getDoubleExtra("x", 0);
 		y = this_intent.getDoubleExtra("y", 0);
+		update_time = this_intent.getIntExtra("update_time", 15 * 60);
 
 		TextView x_label = (TextView)findViewById(R.id.x_label);
 		x_label.setText("x: " + Double.toString(x));
@@ -102,6 +101,13 @@ public class FragmentView extends AppCompatActivity {
 		/*fragmentTransaction.replace(R.id.fragment_sun, moon_fragment);
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();*/
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (update_time_thread != null)
+			update_time_thread.destroy();
 	}
 
 }

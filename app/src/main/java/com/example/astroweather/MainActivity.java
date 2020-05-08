@@ -13,6 +13,7 @@ import android.widget.EditText;
 public class MainActivity extends AppCompatActivity {
     private Double x;
     private Double y;
+    private int default_update_time = 15 * 60;
 
 
     @Override
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
                         Bundle b = new Bundle();
                         b.putDouble("x", x);
                         b.putDouble("y", y);
+                        b.putInt("update_time", default_update_time);
                         intent.putExtras(b);
                         startActivity(intent);
                         finish();
