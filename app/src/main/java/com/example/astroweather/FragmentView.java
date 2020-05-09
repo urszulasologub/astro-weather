@@ -48,17 +48,6 @@ public class FragmentView extends AppCompatActivity {
 	}
 
 
-	@Override
-	public void onRestoreInstanceState(Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
-		day = savedInstanceState.getInt("day");
-		month = savedInstanceState.getInt("month");
-		year = savedInstanceState.getInt("year");
-		hour = savedInstanceState.getInt("hour");
-		minute = savedInstanceState.getInt("minute");
-		second = savedInstanceState.getInt("second");
-	}
-
 
 	private void updateDateTime() {
 		Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
@@ -86,6 +75,16 @@ public class FragmentView extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_view);
+		if (savedInstanceState == null) {
+			updateDateTime();
+		} else {
+			day = savedInstanceState.getInt("day");
+			month = savedInstanceState.getInt("month");
+			year = savedInstanceState.getInt("year");
+			hour = savedInstanceState.getInt("hour");
+			minute = savedInstanceState.getInt("minute");
+			second = savedInstanceState.getInt("second");
+		}
 
 		Intent this_intent = getIntent();
 		x = this_intent.getDoubleExtra("x", 0);
@@ -100,9 +99,6 @@ public class FragmentView extends AppCompatActivity {
 		y_label.setText("y: " + Double.toString(y));
 
 		current_time = (TextView)findViewById(R.id.current_time);
-		if (year == 0) {
-			updateDateTime();
-		}
 		setCurrentTime(current_time);
 
 		FloatingActionButton preferences_button = (FloatingActionButton)findViewById(R.id.preferences_button);
@@ -220,7 +216,5 @@ public class FragmentView extends AppCompatActivity {
 	}
 
 
-	//TODO: terminate or stop thread
 	//TODO: add stable layouts
-	//TODO: do not refresh data that often?
 }
