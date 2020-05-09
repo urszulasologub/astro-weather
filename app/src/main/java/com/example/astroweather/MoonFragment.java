@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,7 +110,7 @@ public class MoonFragment extends Fragment {
 		TextView moonphase_value = (TextView)getView().findViewById(R.id.moon_phase_value);
 		moonphase_value.setText(phase);
 		TextView moonday_value = (TextView)getView().findViewById(R.id.moon_day_value);
-		moonday_value.setText(lunar_day + "x: " + x.toString());
+		moonday_value.setText(lunar_day);
 	}
 
 

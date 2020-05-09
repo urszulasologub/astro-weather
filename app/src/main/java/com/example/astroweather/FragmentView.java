@@ -6,11 +6,14 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -67,6 +70,21 @@ public class FragmentView extends AppCompatActivity {
 		updateDateTime();
 		setTime(current_time);
 
+		FloatingActionButton preferences_button = (FloatingActionButton)findViewById(R.id.preferences_button);
+		preferences_button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(FragmentView.this, PreferencesActivity.class);
+				Bundle b = new Bundle();
+				b.putDouble("x", x);
+				b.putDouble("y", y);
+				b.putInt("update_time", update_time);
+				intent.putExtras(b);
+				startActivity(intent);
+				finish();
+			}
+	  });
+
 		update_time_thread = new Thread() {
 			@Override
 			public void run() {
@@ -90,17 +108,17 @@ public class FragmentView extends AppCompatActivity {
 		// for big displays:
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		moon_fragment = (MoonFragment) fragmentManager.findFragmentById(R.id.fragment_moon);
-		if (moon_fragment != null) {
-			moon_fragment.setX(x);
-			moon_fragment.setY(y);
-			moon_fragment.updateTextViews();
-		}
 		sun_fragment = (SunFragment) fragmentManager.findFragmentById(R.id.fragment_sun);
 		if (sun_fragment != null) {
 			sun_fragment.setX(x);
 			sun_fragment.setY(y);
 			sun_fragment.updateTextViews();
+		}
+		moon_fragment = (MoonFragment) fragmentManager.findFragmentById(R.id.fragment_moon);
+		if (moon_fragment != null) {
+			moon_fragment.setX(x);
+			moon_fragment.setY(y);
+			moon_fragment.updateTextViews();
 		}
 
 		// for smaller displays:
@@ -127,5 +145,5 @@ public class FragmentView extends AppCompatActivity {
 		if (update_time_thread != null)
 			update_time_thread.stop();
 	} */
-
+	//TODO: terminate thread
 }

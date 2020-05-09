@@ -22,6 +22,8 @@
         </activity>
         <activity android:name=".MoonFragment">
         </activity>
+        <activity android:name=".PreferencesActivity">
+        </activity>
     </application>
 
 </manifest>

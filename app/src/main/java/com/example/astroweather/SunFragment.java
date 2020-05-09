@@ -93,7 +93,7 @@ public class SunFragment extends Fragment {
 		TextView dusk_time_value = (TextView)getView().findViewById(R.id.dusk_time_value);
 		dusk_time_value.setText(dusk);
 		TextView dawn_time_value = (TextView)getView().findViewById(R.id.dawn_time_value);
-		dawn_time_value.setText(dawn + " x: " + x.toString());
+		dawn_time_value.setText(dawn);
 	}
 
 
