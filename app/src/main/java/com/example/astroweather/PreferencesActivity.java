@@ -100,17 +100,21 @@ public class PreferencesActivity extends AppCompatActivity {
 				x = Double.parseDouble(x_input.getText().toString());
 				y = Double.parseDouble(y_input.getText().toString());
 				update_time = getKeyFromValue((String)spinner.getSelectedItem());
-				if (x < -90 || x > 90 || y < -180 || y > 180) {
+				try {
+					if (x < -90 || x > 90 || y < -180 || y > 180) {
+						dialog.show();
+					} else {
+						Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
+						Bundle b = new Bundle();
+						b.putDouble("x", x);
+						b.putDouble("y", y);
+						b.putInt("update_time", update_time);
+						intent.putExtras(b);
+						startActivity(intent);
+						finish();
+					}
+				} catch (Exception e) {
 					dialog.show();
-				} else {
-					Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
-					Bundle b = new Bundle();
-					b.putDouble("x", x);
-					b.putDouble("y", y);
-					b.putInt("update_time", update_time);
-					intent.putExtras(b);
-					startActivity(intent);
-					finish();
 				}
 			}
 		});

@@ -36,6 +36,31 @@ public class FragmentView extends AppCompatActivity {
 	private boolean update_text_views = true;
 
 
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		super.onSaveInstanceState(savedInstanceState);
+		savedInstanceState.putInt("day", day);
+		savedInstanceState.putInt("month", month);
+		savedInstanceState.putInt("year", year);
+		savedInstanceState.putInt("hour", hour);
+		savedInstanceState.putInt("minute", minute);
+		savedInstanceState.putInt("second", second);
+	}
+
+
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		day = savedInstanceState.getInt("day");
+		month = savedInstanceState.getInt("month");
+		year = savedInstanceState.getInt("year");
+		hour = savedInstanceState.getInt("hour");
+		minute = savedInstanceState.getInt("minute");
+		second = savedInstanceState.getInt("second");
+	}
+
+
+
 	private void updateDateTime() {
 		Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
 		//Date date = calendar.getTime();
@@ -62,7 +87,6 @@ public class FragmentView extends AppCompatActivity {
 		x = this_intent.getDoubleExtra("x", 0);
 		y = this_intent.getDoubleExtra("y", 0);
 		update_time = this_intent.getIntExtra("update_time", 15 * 60);
-		update_text_views = this_intent.getBooleanExtra("update_text_views", true);
 
 		TextView x_label = (TextView)findViewById(R.id.x_label);
 		x_label.setText("x: " + Double.toString(x));
