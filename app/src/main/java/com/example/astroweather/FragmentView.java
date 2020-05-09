@@ -29,6 +29,7 @@ public class FragmentView extends AppCompatActivity {
 	private Double x;
 	private Double y;
 	private Thread update_time_thread;
+	private Thread synchronize_data_thread;
 	private int update_time;
 	private SunFragment sun_fragment;
 	private MoonFragment moon_fragment;
@@ -71,19 +72,21 @@ public class FragmentView extends AppCompatActivity {
 		setTime(current_time);
 
 		FloatingActionButton preferences_button = (FloatingActionButton)findViewById(R.id.preferences_button);
-		preferences_button.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(FragmentView.this, PreferencesActivity.class);
-				Bundle b = new Bundle();
-				b.putDouble("x", x);
-				b.putDouble("y", y);
-				b.putInt("update_time", update_time);
-				intent.putExtras(b);
-				startActivity(intent);
-				finish();
-			}
-	  });
+		if (preferences_button != null) {
+			preferences_button.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(FragmentView.this, PreferencesActivity.class);
+					Bundle b = new Bundle();
+					b.putDouble("x", x);
+					b.putDouble("y", y);
+					b.putInt("update_time", update_time);
+					intent.putExtras(b);
+					startActivity(intent);
+					finish();
+				}
+			});
+		}
 
 		update_time_thread = new Thread() {
 			@Override
@@ -103,7 +106,28 @@ public class FragmentView extends AppCompatActivity {
 			}
 		};
 
+		synchronize_data_thread = new Thread() {
+			@Override
+			public void run() {
+				try {
+					while (!synchronize_data_thread.isInterrupted()) {
+						Thread.sleep(1000 * update_time);
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								if (sun_fragment != null)
+									sun_fragment.updateTextViews();
+								if (moon_fragment != null)
+									moon_fragment.updateTextViews();
+							}
+						});
+					}
+				} catch (InterruptedException e) {}
+			}
+		};
+
 		update_time_thread.start();
+		synchronize_data_thread.start();
 
 		// for big displays:
 		FragmentManager fragmentManager = getSupportFragmentManager();
@@ -139,11 +163,7 @@ public class FragmentView extends AppCompatActivity {
 		}
 	}
 
-	/*@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		if (update_time_thread != null)
-			update_time_thread.stop();
-	} */
-	//TODO: terminate thread
+
+	//TODO: terminate or stop thread
+	//TODO: fix crashes on opening preferences while calculations are being updated
 }

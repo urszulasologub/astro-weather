@@ -16,6 +16,7 @@ import com.astrocalculator.AstroDateTime;
 import org.w3c.dom.Text;
 
 import java.util.Calendar;
+import java.util.Random;
 import java.util.TimeZone;
 
 import static com.example.astroweather.DateTimeUtils.formatDate;
@@ -67,6 +68,10 @@ public class SunFragment extends Fragment {
 		AstroCalculator.Location location = new AstroCalculator.Location(x, y);
 		AstroCalculator calculator = new AstroCalculator(date_time, location);
 		AstroCalculator.SunInfo sun = calculator.getSunInfo();
+		/*Random random = new Random();
+		sunrise_time = "";
+		for (int i = 0; i < 7; ++i)
+			sunrise_time += (char)('a' + (int)(random.nextFloat() * ('z' - 'a' + 1))); */
 		sunrise_time = formatTime(sun.getSunrise());
 		sunrise_azimuth = Integer.toString((int)sun.getAzimuthRise());
 		sunset_time = formatTime(sun.getSunset());
