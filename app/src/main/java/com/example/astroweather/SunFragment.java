@@ -26,12 +26,6 @@ import static com.example.astroweather.DateTimeUtils.getOffsetHours;
 
 public class SunFragment extends Fragment {
 
-	private int day;
-	private int month;
-	private int year;
-	private int hour;
-	private int minute;
-	private int second;
 	private Double x = 0.0;
 	private Double y = 0.0;
 	private String sunrise_time;
@@ -52,27 +46,14 @@ public class SunFragment extends Fragment {
 	}
 
 
-	private void updateDateTime() {
-		Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-		day = calendar.get(Calendar.DATE);
-		month = calendar.get(Calendar.MONTH) + 1;
-		year = calendar.get(Calendar.YEAR);
-		hour = calendar.get(Calendar.HOUR_OF_DAY);
-		minute = calendar.get(Calendar.MINUTE);
-		second = calendar.get(Calendar.SECOND);
-	}
-
-	public void updateSunInfo() {
-		updateDateTime();
+	public void calculate(int day, int month, int year, int hour, int minute, int second) {
 		AstroDateTime date_time = new AstroDateTime(year, month, day, hour, minute, second, getOffsetHours(TimeZone.getDefault()), true);
 		AstroCalculator.Location location = new AstroCalculator.Location(x, y);
 		AstroCalculator calculator = new AstroCalculator(date_time, location);
 		AstroCalculator.SunInfo sun = calculator.getSunInfo();
-		/*Random random = new Random();
-		sunrise_time = "";
-		for (int i = 0; i < 7; ++i)
-			sunrise_time += (char)('a' + (int)(random.nextFloat() * ('z' - 'a' + 1))); */
-		sunrise_time = formatTime(sun.getSunrise());
+		//Random random = new Random();
+		sunrise_time = Integer.toString(minute) + ":" + Integer.toString(second);
+		//sunrise_time = formatTime(sun.getSunrise());
 		sunrise_azimuth = Integer.toString((int)sun.getAzimuthRise());
 		sunset_time = formatTime(sun.getSunset());
 		sunset_azimuth = Integer.toString((int)sun.getAzimuthSet());
@@ -86,7 +67,6 @@ public class SunFragment extends Fragment {
 
 
 	public void updateTextViews() {
-		updateSunInfo();
 		TextView sunrise_time_value = (TextView)getView().findViewById(R.id.sunrise_time_value);
 		sunrise_time_value.setText(sunrise_time);
 		TextView sunrise_azimuth_value = (TextView)getView().findViewById(R.id.sunrise_azimuth_value);

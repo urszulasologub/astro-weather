@@ -49,6 +49,8 @@ public class PreferencesActivity extends AppCompatActivity {
 
 		ArrayList<String> spinner_list = new ArrayList<>();
 
+		spinner_dictionary.put(5, "5 seconds");
+		spinner_dictionary.put(60, "1 minute");
 		spinner_dictionary.put(15 * 60, "15 minutes");
 		spinner_dictionary.put(60 * 60, "60 minutes");
 		spinner_dictionary.put(180 * 60, "180 minutes");

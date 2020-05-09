@@ -22,18 +22,18 @@ public class FragmentView extends AppCompatActivity {
 
 	private int day;
 	private int month;
-	private int year;
+	private int year = 0;
 	private int hour;
 	private int minute;
 	private int second;
 	private Double x;
 	private Double y;
+	TextView current_time;
 	private Thread update_time_thread;
 	private Thread synchronize_data_thread;
 	private int update_time;
 	private SunFragment sun_fragment;
 	private MoonFragment moon_fragment;
-	private boolean update_text_views = true;
 
 
 	@Override
@@ -60,20 +60,24 @@ public class FragmentView extends AppCompatActivity {
 	}
 
 
-
 	private void updateDateTime() {
 		Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-		//Date date = calendar.getTime();
-		day = calendar.get(Calendar.DATE);
-		month = calendar.get(Calendar.MONTH) + 1;
-		year = calendar.get(Calendar.YEAR);
 		hour = calendar.get(Calendar.HOUR_OF_DAY);
 		minute = calendar.get(Calendar.MINUTE);
 		second = calendar.get(Calendar.SECOND);
+		day = calendar.get(Calendar.DATE);
+		month = calendar.get(Calendar.MONTH) + 1;
+		year = calendar.get(Calendar.YEAR);
+		Log.d("Updated time", Integer.toString(second));
 	}
 
-	private void setTime(TextView current_time) {
-		@SuppressLint("DefaultLocale") String time = String.format("%02d:%02d:%02d", hour, minute, second);
+
+	private void setCurrentTime(TextView current_time) {
+		Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+		@SuppressLint("DefaultLocale") String time = String.format("%02d:%02d:%02d",
+																	calendar.get(Calendar.HOUR_OF_DAY),
+																	calendar.get(Calendar.MINUTE),
+																	calendar.get(Calendar.SECOND));
 		current_time.setText(time);
 	}
 
@@ -88,14 +92,18 @@ public class FragmentView extends AppCompatActivity {
 		y = this_intent.getDoubleExtra("y", 0);
 		update_time = this_intent.getIntExtra("update_time", 15 * 60);
 
+
+
 		TextView x_label = (TextView)findViewById(R.id.x_label);
 		x_label.setText("x: " + Double.toString(x));
 		TextView y_label = (TextView)findViewById(R.id.y_label);
 		y_label.setText("y: " + Double.toString(y));
 
-		final TextView current_time = (TextView)findViewById(R.id.current_time);
-		updateDateTime();
-		setTime(current_time);
+		current_time = (TextView)findViewById(R.id.current_time);
+		if (year == 0) {
+			updateDateTime();
+		}
+		setCurrentTime(current_time);
 
 		FloatingActionButton preferences_button = (FloatingActionButton)findViewById(R.id.preferences_button);
 		if (preferences_button != null) {
@@ -114,6 +122,7 @@ public class FragmentView extends AppCompatActivity {
 			});
 		}
 
+
 		// for big displays:
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -121,6 +130,7 @@ public class FragmentView extends AppCompatActivity {
 		if (sun_fragment != null) {
 			sun_fragment.setX(x);
 			sun_fragment.setY(y);
+			sun_fragment.calculate(day, month, year, hour, minute, second);
 			sun_fragment.updateTextViews();
 		}
 		moon_fragment = (MoonFragment) fragmentManager.findFragmentById(R.id.fragment_moon);
@@ -139,6 +149,7 @@ public class FragmentView extends AppCompatActivity {
 			if (sun_fragment != null) {
 				sun_fragment.setX(x);
 				sun_fragment.setY(y);
+				sun_fragment.calculate(day, month, year, hour, minute, second);
 			}
 			moon_fragment = (MoonFragment)adapter.instantiateItem(view_pager, 1);
 			if (moon_fragment != null) {
@@ -146,6 +157,12 @@ public class FragmentView extends AppCompatActivity {
 				moon_fragment.setY(y);
 			}
 		}
+
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
 
 		update_time_thread = new Thread() {
 			@Override
@@ -156,17 +173,7 @@ public class FragmentView extends AppCompatActivity {
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
-								updateDateTime();
-								setTime(current_time);
-								if (update_text_views) {
-									try {
-										if (moon_fragment != null)
-											moon_fragment.updateTextViews();
-										if (sun_fragment != null)
-											sun_fragment.updateTextViews();
-										update_text_views = false;
-									} catch (Exception e) {}
-								}
+								setCurrentTime(current_time);
 							}
 						});
 					}
@@ -183,18 +190,33 @@ public class FragmentView extends AppCompatActivity {
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
-								update_text_views = true;
+								updateDateTime();
+								try {
+									if (moon_fragment != null) {
+										//moon_fragment.setDateTime(day, month, year, hour, minute, second);
+										moon_fragment.updateTextViews();
+									}
+									if (sun_fragment != null) {
+										sun_fragment.calculate(day, month, year, hour, minute, second);
+										sun_fragment.updateTextViews();
+									}
+								} catch (Exception e) {}
 							}
 						});
 					}
 				} catch (InterruptedException e) {}
 			}
 		};
-
 		update_time_thread.start();
 		synchronize_data_thread.start();
+	}
 
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		synchronize_data_thread.interrupt();
+		update_time_thread.interrupt();
 	}
 
 
