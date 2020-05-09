@@ -28,12 +28,6 @@ import static com.example.astroweather.DateTimeUtils.getOffsetHours;
 
 public class MoonFragment extends Fragment {
 
-	private int day;
-	private int month;
-	private int year;
-	private int hour;
-	private int minute;
-	private int second;
 	private Double x = 0.0;
 	private Double y = 0.0;
 	private String moon_rise;
@@ -44,19 +38,8 @@ public class MoonFragment extends Fragment {
 	private String lunar_day;
 
 
-	private void updateDateTime() {
-		Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-		day = calendar.get(Calendar.DATE);
-		month = calendar.get(Calendar.MONTH) + 1;
-		year = calendar.get(Calendar.YEAR);
-		hour = calendar.get(Calendar.HOUR_OF_DAY);
-		minute = calendar.get(Calendar.MINUTE);
-		second = calendar.get(Calendar.SECOND);
-	}
 
-
-	public void updateMoonInfo() {
-		updateDateTime();
+	public void calculate(int day, int month, int year, int hour, int minute, int second) {
 		AstroDateTime date_time = new AstroDateTime(year, month, day, hour, minute, second, getOffsetHours(TimeZone.getDefault()), true);
 		AstroCalculator.Location location = new AstroCalculator.Location(x, y);
 		AstroCalculator calculator = new AstroCalculator(date_time, location);
@@ -98,7 +81,6 @@ public class MoonFragment extends Fragment {
 
 
 	public void updateTextViews() {
-		updateMoonInfo();
 		TextView moonrise_time_value = (TextView)getView().findViewById(R.id.moonrise_time_value);
 		moonrise_time_value.setText(moon_rise);
 		TextView moonset_time_value = (TextView)getView().findViewById(R.id.moonset_time_value);

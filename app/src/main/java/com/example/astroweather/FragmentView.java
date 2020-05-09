@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -133,6 +132,7 @@ public class FragmentView extends AppCompatActivity {
 		if (moon_fragment != null) {
 			moon_fragment.setX(x);
 			moon_fragment.setY(y);
+			moon_fragment.calculate(day, month, year, hour, minute, second);
 			moon_fragment.updateTextViews();
 		}
 
@@ -151,6 +151,7 @@ public class FragmentView extends AppCompatActivity {
 			if (moon_fragment != null) {
 				moon_fragment.setX(x);
 				moon_fragment.setY(y);
+				moon_fragment.calculate(day, month, year, hour, minute, second);
 			}
 		}
 
@@ -189,7 +190,7 @@ public class FragmentView extends AppCompatActivity {
 								updateDateTime();
 								try {
 									if (moon_fragment != null) {
-										//moon_fragment.setDateTime(day, month, year, hour, minute, second);
+										moon_fragment.calculate(day, month, year, hour, minute, second);
 										moon_fragment.updateTextViews();
 									}
 									if (sun_fragment != null) {

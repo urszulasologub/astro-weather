@@ -1,8 +1,6 @@
 package com.example.astroweather;
 
 import android.os.Bundle;
-
-//import android.app.Fragment;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -13,13 +11,8 @@ import android.widget.TextView;
 import com.astrocalculator.AstroCalculator;
 import com.astrocalculator.AstroDateTime;
 
-import org.w3c.dom.Text;
-
-import java.util.Calendar;
-import java.util.Random;
 import java.util.TimeZone;
 
-import static com.example.astroweather.DateTimeUtils.formatDate;
 import static com.example.astroweather.DateTimeUtils.formatTime;
 import static com.example.astroweather.DateTimeUtils.getOffsetHours;
 
@@ -51,9 +44,8 @@ public class SunFragment extends Fragment {
 		AstroCalculator.Location location = new AstroCalculator.Location(x, y);
 		AstroCalculator calculator = new AstroCalculator(date_time, location);
 		AstroCalculator.SunInfo sun = calculator.getSunInfo();
-		//Random random = new Random();
-		sunrise_time = Integer.toString(minute) + ":" + Integer.toString(second);
-		//sunrise_time = formatTime(sun.getSunrise());
+		//sunrise_time = Integer.toString(minute) + ":" + Integer.toString(second);
+		sunrise_time = formatTime(sun.getSunrise());
 		sunrise_azimuth = Integer.toString((int)sun.getAzimuthRise());
 		sunset_time = formatTime(sun.getSunset());
 		sunset_azimuth = Integer.toString((int)sun.getAzimuthSet());
