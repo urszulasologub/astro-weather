@@ -55,7 +55,7 @@ public class MoonFragment extends Fragment {
 	}
 
 
-	private void updateMoonInfo() {
+	public void updateMoonInfo() {
 		updateDateTime();
 		AstroDateTime date_time = new AstroDateTime(year, month, day, hour, minute, second, getOffsetHours(TimeZone.getDefault()), true);
 		AstroCalculator.Location location = new AstroCalculator.Location(x, y);

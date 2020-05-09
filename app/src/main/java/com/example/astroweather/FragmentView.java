@@ -33,6 +33,7 @@ public class FragmentView extends AppCompatActivity {
 	private int update_time;
 	private SunFragment sun_fragment;
 	private MoonFragment moon_fragment;
+	private boolean update_text_views = true;
 
 
 	private void updateDateTime() {
@@ -61,6 +62,7 @@ public class FragmentView extends AppCompatActivity {
 		x = this_intent.getDoubleExtra("x", 0);
 		y = this_intent.getDoubleExtra("y", 0);
 		update_time = this_intent.getIntExtra("update_time", 15 * 60);
+		update_text_views = this_intent.getBooleanExtra("update_text_views", true);
 
 		TextView x_label = (TextView)findViewById(R.id.x_label);
 		x_label.setText("x: " + Double.toString(x));
@@ -87,47 +89,6 @@ public class FragmentView extends AppCompatActivity {
 				}
 			});
 		}
-
-		update_time_thread = new Thread() {
-			@Override
-			public void run() {
-				try {
-					while (!update_time_thread.isInterrupted()) {
-						Thread.sleep(1000);
-						runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								updateDateTime();
-								setTime(current_time);
-							}
-						});
-					}
-				} catch (InterruptedException e) {}
-			}
-		};
-
-		synchronize_data_thread = new Thread() {
-			@Override
-			public void run() {
-				try {
-					while (!synchronize_data_thread.isInterrupted()) {
-						Thread.sleep(1000 * update_time);
-						runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								if (sun_fragment != null)
-									sun_fragment.updateTextViews();
-								if (moon_fragment != null)
-									moon_fragment.updateTextViews();
-							}
-						});
-					}
-				} catch (InterruptedException e) {}
-			}
-		};
-
-		update_time_thread.start();
-		synchronize_data_thread.start();
 
 		// for big displays:
 		FragmentManager fragmentManager = getSupportFragmentManager();
@@ -161,9 +122,59 @@ public class FragmentView extends AppCompatActivity {
 				moon_fragment.setY(y);
 			}
 		}
+
+		update_time_thread = new Thread() {
+			@Override
+			public void run() {
+				try {
+					while (!update_time_thread.isInterrupted()) {
+						Thread.sleep(1000);
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								updateDateTime();
+								setTime(current_time);
+								if (update_text_views) {
+									try {
+										if (moon_fragment != null)
+											moon_fragment.updateTextViews();
+										if (sun_fragment != null)
+											sun_fragment.updateTextViews();
+										update_text_views = false;
+									} catch (Exception e) {}
+								}
+							}
+						});
+					}
+				} catch (InterruptedException e) {}
+			}
+		};
+
+		synchronize_data_thread = new Thread() {
+			@Override
+			public void run() {
+				try {
+					while (!synchronize_data_thread.isInterrupted()) {
+						Thread.sleep(1000 * update_time);
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								update_text_views = true;
+							}
+						});
+					}
+				} catch (InterruptedException e) {}
+			}
+		};
+
+		update_time_thread.start();
+		synchronize_data_thread.start();
+
+
 	}
 
 
 	//TODO: terminate or stop thread
-	//TODO: fix crashes on opening preferences while calculations are being updated
+	//TODO: add stable layouts
+	//TODO: do not refresh data that often?
 }

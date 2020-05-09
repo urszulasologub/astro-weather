@@ -62,7 +62,7 @@ public class SunFragment extends Fragment {
 		second = calendar.get(Calendar.SECOND);
 	}
 
-	private void updateSunInfo() {
+	public void updateSunInfo() {
 		updateDateTime();
 		AstroDateTime date_time = new AstroDateTime(year, month, day, hour, minute, second, getOffsetHours(TimeZone.getDefault()), true);
 		AstroCalculator.Location location = new AstroCalculator.Location(x, y);
