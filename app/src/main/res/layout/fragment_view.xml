@@ -19,6 +19,8 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="0"
 			android:clickable="true"
+			android:focusable="true"
+			app:backgroundTint="@android:color/holo_purple"
 			app:fabSize="mini"
 			app:srcCompat="@android:drawable/ic_menu_manage" />
 
@@ -30,7 +32,7 @@
 			android:layout_weight="1"
 			android:gravity="center"
 			android:text="x: -32"
-			android:textSize="24sp" />
+			android:textSize="18sp" />
 
 		<TextView
 			android:id="@+id/y_label"
@@ -40,7 +42,7 @@
 			android:layout_weight="1"
 			android:gravity="center"
 			android:text="y: 13"
-			android:textSize="24sp" />
+			android:textSize="18sp" />
 
 		<TextView
 			android:id="@+id/current_time"
@@ -50,7 +52,7 @@
 			android:layout_weight="1"
 			android:gravity="center"
 			android:text="TextView"
-			android:textSize="24sp" />
+			android:textSize="18sp" />
 
 	</LinearLayout>
 

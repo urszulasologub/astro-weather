@@ -28,7 +28,7 @@
 			android:layout_weight="1"
 			android:gravity="center_vertical"
 			android:text="x: -32"
-			android:textSize="24sp" />
+			android:textSize="18sp" />
 
 		<TextView
 			android:id="@+id/y_label"
@@ -39,7 +39,7 @@
 			android:layout_weight="1"
 			android:gravity="center_vertical"
 			android:text="y: 13"
-			android:textSize="24sp" />
+			android:textSize="18sp" />
 
 		<TextView
 			android:id="@+id/current_time"
@@ -49,7 +49,18 @@
 			android:layout_weight="1"
 			android:gravity="center_vertical"
 			android:text="TextView"
-			android:textSize="24sp" />
+			android:textSize="18sp" />
+
+		<com.google.android.material.floatingactionbutton.FloatingActionButton
+			android:id="@+id/preferences_button"
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_gravity="center"
+			android:layout_weight="1"
+			android:clickable="true"
+			android:focusable="true"
+			app:backgroundTint="@android:color/holo_purple"
+			app:srcCompat="@android:drawable/ic_menu_preferences" />
 	</LinearLayout>
 
 	<fragment
@@ -62,7 +73,8 @@
 		app:layout_constraintBottom_toBottomOf="@+id/fragment_moon"
 		app:layout_constraintEnd_toStartOf="@+id/fragment_moon"
 		app:layout_constraintStart_toEndOf="@+id/linearLayout3"
-		app:layout_constraintTop_toTopOf="parent" />
+		app:layout_constraintTop_toTopOf="parent"
+		tools:layout="@layout/fragment_sun" />
 
 	<fragment
 		android:id="@+id/fragment_moon"
@@ -72,6 +84,7 @@
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toEndOf="@+id/fragment_sun"
-		app:layout_constraintTop_toTopOf="parent" />
+		app:layout_constraintTop_toTopOf="parent"
+		tools:layout="@layout/fragment_moon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
