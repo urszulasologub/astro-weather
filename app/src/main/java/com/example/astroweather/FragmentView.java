@@ -29,10 +29,10 @@ public class FragmentView extends AppCompatActivity {
 	private Double y;
 	TextView current_time;
 	private Thread update_time_thread;
-	private Thread synchronize_data_thread;
 	private int update_time;
 	private SunFragment sun_fragment;
 	private MoonFragment moon_fragment;
+	private int elapsed_seconds = 0;
 
 
 	@Override
@@ -44,6 +44,7 @@ public class FragmentView extends AppCompatActivity {
 		savedInstanceState.putInt("hour", hour);
 		savedInstanceState.putInt("minute", minute);
 		savedInstanceState.putInt("second", second);
+		savedInstanceState.putInt("elapsed_seconds", elapsed_seconds);
 	}
 
 
@@ -63,9 +64,9 @@ public class FragmentView extends AppCompatActivity {
 	private void setCurrentTime(TextView current_time) {
 		Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
 		@SuppressLint("DefaultLocale") String time = String.format("%02d:%02d:%02d",
-																	calendar.get(Calendar.HOUR_OF_DAY),
-																	calendar.get(Calendar.MINUTE),
-																	calendar.get(Calendar.SECOND));
+														calendar.get(Calendar.HOUR_OF_DAY),
+														calendar.get(Calendar.MINUTE),
+														calendar.get(Calendar.SECOND));
 		current_time.setText(time);
 	}
 
@@ -83,14 +84,12 @@ public class FragmentView extends AppCompatActivity {
 			hour = savedInstanceState.getInt("hour");
 			minute = savedInstanceState.getInt("minute");
 			second = savedInstanceState.getInt("second");
+			elapsed_seconds = savedInstanceState.getInt("elapsed_seconds");
 		}
-
 		Intent this_intent = getIntent();
 		x = this_intent.getDoubleExtra("x", 0);
 		y = this_intent.getDoubleExtra("y", 0);
 		update_time = this_intent.getIntExtra("update_time", 15 * 60);
-
-
 
 		TextView x_label = (TextView)findViewById(R.id.x_label);
 		x_label.setText("x: " + Double.toString(x));
@@ -110,6 +109,7 @@ public class FragmentView extends AppCompatActivity {
 					b.putDouble("x", x);
 					b.putDouble("y", y);
 					b.putInt("update_time", update_time);
+					//b.putInt("elapsed_seconds", elapsed_seconds);
 					intent.putExtras(b);
 					startActivity(intent);
 					finish();
@@ -170,7 +170,23 @@ public class FragmentView extends AppCompatActivity {
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
+								elapsed_seconds++;
 								setCurrentTime(current_time);
+								if (elapsed_seconds >= update_time) {
+									elapsed_seconds = 0;
+									updateDateTime();
+									try {
+										if (moon_fragment != null) {
+											moon_fragment.calculate(day, month, year, hour, minute, second);
+											moon_fragment.updateTextViews();
+										}
+										if (sun_fragment != null) {
+											sun_fragment.calculate(day, month, year, hour, minute, second);
+											sun_fragment.updateTextViews();
+										}
+									} catch (Exception e) {
+									}
+								}
 							}
 						});
 					}
@@ -178,41 +194,13 @@ public class FragmentView extends AppCompatActivity {
 			}
 		};
 
-		synchronize_data_thread = new Thread() {
-			@Override
-			public void run() {
-				try {
-					while (!synchronize_data_thread.isInterrupted()) {
-						Thread.sleep(1000 * update_time);
-						runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								updateDateTime();
-								try {
-									if (moon_fragment != null) {
-										moon_fragment.calculate(day, month, year, hour, minute, second);
-										moon_fragment.updateTextViews();
-									}
-									if (sun_fragment != null) {
-										sun_fragment.calculate(day, month, year, hour, minute, second);
-										sun_fragment.updateTextViews();
-									}
-								} catch (Exception e) {}
-							}
-						});
-					}
-				} catch (InterruptedException e) {}
-			}
-		};
 		update_time_thread.start();
-		synchronize_data_thread.start();
 	}
 
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		synchronize_data_thread.interrupt();
 		update_time_thread.interrupt();
 	}
 
