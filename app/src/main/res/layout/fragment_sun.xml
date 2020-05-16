@@ -26,23 +26,25 @@
 
 			<TextView
 				android:id="@+id/sunrise_time"
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_vertical"
 				android:layout_weight="1"
 				android:gravity="center_horizontal"
 				android:text="@string/sunrise_time"
-				android:textColor="#FFFFFF" />
+				android:textColor="#FFFFFF"
+				android:textSize="15sp" />
 
 			<TextView
 				android:id="@+id/sunrise_time_value"
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_vertical"
 				android:layout_weight="1"
 				android:gravity="center_horizontal"
 				android:text="TextView"
-				android:textColor="#FFFFFF" />
+				android:textColor="#FFFFFF"
+				android:textSize="15sp" />
 		</LinearLayout>
 
 		<LinearLayout
@@ -54,23 +56,25 @@
 
 			<TextView
 				android:id="@+id/sunrise_azimuth"
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_vertical"
 				android:layout_weight="1"
 				android:gravity="center_horizontal"
 				android:text="@string/azimuth"
-				android:textColor="#FFFFFF" />
+				android:textColor="#FFFFFF"
+				android:textSize="15sp" />
 
 			<TextView
 				android:id="@+id/sunrise_azimuth_value"
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_vertical"
 				android:layout_weight="1"
 				android:gravity="center_horizontal"
 				android:text="TextView"
-				android:textColor="#FFFFFF" />
+				android:textColor="#FFFFFF"
+				android:textSize="15sp" />
 		</LinearLayout>
 
 		<LinearLayout
@@ -82,23 +86,25 @@
 
 			<TextView
 				android:id="@+id/sunset_time"
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_vertical"
 				android:layout_weight="1"
 				android:gravity="center_horizontal"
 				android:text="@string/sunset_time"
-				android:textColor="#FFFFFF" />
+				android:textColor="#FFFFFF"
+				android:textSize="15sp" />
 
 			<TextView
 				android:id="@+id/sunset_time_value"
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_vertical"
 				android:layout_weight="1"
 				android:gravity="center_horizontal"
 				android:text="TextView"
-				android:textColor="#FFFFFF" />
+				android:textColor="#FFFFFF"
+				android:textSize="15sp" />
 		</LinearLayout>
 
 		<LinearLayout
@@ -110,23 +116,25 @@
 
 			<TextView
 				android:id="@+id/sunset_azimuth"
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_vertical"
 				android:layout_weight="1"
 				android:gravity="center_horizontal"
 				android:text="@string/azimuth"
-				android:textColor="#FFFFFF" />
+				android:textColor="#FFFFFF"
+				android:textSize="15sp" />
 
 			<TextView
 				android:id="@+id/sunset_azimuth_value"
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_vertical"
 				android:layout_weight="1"
 				android:gravity="center_horizontal"
 				android:text="TextView"
-				android:textColor="#FFFFFF" />
+				android:textColor="#FFFFFF"
+				android:textSize="15sp" />
 		</LinearLayout>
 
 		<LinearLayout
@@ -138,23 +146,25 @@
 
 			<TextView
 				android:id="@+id/dusk_time"
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_vertical"
 				android:layout_weight="1"
 				android:gravity="center_horizontal"
 				android:text="@string/dusk_time"
-				android:textColor="#FFFFFF" />
+				android:textColor="#FFFFFF"
+				android:textSize="15sp" />
 
 			<TextView
 				android:id="@+id/dusk_time_value"
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_vertical"
 				android:layout_weight="1"
 				android:gravity="center_horizontal"
 				android:text="TextView"
-				android:textColor="#FFFFFF" />
+				android:textColor="#FFFFFF"
+				android:textSize="15sp" />
 
 		</LinearLayout>
 
@@ -167,23 +177,25 @@
 
 			<TextView
 				android:id="@+id/dawn_time"
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_vertical"
 				android:layout_weight="1"
 				android:gravity="center_horizontal"
 				android:text="@string/dawn_time"
-				android:textColor="#FFFFFF" />
+				android:textColor="#FFFFFF"
+				android:textSize="15sp" />
 
 			<TextView
 				android:id="@+id/dawn_time_value"
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_vertical"
 				android:layout_weight="1"
 				android:gravity="center_horizontal"
 				android:text="TextView"
-				android:textColor="#FFFFFF" />
+				android:textColor="#FFFFFF"
+				android:textSize="15sp" />
 		</LinearLayout>
 
 	</LinearLayout>
