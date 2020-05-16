@@ -205,5 +205,4 @@ public class FragmentView extends AppCompatActivity {
 	}
 
 
-	//TODO: add stable layouts
 }
