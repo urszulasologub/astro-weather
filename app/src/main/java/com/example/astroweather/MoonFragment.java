@@ -24,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 import static com.example.astroweather.DateTimeUtils.formatDate;
 import static com.example.astroweather.DateTimeUtils.formatTime;
 import static com.example.astroweather.DateTimeUtils.getOffsetHours;
+import static java.lang.Math.abs;
 
 
 public class MoonFragment extends Fragment {
@@ -49,7 +50,7 @@ public class MoonFragment extends Fragment {
 		new_moon = formatDate(moon.getNextNewMoon());
 		full_moon = formatDate(moon.getNextFullMoon());
 		phase = Integer.toString((int)(moon.getIllumination() * 100)) + "%";
-		lunar_day = Integer.toString((int)moon.getAge());
+		lunar_day = Integer.toString(abs((int)moon.getAge()));
 	}
 
 
