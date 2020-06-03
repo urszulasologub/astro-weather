@@ -2,6 +2,7 @@ package com.example.astroweather.weather;
 
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Environment;
 
 import androidx.annotation.RequiresApi;
 
@@ -9,6 +10,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.transform.Result;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
@@ -47,6 +49,7 @@ public class WeatherYahooCommunication extends AsyncTask {
 	final String consumerSecret = System.getenv("YAHOO_CLIENT_SECRET");
 	final String url = "https://weather-ydn-yql.media.yahoo.com/forecastrss";
 	String authorizationLine;
+	File appFolder = new File(Environment.getExternalStorageDirectory() + File.separator + "AstroWeather");
 
 
 	public String get(String url) throws IOException {
@@ -67,7 +70,7 @@ public class WeatherYahooCommunication extends AsyncTask {
 	@Override
 	protected Object doInBackground(Object[] objects) {
 		try {
-			System.out.println(get("https://weather-ydn-yql.media.yahoo.com/forecastrss?location=sunnyvale,ca&format=json"));
+			System.out.println(get(url + "?location=sunnyvale,ca&format=json"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

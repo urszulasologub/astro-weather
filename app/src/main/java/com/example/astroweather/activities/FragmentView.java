@@ -1,4 +1,4 @@
-package com.example.astroweather;
+package com.example.astroweather.activities;
 
 import android.annotation.SuppressLint;
 import androidx.fragment.app.FragmentManager;
@@ -12,6 +12,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.astroweather.R;
+import com.example.astroweather.ViewPagerAdapter;
+import com.example.astroweather.fragments.MoonFragment;
+import com.example.astroweather.fragments.SunFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Calendar;

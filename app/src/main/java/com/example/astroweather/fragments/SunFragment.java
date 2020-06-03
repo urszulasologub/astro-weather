@@ -1,4 +1,4 @@
-package com.example.astroweather;
+package com.example.astroweather.fragments;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.astrocalculator.AstroCalculator;
 import com.astrocalculator.AstroDateTime;
+import com.example.astroweather.R;
 
 import java.util.TimeZone;
 

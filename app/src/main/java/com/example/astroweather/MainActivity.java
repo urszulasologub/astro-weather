@@ -3,16 +3,15 @@ package com.example.astroweather;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.astroweather.activities.FragmentView;
 import com.example.astroweather.weather.WeatherYahooCommunication;
 
 
@@ -34,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         test.execute();
+
         final AlertDialog.Builder about_dialog = new AlertDialog.Builder(this);
         about_dialog.setTitle("Incorrect input");
         about_dialog.setMessage("Entered incorrect coords");

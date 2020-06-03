@@ -65,7 +65,7 @@
 
 	<fragment
 		android:id="@+id/fragment_sun"
-		android:name="com.example.astroweather.SunFragment"
+		android:name="com.example.astroweather.fragments.SunFragment"
 		android:layout_width="0dp"
 		android:layout_height="0dp"
 		android:layout_marginStart="25dp"
@@ -78,7 +78,7 @@
 
 	<fragment
 		android:id="@+id/fragment_moon"
-		android:name="com.example.astroweather.MoonFragment"
+		android:name="com.example.astroweather.fragments.MoonFragment"
 		android:layout_width="0dp"
 		android:layout_height="0dp"
 		app:layout_constraintBottom_toBottomOf="parent"

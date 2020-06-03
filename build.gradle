@@ -1,8 +1,4 @@
-ext {
-    YAHOO_APP_ID = 'xoaFDK78'
-    YAHOO_CLIENT_ID = 'dj0yJmk9Rk90VGNOWGFHaDlEJmQ9WVdrOWVHOWhSa1JMTnpnbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PWU0'
-    YAHOO_CLIENT_SECRET = '65f9579b064af0fc4be7898a3cb06b1f677cd3f4'
-}// Top-level build file where you can add configuration options common to all sub-projects/modules.
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
     
