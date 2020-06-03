@@ -27,12 +27,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         WeatherYahooCommunication test = null;
-        try {
+        /*try {
             test = new WeatherYahooCommunication();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        test.execute();
+        test.execute();*/
 
         final AlertDialog.Builder about_dialog = new AlertDialog.Builder(this);
         about_dialog.setTitle("Incorrect input");
