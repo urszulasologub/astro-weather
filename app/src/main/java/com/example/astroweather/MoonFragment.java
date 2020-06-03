@@ -1,6 +1,5 @@
 package com.example.astroweather;
 
-import android.annotation.SuppressLint;
 //import android.app.Fragment;
 import android.os.Bundle;
 

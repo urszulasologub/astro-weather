@@ -6,9 +6,13 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.astroweather.weather.WeatherYahooCommunication;
+
 
 public class MainActivity extends AppCompatActivity {
     private Double x;
@@ -23,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         final AlertDialog.Builder about_dialog = new AlertDialog.Builder(this);
         about_dialog.setTitle("Incorrect input");
         about_dialog.setMessage("Entered incorrect coords");
-
         Button ok_button = (Button)findViewById(R.id.ok_button);
         ok_button.setOnClickListener(new View.OnClickListener() {
             @Override
