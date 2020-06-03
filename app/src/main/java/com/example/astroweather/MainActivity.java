@@ -1,10 +1,12 @@
 package com.example.astroweather;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,10 +22,18 @@ public class MainActivity extends AppCompatActivity {
     private int default_update_time = 15 * 60;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        WeatherYahooCommunication test = null;
+        try {
+            test = new WeatherYahooCommunication();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        test.execute();
         final AlertDialog.Builder about_dialog = new AlertDialog.Builder(this);
         about_dialog.setTitle("Incorrect input");
         about_dialog.setMessage("Entered incorrect coords");

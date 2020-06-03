@@ -42,12 +42,22 @@ import okhttp3.Response;
 public class WeatherYahooCommunication extends AsyncTask {
 
 	OkHttpClient client = new OkHttpClient();
+	final String appId = System.getenv("YAHOO_APP_ID");
+	final String consumerKey = System.getenv("YAHOO_CLIENT_ID");
+	final String consumerSecret = System.getenv("YAHOO_CLIENT_SECRET");
+	final String url = "https://weather-ydn-yql.media.yahoo.com/forecastrss";
+	String authorizationLine;
+
 
 	public String get(String url) throws IOException {
 		Request request = new Request.Builder()
 				.url(url)
+				.header("Authorization", authorizationLine)
+				.header("X-Yahoo-App-Id", appId)
+				.header("Content-Type", "application/json")
 				.build();
 
+		System.out.println(request.toString());
 		try (Response response = client.newCall(request).execute()) {
 			return response.body().string();
 		}
@@ -57,7 +67,7 @@ public class WeatherYahooCommunication extends AsyncTask {
 	@Override
 	protected Object doInBackground(Object[] objects) {
 		try {
-			System.out.println(get("https://weather-ydn-yql.media.yahoo.com/forecastrss?location=sunnyvale,ca"));
+			System.out.println(get("https://weather-ydn-yql.media.yahoo.com/forecastrss?location=sunnyvale,ca&format=json"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -65,20 +75,16 @@ public class WeatherYahooCommunication extends AsyncTask {
 	}
 
 
-
 	@RequiresApi(api = Build.VERSION_CODES.O)
-	public static void main(String[] args) throws Exception {
-
-		final String appId = "test-app-id";
-		final String consumerKey = "your-consumer-key";
-		final String consumerSecret = "your-consumer-secret";
-		final String url = "https://weather-ydn-yql.media.yahoo.com/forecastrss";
-
+	public WeatherYahooCommunication() throws Exception {
 		long timestamp = new Date().getTime() / 1000;
 		byte[] nonce = new byte[32];
 		Random rand = new Random();
-		rand.nextBytes(nonce);
-		String oauthNonce = new String(nonce).replaceAll("\\W", "");
+		for (byte i = 0 + 65; i < 32 + 65; ++i)
+			nonce[i - 65] = i;
+		//rand.nextBytes(nonce);
+		//String oauthNonce = new String(nonce).replaceAll("\\W", "");
+		String oauthNonce = "8nduRhXFXQ";
 
 		List<String> parameters = new ArrayList<>();
 		parameters.add("oauth_consumer_key=" + consumerKey);
@@ -86,7 +92,6 @@ public class WeatherYahooCommunication extends AsyncTask {
 		parameters.add("oauth_signature_method=HMAC-SHA1");
 		parameters.add("oauth_timestamp=" + timestamp);
 		parameters.add("oauth_version=1.0");
-		// Make sure value is encoded
 		parameters.add("location=" + URLEncoder.encode("sunnyvale,ca", "UTF-8"));
 		parameters.add("format=json");
 		Collections.sort(parameters);
@@ -113,14 +118,15 @@ public class WeatherYahooCommunication extends AsyncTask {
 			System.exit(0);
 		}
 
-		String authorizationLine = "OAuth " +
+		authorizationLine = "OAuth " +
 				"oauth_consumer_key=\"" + consumerKey + "\", " +
 				"oauth_nonce=\"" + oauthNonce + "\", " +
 				"oauth_timestamp=\"" + timestamp + "\", " +
 				"oauth_signature_method=\"HMAC-SHA1\", " +
 				"oauth_signature=\"" + signature + "\", " +
 				"oauth_version=\"1.0\"";
-
+		System.out.println(signature);
+		System.out.println(signatureString);
 		/*HttpRequest request = HttpRequest.newBuilder()
 				.uri(URI.create(url + "?location=sunnyvale,ca&format=json"))
 				.header("Authorization", authorizationLine)
