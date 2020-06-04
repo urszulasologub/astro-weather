@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
@@ -16,6 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.astroweather.R;
 import com.example.astroweather.weather.WeatherYahooCommunication;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -139,9 +143,19 @@ public class PreferencesActivity extends AppCompatActivity {
 					b.putInt("update_time", update_time);
 					WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, PreferencesActivity.this);
 					communication.execute();
-					System.out.println("Test " + communication.get());
-					if (communication.get() != null)
-						b.putString("location", location_name);
+					if (communication.get() != null) {
+						JSONObject object;
+						try {
+							object = new JSONObject(communication.get());
+							JSONObject locationObject = object.getJSONObject("location");
+							location_name = locationObject.get("city").toString();
+							b.putString("location", location_name);
+						} catch (Exception e) {
+							//TODO: handle yahoo exception
+							Toast.makeText(PreferencesActivity.this, "An error occurred", Toast.LENGTH_LONG).show();
+							e.printStackTrace();
+						}
+					}
 					intent.putExtras(b);
 					startActivity(intent);
 				} catch (Exception e) {

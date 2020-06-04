@@ -22,8 +22,7 @@ import com.example.astroweather.fragments.SunFragment;
 import com.example.astroweather.fragments.WeatherFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.IOException;
-import java.net.InetAddress;
+import java.io.File;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -44,6 +43,7 @@ public class FragmentView extends AppCompatActivity {
 	private MoonFragment moon_fragment;
 	private int elapsed_seconds = 0;
 	String new_city = null;
+	private File astroDirectory = null;
 
 
 	@Override
@@ -133,6 +133,11 @@ public class FragmentView extends AppCompatActivity {
 			});
 		}
 
+		astroDirectory = new File(getCacheDir(),"AstroWeather");
+		if (!astroDirectory.exists())
+			astroDirectory.mkdirs();
+
+
 
 		// for big displays:
 		FragmentManager fragmentManager = getSupportFragmentManager();
@@ -175,6 +180,7 @@ public class FragmentView extends AppCompatActivity {
 				view_pager.setAdapter(adapter);
 			}
 		}
+
 
 	}
 

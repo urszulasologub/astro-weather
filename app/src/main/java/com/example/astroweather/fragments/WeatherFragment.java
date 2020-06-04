@@ -38,11 +38,16 @@ public class WeatherFragment extends Fragment {
 		city.setText(city_name);
 		TextView latitude_x = (TextView)getView().findViewById(R.id.latitude_x);
 		TextView longitude_y = (TextView)getView().findViewById(R.id.longitude_y);
-		TextView date1 = (TextView)getView().findViewById(R.id.date1_temperature);
-		TextView date2 = (TextView)getView().findViewById(R.id.date2_temperature);
-		TextView date3 = (TextView)getView().findViewById(R.id.date3_temperature);
-		TextView date4 = (TextView)getView().findViewById(R.id.date4_temperature);
-		TextView date5 = (TextView)getView().findViewById(R.id.date5_temperature);
+		TextView date1_temperature = (TextView)getView().findViewById(R.id.date1_temperature);
+		TextView date1 = (TextView)getView().findViewById(R.id.date1);
+		TextView date2_temperature = (TextView)getView().findViewById(R.id.date2_temperature);
+		TextView date2 = (TextView)getView().findViewById(R.id.date2);
+		TextView date3_temperature = (TextView)getView().findViewById(R.id.date3_temperature);
+		TextView date3 = (TextView)getView().findViewById(R.id.date3);
+		TextView date4_temperature = (TextView)getView().findViewById(R.id.date4_temperature);
+		TextView date4 = (TextView)getView().findViewById(R.id.date4);
+		TextView date5_temperature = (TextView)getView().findViewById(R.id.date5_temperature);
+		TextView date5 = (TextView)getView().findViewById(R.id.date5);
 	}
 
 
