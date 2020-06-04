@@ -16,6 +16,7 @@ import com.example.astroweather.R;
 import com.example.astroweather.ViewPagerAdapter;
 import com.example.astroweather.fragments.MoonFragment;
 import com.example.astroweather.fragments.SunFragment;
+import com.example.astroweather.fragments.WeatherFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Calendar;
@@ -37,6 +38,7 @@ public class FragmentView extends AppCompatActivity {
 	private SunFragment sun_fragment;
 	private MoonFragment moon_fragment;
 	private int elapsed_seconds = 0;
+	String new_city = null;
 
 
 	@Override
@@ -61,7 +63,6 @@ public class FragmentView extends AppCompatActivity {
 		day = calendar.get(Calendar.DATE);
 		month = calendar.get(Calendar.MONTH) + 1;
 		year = calendar.get(Calendar.YEAR);
-		Log.d("Updated time", Integer.toString(second));
 	}
 
 
@@ -94,6 +95,7 @@ public class FragmentView extends AppCompatActivity {
 		x = this_intent.getDoubleExtra("x", 0);
 		y = this_intent.getDoubleExtra("y", 0);
 		update_time = this_intent.getIntExtra("update_time", 15 * 60);
+		new_city = this_intent.getStringExtra("location");
 
 		TextView x_label = (TextView)findViewById(R.id.x_label);
 		x_label.setText("x: " + Double.toString(x));
@@ -113,7 +115,6 @@ public class FragmentView extends AppCompatActivity {
 					b.putDouble("x", x);
 					b.putDouble("y", y);
 					b.putInt("update_time", update_time);
-					//b.putInt("elapsed_seconds", elapsed_seconds);
 					intent.putExtras(b);
 					startActivity(intent);
 					finish();
@@ -156,6 +157,10 @@ public class FragmentView extends AppCompatActivity {
 				moon_fragment.setX(x);
 				moon_fragment.setY(y);
 				moon_fragment.calculate(day, month, year, hour, minute, second);
+			}
+			if (new_city != null) {
+				adapter.addNewWeatherFragment(new WeatherFragment());
+				view_pager.setAdapter(adapter);
 			}
 		}
 

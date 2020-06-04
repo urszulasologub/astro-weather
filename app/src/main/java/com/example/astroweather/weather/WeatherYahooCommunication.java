@@ -35,8 +35,7 @@ public class WeatherYahooCommunication extends AsyncTask {
 	final String consumerSecret = Credentials.getClientSecret();
 	final String url = "https://weather-ydn-yql.media.yahoo.com/forecastrss";
 	String authorizationLine;
-	String location = "Lodz";
-	Boolean isCelsius = true;
+	String location = "lodz";
 
 
 	public String get(String url) throws IOException {
@@ -46,7 +45,6 @@ public class WeatherYahooCommunication extends AsyncTask {
 				.header("X-Yahoo-App-Id", appId)
 				.header("Content-Type", "application/json")
 				.build();
-
 		System.out.println(request.toString());
 		try (Response response = client.newCall(request).execute()) {
 			return response.body().string();
@@ -59,10 +57,7 @@ public class WeatherYahooCommunication extends AsyncTask {
 		String response = "";
 		//TODO: handle celsiuses and fahrenheits
 		try {
-			if (isCelsius)
-				response = get(url + "?location=" + location + "&format=json");
-			else
-				response = get(url + "?location=" + location + "&format=json");
+			response = get(url + "?location=" + location + "&format=json");
 			System.out.println(response);
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
@@ -72,9 +67,8 @@ public class WeatherYahooCommunication extends AsyncTask {
 
 
 	@RequiresApi(api = Build.VERSION_CODES.O)
-	public WeatherYahooCommunication(String location, boolean isCelsius) throws Exception {
+	public WeatherYahooCommunication(String location) throws Exception {
 		this.location = location.toLowerCase();
-		this.isCelsius = isCelsius;
 		long timestamp = new Date().getTime() / 1000;
 		byte[] nonce = new byte[32];
 		Random rand = new Random();

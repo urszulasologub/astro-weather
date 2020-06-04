@@ -26,14 +26,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        WeatherYahooCommunication test = null;
-        /*try {
-            test = new WeatherYahooCommunication();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        test.execute();*/
-
         final AlertDialog.Builder about_dialog = new AlertDialog.Builder(this);
         about_dialog.setTitle("Incorrect input");
         about_dialog.setMessage("Entered incorrect coords");
