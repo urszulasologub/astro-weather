@@ -143,12 +143,13 @@ public class PreferencesActivity extends AppCompatActivity {
 					b.putDouble("x", x);
 					b.putDouble("y", y);
 					b.putInt("update_time", update_time);
-					WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, PreferencesActivity.this, false);
+					WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, PreferencesActivity.this, true);
 					communication.execute();
 					if (communication.get() != null) {
 						try {
 							communication.createFile(communication.get(), PreferencesActivity.this);
 						} catch (Exception e) {
+							e.printStackTrace();
 							Toast.makeText(PreferencesActivity.this, "Couldn't add city", Toast.LENGTH_LONG).show();
 						}
 					}

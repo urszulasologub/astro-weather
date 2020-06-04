@@ -55,6 +55,32 @@ public class FragmentView extends AppCompatActivity {
 	private MoonFragment moon_fragment;
 	private int elapsed_seconds = 0;
 	private File astroDirectory = null;
+	ViewPager view_pager;
+	ViewPagerAdapter adapter;
+
+
+	public void updateDataFromAstroDirectory() {
+		File f = new File(getCacheDir().toString() + "/AstroWeather");
+		String[] pathnames;
+		pathnames = f.list();
+		for (String pathname : pathnames) {
+			String fullFilePath = null;
+			try {
+				fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
+				String content = new String(Files.readAllBytes(Paths.get(fullFilePath)));
+				JSONObject object = new JSONObject(content);
+				WeatherFragment weather_fragment = new WeatherFragment(object);
+				adapter.addNewWeatherFragment(weather_fragment);
+				view_pager.setAdapter(adapter);
+			} catch (Exception e) {
+				/*if (fullFilePath != null) {
+					File fileToDelete = new File(fullFilePath);
+					fileToDelete.delete();
+				}*/
+				e.printStackTrace();
+			}
+		}
+	}
 
 
 	@Override
@@ -158,8 +184,8 @@ public class FragmentView extends AppCompatActivity {
 		}
 
 		// for smaller displays:
-		ViewPager view_pager = findViewById(R.id.view_pager);
-		ViewPagerAdapter adapter = null;
+		view_pager = findViewById(R.id.view_pager);
+		adapter = null;
 		if (view_pager != null) {
 			adapter = new ViewPagerAdapter(getSupportFragmentManager());
 			view_pager.setAdapter(adapter);
@@ -184,26 +210,9 @@ public class FragmentView extends AppCompatActivity {
 		UpdateWeatherFiles action = new UpdateWeatherFiles(this, true);
 		action.start();
 
-		File f = new File(getCacheDir().toString() + "/AstroWeather");
-		String[] pathnames;
-		pathnames = f.list();
-		for (String pathname : pathnames) {
-			String fullFilePath = null;
-			try {
-				fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
-				String content = new String(Files.readAllBytes(Paths.get(fullFilePath)));
-				JSONObject object = new JSONObject(content);
-				WeatherFragment weather_fragment = new WeatherFragment(object);
-				adapter.addNewWeatherFragment(weather_fragment);
-				view_pager.setAdapter(adapter);
-			} catch (Exception e) {
-				if (fullFilePath != null) {
-					File fileToDelete = new File(fullFilePath);
-					fileToDelete.delete();
-				}
-				e.printStackTrace();
-			}
-		}
+		updateDataFromAstroDirectory();
+
+
 
 	}
 
@@ -253,12 +262,6 @@ public class FragmentView extends AppCompatActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 		update_time_thread.interrupt();
-	}
-
-
-	public boolean isInternetAvailable() {
-		//TODO: change implementation
-		return true;
 	}
 
 
