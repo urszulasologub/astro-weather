@@ -18,7 +18,6 @@ public class UpdateWeatherFiles extends Thread {
 
 	Activity activity;
 	Boolean isCelsius;
-	public Boolean isUpdated = false;
 
 
 	public UpdateWeatherFiles(Activity activity, Boolean isCelsius) {
@@ -40,7 +39,6 @@ public class UpdateWeatherFiles extends Thread {
 				if (yahooCommunication.get() != null) {
 					yahooCommunication.createFile(yahooCommunication.get(), activity);
 				}
-				isUpdated = true;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

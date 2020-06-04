@@ -59,7 +59,7 @@ public class FragmentView extends AppCompatActivity {
 	ViewPagerAdapter adapter;
 
 
-	public void updateDataFromAstroDirectory() {
+	public void createDataFromAstroDirectory() {
 		File f = new File(getCacheDir().toString() + "/AstroWeather");
 		String[] pathnames;
 		pathnames = f.list();
@@ -67,9 +67,7 @@ public class FragmentView extends AppCompatActivity {
 			String fullFilePath = null;
 			try {
 				fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
-				String content = new String(Files.readAllBytes(Paths.get(fullFilePath)));
-				JSONObject object = new JSONObject(content);
-				WeatherFragment weather_fragment = new WeatherFragment(object);
+				WeatherFragment weather_fragment = new WeatherFragment(fullFilePath);
 				adapter.addNewWeatherFragment(weather_fragment);
 				view_pager.setAdapter(adapter);
 			} catch (Exception e) {
@@ -77,6 +75,25 @@ public class FragmentView extends AppCompatActivity {
 					File fileToDelete = new File(fullFilePath);
 					fileToDelete.delete();
 				}*/
+				e.printStackTrace();
+			}
+		}
+	}
+
+
+	public void updateDataFromAstroDirectory() {
+		File f = new File(getCacheDir().toString() + "/AstroWeather");
+		String[] pathnames;
+		pathnames = f.list();
+		int i = 2;
+		for (String pathname : pathnames) {
+			String fullFilePath = null;
+			try {
+				fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
+				String content = new String(Files.readAllBytes(Paths.get(fullFilePath)));
+				JSONObject object = new JSONObject(content);
+
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -210,9 +227,7 @@ public class FragmentView extends AppCompatActivity {
 		UpdateWeatherFiles action = new UpdateWeatherFiles(this, true);
 		action.start();
 
-		updateDataFromAstroDirectory();
-
-
+		createDataFromAstroDirectory();
 
 	}
 
@@ -227,6 +242,7 @@ public class FragmentView extends AppCompatActivity {
 				try {
 					while (!update_time_thread.isInterrupted()) {
 						Thread.sleep(1000);
+
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {

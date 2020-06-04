@@ -29,6 +29,7 @@ import java.util.Base64.Encoder;
 import java.util.Random;
 import java.util.Collections;
 import java.net.URLEncoder;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -76,7 +77,6 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 	@Override
 	protected String doInBackground(Void... voids) {
 		String response = "";
-		//TODO: handle celsiuses and fahrenheits
 		try {
 			if (isCelsius)
 				response = get(url + "?location=" + location + "&format=json&u=c");

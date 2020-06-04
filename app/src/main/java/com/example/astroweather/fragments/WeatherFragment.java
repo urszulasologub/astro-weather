@@ -15,13 +15,29 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 public class WeatherFragment extends Fragment {
 
 	String city_name = "City";
+	String filepath;
 	JSONObject json_object;
 
-	public WeatherFragment(JSONObject json_object) {
+	/*public WeatherFragment(JSONObject json_object) {
 		this.json_object = json_object;
+	}*/
+
+	public WeatherFragment(String filepath) throws Exception {
+		this.filepath = filepath;
+		String content = new String(Files.readAllBytes(Paths.get(this.filepath)));
+		json_object = new JSONObject(content);
+	}
+
+	public void update() throws Exception {
+		String content = new String(Files.readAllBytes(Paths.get(this.filepath)));
+		json_object = new JSONObject(content);
 	}
 
 	@Override
