@@ -25,7 +25,6 @@ public class UpdateWeatherFiles extends Thread {
 		this.isCelsius = isCelsius;
 	}
 
-	//TODO: make them seriously update activities
 	@Override
 	public void run() {
 		File f = new File(activity.getCacheDir().toString() + "/AstroWeather");

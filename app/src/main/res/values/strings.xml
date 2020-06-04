@@ -18,4 +18,5 @@
 	<string name="refresh_time">Refresh time</string>
 	<string name="add_city">Add city</string>
 	<string name="enter_location">Enter location</string>
+	<string name="remove_all_cities">Remove all cities</string>
 </resources>

@@ -214,8 +214,7 @@ public class FragmentView extends AppCompatActivity {
 		if (!astroDirectory.exists())
 			astroDirectory.mkdirs();
 
-		UpdateWeatherFiles action = new UpdateWeatherFiles(this, true);
-		action.start();
+		new UpdateWeatherFiles(this, true).start();;
 
 		createDataFromAstroDirectory();
 

@@ -16,11 +16,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.astroweather.R;
+import com.example.astroweather.fragments.WeatherFragment;
 import com.example.astroweather.weather.WeatherYahooCommunication;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -158,6 +160,25 @@ public class PreferencesActivity extends AppCompatActivity {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+			}
+		});
+
+		Button remove_city_button = findViewById(R.id.remove_city_button);
+		remove_city_button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				File f = new File(getCacheDir().toString() + "/AstroWeather");
+				String[] pathnames;
+				pathnames = f.list();
+				for (String pathname : pathnames) {
+					String fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
+					File fileToDelete = new File(fullFilePath);
+					fileToDelete.delete();
+				}
+				final AlertDialog.Builder dialog = new AlertDialog.Builder(PreferencesActivity.this);
+				dialog.setTitle("Deleted");
+				dialog.setMessage("All locations on the list were deleted");
+				dialog.show();
 			}
 		});
 
