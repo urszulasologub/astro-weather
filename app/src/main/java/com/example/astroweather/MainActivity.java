@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.astroweather.activities.FragmentView;
-import com.example.astroweather.weather.WeatherYahooCommunication;
+
 
 
 public class MainActivity extends AppCompatActivity {

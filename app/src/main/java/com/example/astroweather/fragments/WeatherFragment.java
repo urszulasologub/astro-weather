@@ -14,6 +14,11 @@ import org.w3c.dom.Text;
 
 public class WeatherFragment extends Fragment {
 
+	String city_name = "City";
+
+	public WeatherFragment(String city_name) {
+		this.city_name = city_name;
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -30,6 +35,7 @@ public class WeatherFragment extends Fragment {
 
 	void updateTextViews() {
 		TextView city = (TextView)getView().findViewById(R.id.city);
+		city.setText(city_name);
 		TextView latitude_x = (TextView)getView().findViewById(R.id.latitude_x);
 		TextView longitude_y = (TextView)getView().findViewById(R.id.longitude_y);
 		TextView date1 = (TextView)getView().findViewById(R.id.date1_temperature);
@@ -46,9 +52,5 @@ public class WeatherFragment extends Fragment {
 		updateTextViews();
 	}
 
-	public static WeatherFragment newInstance() {
-		WeatherFragment fragment = new WeatherFragment();
-		return fragment;
-	}
 
 }

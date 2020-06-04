@@ -1,12 +1,15 @@
 package com.example.astroweather.activities;
 
 import android.annotation.SuppressLint;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +22,7 @@ import com.example.astroweather.fragments.SunFragment;
 import com.example.astroweather.fragments.WeatherFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.net.InetAddress;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -81,6 +85,12 @@ public class FragmentView extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_view);
 		if (savedInstanceState == null) {
+			if (!isInternetAvailable()) {
+				final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+				dialog.setTitle("Unable to connect servers");
+				dialog.setMessage("Weather data may be outdated");
+				dialog.show();
+			}
 			updateDateTime();
 		} else {
 			day = savedInstanceState.getInt("day");
@@ -159,7 +169,8 @@ public class FragmentView extends AppCompatActivity {
 				moon_fragment.calculate(day, month, year, hour, minute, second);
 			}
 			if (new_city != null) {
-				adapter.addNewWeatherFragment(new WeatherFragment());
+				WeatherFragment weather_fragment = new WeatherFragment(new_city);
+				adapter.addNewWeatherFragment(weather_fragment);
 				view_pager.setAdapter(adapter);
 			}
 		}
@@ -211,6 +222,16 @@ public class FragmentView extends AppCompatActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 		update_time_thread.interrupt();
+	}
+
+	public boolean isInternetAvailable() {
+		try {
+			InetAddress ipAddr = InetAddress.getByName("https://weather-ydn-yql.media.yahoo.com/forecastrss");
+			return !ipAddr.equals("");
+
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 
