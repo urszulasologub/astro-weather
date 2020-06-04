@@ -143,7 +143,7 @@ public class PreferencesActivity extends AppCompatActivity {
 					b.putDouble("x", x);
 					b.putDouble("y", y);
 					b.putInt("update_time", update_time);
-					WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, PreferencesActivity.this);
+					WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, PreferencesActivity.this, false);
 					communication.execute();
 					if (communication.get() != null) {
 						try {

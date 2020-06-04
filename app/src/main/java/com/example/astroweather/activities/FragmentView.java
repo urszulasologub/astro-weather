@@ -181,7 +181,7 @@ public class FragmentView extends AppCompatActivity {
 		if (!astroDirectory.exists())
 			astroDirectory.mkdirs();
 
-		UpdateWeatherFiles action = new UpdateWeatherFiles(this);
+		UpdateWeatherFiles action = new UpdateWeatherFiles(this, true);
 		action.start();
 
 		File f = new File(getCacheDir().toString() + "/AstroWeather");

@@ -44,6 +44,7 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 	final String url = "https://weather-ydn-yql.media.yahoo.com/forecastrss";
 	String authorizationLine;
 	String location = "lodz";
+	Boolean isCelsius = true;
 	Activity mainActivity;
 
 
@@ -77,8 +78,12 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 		String response = "";
 		//TODO: handle celsiuses and fahrenheits
 		try {
-			response = get(url + "?location=" + location + "&format=json");
+			if (isCelsius)
+				response = get(url + "?location=" + location + "&format=json&u=c");
+			else
+				response = get(url + "?location=" + location + "&format=json");
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 		return response;
@@ -92,7 +97,8 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 
 
 	@RequiresApi(api = Build.VERSION_CODES.O)
-	public WeatherYahooCommunication(String location, Activity mainActivity) throws Exception {
+	public WeatherYahooCommunication(String location, Activity mainActivity, Boolean isCelsius) throws Exception {
+		this.isCelsius = isCelsius;
 		this.mainActivity = mainActivity;
 		this.location = location.toLowerCase();
 		long timestamp = new Date().getTime() / 1000;
@@ -110,6 +116,8 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 		parameters.add("oauth_version=1.0");
 		parameters.add("location=" + URLEncoder.encode(this.location, "UTF-8"));
 		parameters.add("format=json");
+		if (this.isCelsius)
+			parameters.add("u=c");
 		Collections.sort(parameters);
 
 		StringBuffer parametersList = new StringBuffer();
