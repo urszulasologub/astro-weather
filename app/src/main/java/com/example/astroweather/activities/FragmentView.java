@@ -180,6 +180,10 @@ public class FragmentView extends AppCompatActivity {
 		astroDirectory = new File(getCacheDir(),"AstroWeather");
 		if (!astroDirectory.exists())
 			astroDirectory.mkdirs();
+
+		UpdateWeatherFiles action = new UpdateWeatherFiles(this);
+		action.start();
+
 		File f = new File(getCacheDir().toString() + "/AstroWeather");
 		String[] pathnames;
 		pathnames = f.list();
@@ -187,13 +191,9 @@ public class FragmentView extends AppCompatActivity {
 			String fullFilePath = null;
 			try {
 				fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
-				System.out.println(fullFilePath);
 				String content = new String(Files.readAllBytes(Paths.get(fullFilePath)));
-				System.out.println(content);
 				JSONObject object = new JSONObject(content);
-				JSONObject locationObject = object.getJSONObject("location");
-				String location_name = locationObject.get("city").toString();
-				WeatherFragment weather_fragment = new WeatherFragment(location_name);
+				WeatherFragment weather_fragment = new WeatherFragment(object);
 				adapter.addNewWeatherFragment(weather_fragment);
 				view_pager.setAdapter(adapter);
 			} catch (Exception e) {
@@ -204,14 +204,7 @@ public class FragmentView extends AppCompatActivity {
 				e.printStackTrace();
 			}
 		}
-		UpdateWeatherFiles action = new UpdateWeatherFiles(this);
-		action.start();
-		/*if (!couldDownloadData) {
-			final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-			dialog.setTitle("Unable to connect servers");
-			dialog.setMessage("Weather data may be outdated");
-			dialog.show();
-		}*/
+
 	}
 
 

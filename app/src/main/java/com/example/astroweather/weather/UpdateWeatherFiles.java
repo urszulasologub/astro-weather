@@ -16,9 +16,11 @@ public class UpdateWeatherFiles extends Thread {
 
 	Activity activity;
 
+
 	public UpdateWeatherFiles(Activity activity) {
 		this.activity = activity;
 	}
+
 
 	@Override
 	public void run() {
