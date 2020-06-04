@@ -146,20 +146,10 @@ public class PreferencesActivity extends AppCompatActivity {
 					WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, PreferencesActivity.this);
 					communication.execute();
 					if (communication.get() != null) {
-						JSONObject object;
-						PrintWriter out = null;
 						try {
-							object = new JSONObject(communication.get());
-							JSONObject locationObject = object.getJSONObject("location");
-							location_name = locationObject.get("city").toString();
-							String filename = location_name.toLowerCase().replaceAll("\\s","");
-							out = new PrintWriter(new FileWriter(getCacheDir().toString() + "/AstroWeather/" + filename));
-							out.write(object.toString());
-							out.close();
-							b.putString("location", location_name);
+							communication.createFile(communication.get(), PreferencesActivity.this);
 						} catch (Exception e) {
-							Toast.makeText(PreferencesActivity.this, "An error occurred", Toast.LENGTH_LONG).show();
-							e.printStackTrace();
+							Toast.makeText(PreferencesActivity.this, "Couldn't add city", Toast.LENGTH_LONG).show();
 						}
 					}
 					intent.putExtras(b);

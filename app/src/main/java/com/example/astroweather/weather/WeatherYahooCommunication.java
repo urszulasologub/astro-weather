@@ -9,13 +9,18 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 
+import com.example.astroweather.activities.PreferencesActivity;
 import com.example.astroweather.secret.Credentials;
+
+import org.json.JSONObject;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,6 +60,18 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 	}
 
 
+	public String createFile(String jsonContent, Activity activity) throws Exception {
+		JSONObject object = new JSONObject(jsonContent);
+		JSONObject locationObject = object.getJSONObject("location");
+		String location_name = locationObject.get("city").toString();
+		String filename = location_name.toLowerCase().replaceAll("\\s","");
+		PrintWriter out = new PrintWriter(new FileWriter(activity.getCacheDir().toString() + "/AstroWeather/" + filename));
+		out.write(object.toString());
+		out.close();
+		return location_name;
+	}
+
+
 	@Override
 	protected String doInBackground(Void... voids) {
 		String response = "";
@@ -70,7 +87,7 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 
 	protected void onPostExecute(String result) {
 		if (result == null)
-			Toast.makeText(mainActivity, "Couldn't add city", Toast.LENGTH_LONG).show();
+			Toast.makeText(mainActivity, "Couldn't download city info. Data may be outdated", Toast.LENGTH_LONG).show();
 	}
 
 
@@ -83,8 +100,6 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 		Random rand = new Random();
 		for (byte i = 65; i < 32 + 65; ++i)
 			nonce[i - 65] = i;
-		//rand.nextBytes(nonce);
-		//String oauthNonce = new String(nonce).replaceAll("\\W", "");
 		String oauthNonce = "8nduRhXFXQ";
 
 		List<String> parameters = new ArrayList<>();

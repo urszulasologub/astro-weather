@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -22,6 +23,8 @@ import com.example.astroweather.ViewPagerAdapter;
 import com.example.astroweather.fragments.MoonFragment;
 import com.example.astroweather.fragments.SunFragment;
 import com.example.astroweather.fragments.WeatherFragment;
+import com.example.astroweather.weather.UpdateWeatherFiles;
+import com.example.astroweather.weather.WeatherYahooCommunication;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONObject;
@@ -51,7 +54,6 @@ public class FragmentView extends AppCompatActivity {
 	private SunFragment sun_fragment;
 	private MoonFragment moon_fragment;
 	private int elapsed_seconds = 0;
-	String new_city = null;
 	private File astroDirectory = null;
 
 
@@ -96,12 +98,6 @@ public class FragmentView extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_view);
 		if (savedInstanceState == null) {
-			if (!isInternetAvailable()) {
-				final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-				dialog.setTitle("Unable to connect servers");
-				dialog.setMessage("Weather data may be outdated");
-				dialog.show();
-			}
 			updateDateTime();
 		} else {
 			day = savedInstanceState.getInt("day");
@@ -116,7 +112,6 @@ public class FragmentView extends AppCompatActivity {
 		x = this_intent.getDoubleExtra("x", 0);
 		y = this_intent.getDoubleExtra("y", 0);
 		update_time = this_intent.getIntExtra("update_time", 15 * 60);
-		new_city = this_intent.getStringExtra("location");
 
 		TextView x_label = (TextView)findViewById(R.id.x_label);
 		x_label.setText("x: " + Double.toString(x));
@@ -180,11 +175,6 @@ public class FragmentView extends AppCompatActivity {
 				moon_fragment.setY(y);
 				moon_fragment.calculate(day, month, year, hour, minute, second);
 			}
-			/*if (new_city != null) {
-				WeatherFragment weather_fragment = new WeatherFragment(new_city);
-				adapter.addNewWeatherFragment(weather_fragment);
-				view_pager.setAdapter(adapter);
-			}*/
 		}
 
 		astroDirectory = new File(getCacheDir(),"AstroWeather");
@@ -214,9 +204,16 @@ public class FragmentView extends AppCompatActivity {
 				e.printStackTrace();
 			}
 		}
-
-
+		UpdateWeatherFiles action = new UpdateWeatherFiles(this);
+		action.start();
+		/*if (!couldDownloadData) {
+			final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+			dialog.setTitle("Unable to connect servers");
+			dialog.setMessage("Weather data may be outdated");
+			dialog.show();
+		}*/
 	}
+
 
 	@Override
 	protected void onStart() {
