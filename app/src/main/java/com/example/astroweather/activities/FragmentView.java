@@ -82,20 +82,10 @@ public class FragmentView extends AppCompatActivity {
 
 
 	public void updateDataFromAstroDirectory() {
-		File f = new File(getCacheDir().toString() + "/AstroWeather");
-		String[] pathnames;
-		pathnames = f.list();
-		int i = 2;
-		for (String pathname : pathnames) {
-			String fullFilePath = null;
-			try {
-				fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
-				String content = new String(Files.readAllBytes(Paths.get(fullFilePath)));
-				JSONObject object = new JSONObject(content);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		try {
+			adapter.updateAllWeatherFragments();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -242,7 +232,6 @@ public class FragmentView extends AppCompatActivity {
 				try {
 					while (!update_time_thread.isInterrupted()) {
 						Thread.sleep(1000);
-
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {

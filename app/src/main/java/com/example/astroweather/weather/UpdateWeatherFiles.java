@@ -16,11 +16,11 @@ import java.nio.file.Paths;
 
 public class UpdateWeatherFiles extends Thread {
 
-	Activity activity;
+	FragmentView activity;
 	Boolean isCelsius;
 
 
-	public UpdateWeatherFiles(Activity activity, Boolean isCelsius) {
+	public UpdateWeatherFiles(FragmentView activity, Boolean isCelsius) {
 		this.activity = activity;
 		this.isCelsius = isCelsius;
 	}
@@ -38,7 +38,9 @@ public class UpdateWeatherFiles extends Thread {
 				yahooCommunication.execute();
 				if (yahooCommunication.get() != null) {
 					yahooCommunication.createFile(yahooCommunication.get(), activity);
+					activity.updateDataFromAstroDirectory();
 				}
+				System.out.println("Updated successfully");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

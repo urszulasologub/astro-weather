@@ -20,6 +20,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 	private SunFragment sun_fragment = new SunFragment();
 	private MoonFragment moon_fragment = new MoonFragment();
 	private List<Fragment> fragmentList = new ArrayList<>();
+	private List<WeatherFragment> weatherFragments = new ArrayList<>();
 
 
 	public ViewPagerAdapter(FragmentManager fm) {
@@ -31,6 +32,13 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
 	public void addNewWeatherFragment(WeatherFragment fragment) {
 		fragmentList.add(fragment);
+		weatherFragments.add(fragment);
+	}
+
+
+	public void updateAllWeatherFragments() throws Exception {
+		for (WeatherFragment fragment : weatherFragments)
+			fragment.update();
 	}
 
 
