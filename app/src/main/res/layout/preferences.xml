@@ -3,12 +3,12 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+	android:layout_height="wrap_content">
 
 	<TableLayout
 		android:id="@+id/tableLayout"
 		android:layout_width="wrap_content"
-		android:layout_height="364dp"
+		android:layout_height="wrap_content"
 		android:layout_weight="0"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
@@ -136,8 +136,8 @@
 	</TableLayout>
 
 	<TableLayout
-		android:layout_width="match_parent"
-		android:layout_height="364dp"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
 		android:layout_marginTop="20dp"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
@@ -154,8 +154,8 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:gravity="center"
-				android:text="Enter location"
-				android:textSize="24sp" />
+				android:text="@string/enter_location"
+				android:textSize="18sp" />
 		</TableRow>
 
 		<TableRow
@@ -173,7 +173,7 @@
 		</TableRow>
 
 		<TableRow
-			android:layout_width="match_parent"
+			android:layout_width="wrap_content"
 			android:layout_height="match_parent"
 			android:gravity="center">
 
@@ -182,7 +182,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:gravity="center"
-				android:text="Add city" />
+				android:text="@string/add_city" />
 		</TableRow>
 
 	</TableLayout>

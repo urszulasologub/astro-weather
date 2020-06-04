@@ -16,4 +16,6 @@
 	<string name="moonrise">Moonrise</string>
 	<string name="preferences">Preferences</string>
 	<string name="refresh_time">Refresh time</string>
+	<string name="add_city">Add city</string>
+	<string name="enter_location">Enter location</string>
 </resources>

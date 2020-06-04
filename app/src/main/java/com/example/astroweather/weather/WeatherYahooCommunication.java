@@ -6,9 +6,10 @@ import android.os.Environment;
 
 import androidx.annotation.RequiresApi;
 
+import com.example.astroweather.secret.Credentials;
+
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.transform.Result;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,35 +22,21 @@ import java.util.Random;
 import java.util.Collections;
 import java.net.URLEncoder;
 
-import java.net.URI;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
-/**
- *
- * <pre>
- * % java --version
- * % java 11.0.1 2018-10-16 LTS
- *
- * % javac WeatherYdnJava.java && java -ea WeatherYdnJava
- * </pre>
- *
- */
+
 public class WeatherYahooCommunication extends AsyncTask {
 
 	OkHttpClient client = new OkHttpClient();
-	final String appId = System.getenv("YAHOO_APP_ID");
-	final String consumerKey = System.getenv("YAHOO_CLIENT_ID");
-	final String consumerSecret = System.getenv("YAHOO_CLIENT_SECRET");
+	final String appId = Credentials.getAppId();
+	final String consumerKey = Credentials.getClientId();
+	final String consumerSecret = Credentials.getClientSecret();
 	final String url = "https://weather-ydn-yql.media.yahoo.com/forecastrss";
 	String authorizationLine;
-	File appFolder = new File(Environment.getExternalStorageDirectory() + File.separator + "AstroWeather");
+	String location = "Lodz";
+	Boolean isCelsius = true;
 
 
 	public String get(String url) throws IOException {
@@ -69,21 +56,29 @@ public class WeatherYahooCommunication extends AsyncTask {
 
 	@Override
 	protected Object doInBackground(Object[] objects) {
+		String response = "";
+		//TODO: handle celsiuses and fahrenheits
 		try {
-			System.out.println(get(url + "?location=sunnyvale,ca&format=json"));
+			if (isCelsius)
+				response = get(url + "?location=" + location + "&format=json");
+			else
+				response = get(url + "?location=" + location + "&format=json");
+			System.out.println(response);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
 		}
-		return null;
+		return response;
 	}
 
 
 	@RequiresApi(api = Build.VERSION_CODES.O)
-	public WeatherYahooCommunication() throws Exception {
+	public WeatherYahooCommunication(String location, boolean isCelsius) throws Exception {
+		this.location = location.toLowerCase();
+		this.isCelsius = isCelsius;
 		long timestamp = new Date().getTime() / 1000;
 		byte[] nonce = new byte[32];
 		Random rand = new Random();
-		for (byte i = 0 + 65; i < 32 + 65; ++i)
+		for (byte i = 65; i < 32 + 65; ++i)
 			nonce[i - 65] = i;
 		//rand.nextBytes(nonce);
 		//String oauthNonce = new String(nonce).replaceAll("\\W", "");
@@ -95,7 +90,7 @@ public class WeatherYahooCommunication extends AsyncTask {
 		parameters.add("oauth_signature_method=HMAC-SHA1");
 		parameters.add("oauth_timestamp=" + timestamp);
 		parameters.add("oauth_version=1.0");
-		parameters.add("location=" + URLEncoder.encode("sunnyvale,ca", "UTF-8"));
+		parameters.add("location=" + URLEncoder.encode(location, "UTF-8"));
 		parameters.add("format=json");
 		Collections.sort(parameters);
 
@@ -128,18 +123,7 @@ public class WeatherYahooCommunication extends AsyncTask {
 				"oauth_signature_method=\"HMAC-SHA1\", " +
 				"oauth_signature=\"" + signature + "\", " +
 				"oauth_version=\"1.0\"";
-		System.out.println(signature);
-		System.out.println(signatureString);
-		/*HttpRequest request = HttpRequest.newBuilder()
-				.uri(URI.create(url + "?location=sunnyvale,ca&format=json"))
-				.header("Authorization", authorizationLine)
-				.header("X-Yahoo-App-Id", appId)
-				.header("Content-Type", "application/json")
-				.build();
 
-
-		HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-		System.out.println(response.body());*/
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.example.astroweather.activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -9,10 +10,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.astroweather.R;
+import com.example.astroweather.weather.WeatherYahooCommunication;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -117,6 +120,22 @@ public class PreferencesActivity extends AppCompatActivity {
 					}
 				} catch (Exception e) {
 					dialog.show();
+				}
+			}
+		});
+
+		Button add_city_button = findViewById(R.id.add_city_button);
+		add_city_button.setOnClickListener(new View.OnClickListener() {
+			@RequiresApi(api = Build.VERSION_CODES.O)
+			@Override
+			public void onClick(View v) {
+				EditText add_city_input = (EditText)findViewById(R.id.add_city_input);
+				String location_name = add_city_input.getText().toString();
+				try {
+					WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, true);
+					communication.execute();
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		});
