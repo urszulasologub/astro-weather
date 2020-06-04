@@ -23,10 +23,16 @@ public class WeatherFragment extends Fragment {
 		return inflater.inflate(R.layout.fragment_weather, container, false);
 	}
 
+
+	void updateTextViews() {
+
+	}
+
+
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		//updateTextViews();
+		updateTextViews();
 	}
 
 	public static WeatherFragment newInstance() {

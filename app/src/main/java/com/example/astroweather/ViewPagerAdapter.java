@@ -26,12 +26,11 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 		super(fm);
 		fragmentList.add(sun_fragment);
 		fragmentList.add(moon_fragment);
-		fragmentList.add(new WeatherFragment());
 	}
 
 
-	public void addNewWeatherFragment() {
-		fragmentList.add(new WeatherFragment());
+	public void addNewWeatherFragment(WeatherFragment fragment) {
+		fragmentList.add(fragment);
 	}
 
 
