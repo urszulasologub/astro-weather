@@ -93,7 +93,7 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 		parameters.add("oauth_signature_method=HMAC-SHA1");
 		parameters.add("oauth_timestamp=" + timestamp);
 		parameters.add("oauth_version=1.0");
-		parameters.add("location=" + URLEncoder.encode(location, "UTF-8"));
+		parameters.add("location=" + URLEncoder.encode(this.location, "UTF-8"));
 		parameters.add("format=json");
 		Collections.sort(parameters);
 

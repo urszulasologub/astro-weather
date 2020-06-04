@@ -2,10 +2,12 @@ package com.example.astroweather.activities;
 
 import android.annotation.SuppressLint;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,9 +24,16 @@ import com.example.astroweather.fragments.SunFragment;
 import com.example.astroweather.fragments.WeatherFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 public class FragmentView extends AppCompatActivity {
 
@@ -81,6 +90,7 @@ public class FragmentView extends AppCompatActivity {
 	}
 
 
+	@RequiresApi(api = Build.VERSION_CODES.O)
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -133,11 +143,6 @@ public class FragmentView extends AppCompatActivity {
 			});
 		}
 
-		astroDirectory = new File(getCacheDir(),"AstroWeather");
-		if (!astroDirectory.exists())
-			astroDirectory.mkdirs();
-
-
 
 		// for big displays:
 		FragmentManager fragmentManager = getSupportFragmentManager();
@@ -159,8 +164,9 @@ public class FragmentView extends AppCompatActivity {
 
 		// for smaller displays:
 		ViewPager view_pager = findViewById(R.id.view_pager);
+		ViewPagerAdapter adapter = null;
 		if (view_pager != null) {
-			ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+			adapter = new ViewPagerAdapter(getSupportFragmentManager());
 			view_pager.setAdapter(adapter);
 			sun_fragment = (SunFragment)adapter.instantiateItem(view_pager, 0);
 			if (sun_fragment != null) {
@@ -174,10 +180,33 @@ public class FragmentView extends AppCompatActivity {
 				moon_fragment.setY(y);
 				moon_fragment.calculate(day, month, year, hour, minute, second);
 			}
-			if (new_city != null) {
+			/*if (new_city != null) {
 				WeatherFragment weather_fragment = new WeatherFragment(new_city);
 				adapter.addNewWeatherFragment(weather_fragment);
 				view_pager.setAdapter(adapter);
+			}*/
+		}
+
+		astroDirectory = new File(getCacheDir(),"AstroWeather");
+		if (!astroDirectory.exists())
+			astroDirectory.mkdirs();
+		File f = new File(getCacheDir().toString() + "/AstroWeather");
+		String[] pathnames;
+		pathnames = f.list();
+		for (String pathname : pathnames) {
+			try {
+				String fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
+				System.out.println(fullFilePath);
+				String content = new String(Files.readAllBytes(Paths.get(fullFilePath)));
+				System.out.println(content);
+				JSONObject object = new JSONObject(content);
+				JSONObject locationObject = object.getJSONObject("location");
+				String location_name = locationObject.get("city").toString();
+				WeatherFragment weather_fragment = new WeatherFragment(location_name);
+				adapter.addNewWeatherFragment(weather_fragment);
+				view_pager.setAdapter(adapter);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 
@@ -233,14 +262,8 @@ public class FragmentView extends AppCompatActivity {
 
 
 	public boolean isInternetAvailable() {
-		try {
-			Runtime runtime = Runtime.getRuntime();
-			Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
-			int     exitValue = ipProcess.waitFor();
-			return (exitValue == 0);
-		} catch (Exception e) {
-			return false;
-		}
+		//TODO: change implementation
+		return true;
 	}
 
 

@@ -21,6 +21,8 @@ import com.example.astroweather.weather.WeatherYahooCommunication;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -145,13 +147,17 @@ public class PreferencesActivity extends AppCompatActivity {
 					communication.execute();
 					if (communication.get() != null) {
 						JSONObject object;
+						PrintWriter out = null;
 						try {
 							object = new JSONObject(communication.get());
 							JSONObject locationObject = object.getJSONObject("location");
 							location_name = locationObject.get("city").toString();
+							String filename = location_name.toLowerCase().replaceAll("\\s","");
+							out = new PrintWriter(new FileWriter(getCacheDir().toString() + "/AstroWeather/" + filename));
+							out.write(object.toString());
+							out.close();
 							b.putString("location", location_name);
 						} catch (Exception e) {
-							//TODO: handle yahoo exception
 							Toast.makeText(PreferencesActivity.this, "An error occurred", Toast.LENGTH_LONG).show();
 							e.printStackTrace();
 						}
