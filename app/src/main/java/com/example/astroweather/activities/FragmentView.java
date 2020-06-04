@@ -194,8 +194,9 @@ public class FragmentView extends AppCompatActivity {
 		String[] pathnames;
 		pathnames = f.list();
 		for (String pathname : pathnames) {
+			String fullFilePath = null;
 			try {
-				String fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
+				fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
 				System.out.println(fullFilePath);
 				String content = new String(Files.readAllBytes(Paths.get(fullFilePath)));
 				System.out.println(content);
@@ -206,6 +207,10 @@ public class FragmentView extends AppCompatActivity {
 				adapter.addNewWeatherFragment(weather_fragment);
 				view_pager.setAdapter(adapter);
 			} catch (Exception e) {
+				if (fullFilePath != null) {
+					File fileToDelete = new File(fullFilePath);
+					fileToDelete.delete();
+				}
 				e.printStackTrace();
 			}
 		}
