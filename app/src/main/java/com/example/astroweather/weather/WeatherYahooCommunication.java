@@ -1,10 +1,13 @@
 package com.example.astroweather.weather;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 
 import com.example.astroweather.secret.Credentials;
 
@@ -27,7 +30,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
-public class WeatherYahooCommunication extends AsyncTask {
+public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 
 	OkHttpClient client = new OkHttpClient();
 	final String appId = Credentials.getAppId();
@@ -36,6 +39,7 @@ public class WeatherYahooCommunication extends AsyncTask {
 	final String url = "https://weather-ydn-yql.media.yahoo.com/forecastrss";
 	String authorizationLine;
 	String location = "lodz";
+	Activity mainActivity;
 
 
 	public String get(String url) throws IOException {
@@ -45,7 +49,6 @@ public class WeatherYahooCommunication extends AsyncTask {
 				.header("X-Yahoo-App-Id", appId)
 				.header("Content-Type", "application/json")
 				.build();
-		System.out.println(request.toString());
 		try (Response response = client.newCall(request).execute()) {
 			return response.body().string();
 		}
@@ -53,21 +56,27 @@ public class WeatherYahooCommunication extends AsyncTask {
 
 
 	@Override
-	protected Object doInBackground(Object[] objects) {
+	protected String doInBackground(Void... voids) {
 		String response = "";
 		//TODO: handle celsiuses and fahrenheits
 		try {
 			response = get(url + "?location=" + location + "&format=json");
-			System.out.println(response);
 		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
+			return null;
 		}
 		return response;
 	}
 
 
+	protected void onPostExecute(String result) {
+		if (result == null)
+			Toast.makeText(mainActivity, "Couldn't add city", Toast.LENGTH_LONG).show();
+	}
+
+
 	@RequiresApi(api = Build.VERSION_CODES.O)
-	public WeatherYahooCommunication(String location) throws Exception {
+	public WeatherYahooCommunication(String location, Activity mainActivity) throws Exception {
+		this.mainActivity = mainActivity;
 		this.location = location.toLowerCase();
 		long timestamp = new Date().getTime() / 1000;
 		byte[] nonce = new byte[32];

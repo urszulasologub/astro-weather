@@ -22,6 +22,7 @@ import com.example.astroweather.fragments.SunFragment;
 import com.example.astroweather.fragments.WeatherFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -224,11 +225,13 @@ public class FragmentView extends AppCompatActivity {
 		update_time_thread.interrupt();
 	}
 
+
 	public boolean isInternetAvailable() {
 		try {
-			InetAddress ipAddr = InetAddress.getByName("https://weather-ydn-yql.media.yahoo.com/forecastrss");
-			return !ipAddr.equals("");
-
+			Runtime runtime = Runtime.getRuntime();
+			Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
+			int     exitValue = ipProcess.waitFor();
+			return (exitValue == 0);
 		} catch (Exception e) {
 			return false;
 		}

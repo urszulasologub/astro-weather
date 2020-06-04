@@ -132,17 +132,18 @@ public class PreferencesActivity extends AppCompatActivity {
 				EditText add_city_input = (EditText)findViewById(R.id.add_city_input);
 				String location_name = add_city_input.getText().toString();
 				try {
-					WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name);
-					communication.execute();
 					Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
 					Bundle b = new Bundle();
 					b.putDouble("x", x);
 					b.putDouble("y", y);
 					b.putInt("update_time", update_time);
-					b.putString("location", location_name);
+					WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, PreferencesActivity.this);
+					communication.execute();
+					System.out.println("Test " + communication.get());
+					if (communication.get() != null)
+						b.putString("location", location_name);
 					intent.putExtras(b);
 					startActivity(intent);
-					finish();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

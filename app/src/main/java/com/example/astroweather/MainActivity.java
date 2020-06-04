@@ -14,7 +14,6 @@ import android.widget.EditText;
 import com.example.astroweather.activities.FragmentView;
 
 
-
 public class MainActivity extends AppCompatActivity {
     private Double x;
     private Double y;
