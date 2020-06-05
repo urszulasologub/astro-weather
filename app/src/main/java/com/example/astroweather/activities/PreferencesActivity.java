@@ -123,7 +123,7 @@ public class PreferencesActivity extends AppCompatActivity {
 
 
 		EditText location_input = (EditText)findViewById(R.id.location_input);
-		location_input.setText(default_location_name.toString());
+		location_input.setText(default_location_name);
 		final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 		dialog.setTitle("Incorrect input");
 		dialog.setMessage("Entered incorrect data");
@@ -132,25 +132,37 @@ public class PreferencesActivity extends AppCompatActivity {
 		ok_button_p.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				update_time = getKeyFromValue((String)spinner.getSelectedItem());
-				update_time = getKeyFromValue((String)spinner.getSelectedItem());
-				EditText location_input = (EditText)findViewById(R.id.location_input);
-				String location = location_input.getText().toString().toString().toLowerCase().replaceAll("\\s","");
-				try {
-					createDefaultData(location);
+				update_time = getKeyFromValue((String) spinner.getSelectedItem());
+				update_time = getKeyFromValue((String) spinner.getSelectedItem());
+				EditText location_input = (EditText) findViewById(R.id.location_input);
+				if (!location_input.getText().toString().equals(default_location_name)) {
+					String location = location_input.getText().toString().toString().toLowerCase().replaceAll("\\s", "");
+					try {
+						createDefaultData(location);
+						Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
+						Bundle b = new Bundle();
+						b.putDouble("x", x);
+						b.putDouble("y", y);
+						System.out.println(default_location_name);
+						b.putString("location_name", default_location_name);
+						b.putInt("update_time", update_time);
+						intent.putExtras(b);
+						startActivity(intent);
+						finish();
+					} catch (Exception e) {
+						dialog.show();
+						e.printStackTrace();
+					}
+				} else {
 					Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
 					Bundle b = new Bundle();
 					b.putDouble("x", x);
 					b.putDouble("y", y);
-					System.out.println(default_location_name);
 					b.putString("location_name", default_location_name);
 					b.putInt("update_time", update_time);
 					intent.putExtras(b);
 					startActivity(intent);
 					finish();
-				} catch (Exception e) {
-					dialog.show();
-					e.printStackTrace();
 				}
 			}
 		});
