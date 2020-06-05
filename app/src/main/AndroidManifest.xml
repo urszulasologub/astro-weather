@@ -2,13 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.astroweather" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        >
         <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,14 +23,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FragmentView">
+        <activity android:name=".activities.FragmentView">
         </activity>
-        <activity android:name=".SunFragment">
+        <activity android:name=".fragments.SunFragment">
         </activity>
-        <activity android:name=".MoonFragment">
+        <activity android:name=".fragments.MoonFragment">
         </activity>
-        <activity android:name=".PreferencesActivity">
+        <activity android:name=".fragments.WeatherFragment">
         </activity>
+        <activity android:name=".activities.PreferencesActivity">
+        </activity>
+
     </application>
 
 </manifest>

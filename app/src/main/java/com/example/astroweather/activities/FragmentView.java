@@ -1,21 +1,42 @@
-package com.example.astroweather;
+package com.example.astroweather.activities;
 
 import android.annotation.SuppressLint;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.astroweather.R;
+import com.example.astroweather.ViewPagerAdapter;
+import com.example.astroweather.fragments.MoonFragment;
+import com.example.astroweather.fragments.SunFragment;
+import com.example.astroweather.fragments.WeatherFragment;
+import com.example.astroweather.weather.UpdateWeatherFiles;
+import com.example.astroweather.weather.WeatherYahooCommunication;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 public class FragmentView extends AppCompatActivity {
 
@@ -33,6 +54,51 @@ public class FragmentView extends AppCompatActivity {
 	private SunFragment sun_fragment;
 	private MoonFragment moon_fragment;
 	private int elapsed_seconds = 0;
+	private File astroDirectory = null;
+	ViewPager view_pager;
+	ViewPagerAdapter adapter;
+	private String default_location_name;
+
+
+	//TODO: let user change main location
+	//TODO: let user remove things
+	//TODO: add to preferences menu option to choose degrees (Celsius or Fahrenheit)
+	//TODO: add details about weather (icons maybe?)
+	//TODO: refresh date depending on date in json file or refresh time
+	//TODO: add refresh data button
+	//TODO: recreate new layouts
+
+
+
+	public void createDataFromAstroDirectory() {
+		File f = new File(getCacheDir().toString() + "/AstroWeather");
+		String[] pathnames;
+		pathnames = f.list();
+		for (String pathname : pathnames) {
+			String fullFilePath = null;
+			try {
+				fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
+				WeatherFragment weather_fragment = new WeatherFragment(fullFilePath);
+				adapter.addNewWeatherFragment(weather_fragment);
+				view_pager.setAdapter(adapter);
+			} catch (Exception e) {
+				/*if (fullFilePath != null) {
+					File fileToDelete = new File(fullFilePath);
+					fileToDelete.delete();
+				}*/
+				e.printStackTrace();
+			}
+		}
+	}
+
+
+	public void updateDataFromAstroDirectory() {
+		try {
+			adapter.updateAllWeatherFragments();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 
 	@Override
@@ -57,7 +123,6 @@ public class FragmentView extends AppCompatActivity {
 		day = calendar.get(Calendar.DATE);
 		month = calendar.get(Calendar.MONTH) + 1;
 		year = calendar.get(Calendar.YEAR);
-		Log.d("Updated time", Integer.toString(second));
 	}
 
 
@@ -71,6 +136,7 @@ public class FragmentView extends AppCompatActivity {
 	}
 
 
+	@RequiresApi(api = Build.VERSION_CODES.O)
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -89,12 +155,11 @@ public class FragmentView extends AppCompatActivity {
 		Intent this_intent = getIntent();
 		x = this_intent.getDoubleExtra("x", 0);
 		y = this_intent.getDoubleExtra("y", 0);
+		default_location_name = this_intent.getStringExtra("location_name");
 		update_time = this_intent.getIntExtra("update_time", 15 * 60);
 
-		TextView x_label = (TextView)findViewById(R.id.x_label);
-		x_label.setText("x: " + Double.toString(x));
-		TextView y_label = (TextView)findViewById(R.id.y_label);
-		y_label.setText("y: " + Double.toString(y));
+		TextView location_label = findViewById(R.id.location_name_label);
+		location_label.setText(default_location_name);
 
 		current_time = (TextView)findViewById(R.id.current_time);
 		setCurrentTime(current_time);
@@ -109,7 +174,7 @@ public class FragmentView extends AppCompatActivity {
 					b.putDouble("x", x);
 					b.putDouble("y", y);
 					b.putInt("update_time", update_time);
-					//b.putInt("elapsed_seconds", elapsed_seconds);
+					b.putString("location_name", default_location_name);
 					intent.putExtras(b);
 					startActivity(intent);
 					finish();
@@ -137,9 +202,10 @@ public class FragmentView extends AppCompatActivity {
 		}
 
 		// for smaller displays:
-		ViewPager view_pager = findViewById(R.id.view_pager);
+		view_pager = findViewById(R.id.view_pager);
+		adapter = null;
 		if (view_pager != null) {
-			ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+			adapter = new ViewPagerAdapter(getSupportFragmentManager());
 			view_pager.setAdapter(adapter);
 			sun_fragment = (SunFragment)adapter.instantiateItem(view_pager, 0);
 			if (sun_fragment != null) {
@@ -155,7 +221,16 @@ public class FragmentView extends AppCompatActivity {
 			}
 		}
 
+		astroDirectory = new File(getCacheDir(),"AstroWeather");
+		if (!astroDirectory.exists())
+			astroDirectory.mkdirs();
+
+		new UpdateWeatherFiles(this, true).start();;
+
+		createDataFromAstroDirectory();
+
 	}
+
 
 	@Override
 	protected void onStart() {

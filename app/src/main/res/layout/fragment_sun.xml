@@ -6,7 +6,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:background="@color/colorPrimary"
-	tools:context=".SunFragment">
+	tools:context=".fragments.SunFragment">
 
 	<LinearLayout
 		android:layout_width="match_parent"

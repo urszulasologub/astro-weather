@@ -1,6 +1,7 @@
-package com.example.astroweather;
+package com.example.astroweather.activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -8,13 +9,24 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.astroweather.R;
+import com.example.astroweather.fragments.WeatherFragment;
+import com.example.astroweather.weather.WeatherYahooCommunication;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -23,6 +35,7 @@ public class PreferencesActivity extends AppCompatActivity {
 	private Double x;
 	private Double y;
 	private int update_time;
+	private String default_location_name;
 	private final Map<Integer, String> spinner_dictionary = new HashMap<Integer, String>();
 
 	private Integer getKeyFromValue(String value) {
@@ -43,6 +56,7 @@ public class PreferencesActivity extends AppCompatActivity {
 		Intent this_intent = getIntent();
 		x = this_intent.getDoubleExtra("x", 0);
 		y = this_intent.getDoubleExtra("y", 0);
+		default_location_name = this_intent.getStringExtra("location_name");
 		update_time = this_intent.getIntExtra("update_time", 15 * 60);
 
 		final Spinner spinner = (Spinner)findViewById(R.id.time_spinner);
@@ -85,6 +99,7 @@ public class PreferencesActivity extends AppCompatActivity {
 		});
 
 
+		//TODO: remove coords, add name
 		EditText x_input = (EditText)findViewById(R.id.x_input);
 		x_input.setText(x.toString());
 		EditText y_input = (EditText)findViewById(R.id.y_input);
@@ -111,6 +126,7 @@ public class PreferencesActivity extends AppCompatActivity {
 						b.putDouble("x", x);
 						b.putDouble("y", y);
 						b.putInt("update_time", update_time);
+						b.putString("location_name", default_location_name);
 						intent.putExtras(b);
 						startActivity(intent);
 						finish();
@@ -118,6 +134,59 @@ public class PreferencesActivity extends AppCompatActivity {
 				} catch (Exception e) {
 					dialog.show();
 				}
+			}
+		});
+
+		Button add_city_button = findViewById(R.id.add_city_button);
+		add_city_button.setOnClickListener(new View.OnClickListener() {
+			@RequiresApi(api = Build.VERSION_CODES.O)
+			@Override
+			public void onClick(View v) {
+				EditText add_city_input = (EditText)findViewById(R.id.add_city_input);
+				String location_name = add_city_input.getText().toString();
+				try {
+					Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
+					Bundle b = new Bundle();
+					b.putDouble("x", x);
+					b.putDouble("y", y);
+					b.putString("location_name", default_location_name);
+					b.putInt("update_time", update_time);
+					try {
+						WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, PreferencesActivity.this, true);
+						communication.execute();
+						if (communication.get() != null) {
+							communication.createFile(communication.get(), PreferencesActivity.this);
+						} else {
+							Toast.makeText(PreferencesActivity.this, "Couldn't add city", Toast.LENGTH_LONG).show();
+						}
+					} catch (Exception e) {
+							e.printStackTrace();
+							Toast.makeText(PreferencesActivity.this, "Couldn't add city", Toast.LENGTH_LONG).show();
+					}
+					intent.putExtras(b);
+					startActivity(intent);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+
+		Button remove_city_button = findViewById(R.id.remove_city_button);
+		remove_city_button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				File f = new File(getCacheDir().toString() + "/AstroWeather");
+				String[] pathnames;
+				pathnames = f.list();
+				for (String pathname : pathnames) {
+					String fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
+					File fileToDelete = new File(fullFilePath);
+					fileToDelete.delete();
+				}
+				final AlertDialog.Builder dialog = new AlertDialog.Builder(PreferencesActivity.this);
+				dialog.setTitle("Deleted");
+				dialog.setMessage("All locations on the list were deleted");
+				dialog.show();
 			}
 		});
 

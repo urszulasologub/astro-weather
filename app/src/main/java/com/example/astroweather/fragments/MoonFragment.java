@@ -1,12 +1,10 @@
-package com.example.astroweather;
+package com.example.astroweather.fragments;
 
-import android.annotation.SuppressLint;
 //import android.app.Fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +12,9 @@ import android.widget.TextView;
 
 import com.astrocalculator.AstroCalculator;
 import com.astrocalculator.AstroDateTime;
+import com.example.astroweather.R;
 
-import org.w3c.dom.Text;
-
-import java.util.Calendar;
 import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 
 import static com.example.astroweather.DateTimeUtils.formatDate;
 import static com.example.astroweather.DateTimeUtils.formatTime;
