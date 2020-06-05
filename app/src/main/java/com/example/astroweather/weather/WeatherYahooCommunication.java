@@ -79,7 +79,7 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 	}
 
 
-	public String updateFile(String jsonContent, Activity activity) throws Exception {
+	public String updateFile(String filename, String jsonContent, Activity activity) throws Exception {
 		JSONObject object = new JSONObject(jsonContent);
 		if (isCelsius)
 			object.put("unit", "c");
@@ -87,9 +87,6 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 			object.put("unit", "f");
 		JSONObject locationObject = object.getJSONObject("location");
 		String location_name = locationObject.get("city").toString();
-		String filename = location_name.toLowerCase().replaceAll("\\s","");
-		if (this.location.equals("default.json"))
-			filename = this.location;
 		String filepath = activity.getCacheDir().toString() + "/AstroWeather/" + filename;
 		File f = new File(filepath);
 		if (f.exists()) {
@@ -98,7 +95,7 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 			out.close();
 			return location_name;
 		}
-		throw new RuntimeException("File " + filename + "does not exists");
+		throw new RuntimeException("File " + filepath + " does not exists");
 	}
 
 

@@ -2,6 +2,7 @@ package com.example.astroweather.weather;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
@@ -43,7 +44,8 @@ public class UpdateWeatherFiles extends Thread {
 					if (!pathname.equals("default.json"))
 						yahooCommunication = new WeatherYahooCommunication(pathname, activity, isCelsius);
 					else {
-						String content = new String(Files.readAllBytes(Paths.get(pathname)));
+						System.out.println("full path: " + fullFilePath);
+						String content = new String(Files.readAllBytes(Paths.get(fullFilePath)));
 						JSONObject jsonObject = new JSONObject(content);
 						JSONObject locationObject = jsonObject.getJSONObject("location");
 						yahooCommunication = new WeatherYahooCommunication(locationObject.get("city").toString(), activity, isCelsius);
@@ -51,7 +53,7 @@ public class UpdateWeatherFiles extends Thread {
 					yahooCommunication.execute();
 					System.out.println("Execution");
 					if (yahooCommunication.get() != null) {
-						yahooCommunication.updateFile(yahooCommunication.get(), activity);
+						yahooCommunication.updateFile(pathname, yahooCommunication.get(), activity);
 					}
 					System.out.println("Executed");
 				}
