@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.astroweather.R;
 import com.example.astroweather.fragments.WeatherFragment;
 import com.example.astroweather.weather.WeatherYahooCommunication;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

@@ -10,15 +10,51 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.astroweather.activities.FragmentView;
+import com.example.astroweather.activities.PreferencesActivity;
+import com.example.astroweather.fragments.WeatherFragment;
 import com.example.astroweather.weather.UpdateWeatherFiles;
+import com.example.astroweather.weather.WeatherYahooCommunication;
+
+import org.json.JSONObject;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 
 public class MainActivity extends AppCompatActivity {
     private Double x;
     private Double y;
+    private String location_name;
     private int default_update_time = 15 * 60;
+
+
+
+    public void createDefaultData(String location_name) throws Exception {
+        WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, this, true);
+        communication.execute();
+        if (communication.get() != null) {
+            try {
+                String content = communication.get();
+                communication.createFile(content, this);
+                JSONObject jsonObject = new JSONObject(content);
+                JSONObject locationObject = jsonObject.getJSONObject("location");
+                x = Double.parseDouble(locationObject.get("lat").toString());
+                y = Double.parseDouble(locationObject.get("long").toString());
+                location_name = locationObject.get("city").toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Couldn't connect Internet. Default data is set to Lodz", Toast.LENGTH_LONG).show();
+                x = 51.76174;
+                y = 19.46801;
+                location_name = "Lodz";
+            }
+        }
+    }
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -28,30 +64,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final AlertDialog.Builder about_dialog = new AlertDialog.Builder(this);
         about_dialog.setTitle("Incorrect input");
-        about_dialog.setMessage("Entered incorrect coords");
+        about_dialog.setMessage("City name is not valid");
         Button ok_button = (Button)findViewById(R.id.ok_button);
         ok_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText x_input = (EditText)findViewById(R.id.x_input);
-                EditText y_input = (EditText)findViewById(R.id.y_input);
+                EditText location_input = (EditText)findViewById(R.id.location_input);
+                String location = location_input.getText().toString();
                 try {
-                    x = Double.parseDouble(x_input.getText().toString());
-                    y = Double.parseDouble(y_input.getText().toString());
-                    if (x < -90 || x > 90 || y < -180 || y > 180) {
-                        about_dialog.show();
-                    } else {
-                        Intent intent = new Intent(MainActivity.this, FragmentView.class);
-                        Bundle b = new Bundle();
-                        b.putDouble("x", x);
-                        b.putDouble("y", y);
-                        b.putInt("update_time", default_update_time);
-                        intent.putExtras(b);
-                        startActivity(intent);
-                        finish();
-                    }
+                    createDefaultData(location);
+                    Intent intent = new Intent(MainActivity.this, FragmentView.class);
+                    Bundle b = new Bundle();
+                    b.putDouble("x", x);
+                    b.putDouble("y", y);
+                    b.putString("location_name", location_name);
+                    b.putInt("update_time", default_update_time);
+                    intent.putExtras(b);
+                    startActivity(intent);
+                    finish();
                 } catch (Exception e) {
                     about_dialog.show();
+                    e.printStackTrace();
                 }
             }
         });

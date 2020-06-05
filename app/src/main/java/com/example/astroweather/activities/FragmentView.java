@@ -59,6 +59,18 @@ public class FragmentView extends AppCompatActivity {
 	ViewPagerAdapter adapter;
 
 
+	//TODO: set main location
+	//TODO: handle empty list (default values maybe?)
+	//TODO: let user change main location
+	//TODO: let user remove things
+	//TODO: add to preferences menu option to choose degrees (Celsius or Fahrenheit)
+	//TODO: add details about weather (icons maybe?)
+	//TODO: refresh date depending on date in json file
+	//TODO: add refresh data button
+	//TODO: recreate new layouts
+
+
+
 	public void createDataFromAstroDirectory() {
 		File f = new File(getCacheDir().toString() + "/AstroWeather");
 		String[] pathnames;
