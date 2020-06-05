@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.astroweather.activities.FragmentView;
@@ -46,10 +47,21 @@ public class MainActivity extends AppCompatActivity {
 				y = Double.parseDouble(locationObject.get("long").toString());
 				this.location_name = locationObject.get("city").toString();
 			} else {
-				Toast.makeText(this, "Couldn't connect Internet. Default data is set to Lodz. Weather may be outdated", Toast.LENGTH_LONG).show();
-				x = 51.76174;
-				y = 19.46801;
-				this.location_name = "Lodz";
+				try {
+					String content = new String(Files.readAllBytes(Paths.get(getCacheDir().toString() + "/AstroWeather/default.json")));
+					JSONObject json_object = new JSONObject(content);
+					JSONObject locationObject = json_object.getJSONObject("location");
+					Toast.makeText(this, "Couldn't connect Internet. Weather may be outdated", Toast.LENGTH_LONG).show();
+					this.location_name = locationObject.get("city").toString() + ", " + locationObject.get("country");
+					this.x = Double.parseDouble(locationObject.get("lat").toString());
+					this.y = Double.parseDouble(locationObject.get("long").toString());
+				} catch (Exception e) {
+					e.printStackTrace();
+					Toast.makeText(this, "Couldn't connect Internet. Default data is set to Lodz. Weather may be outdated", Toast.LENGTH_LONG).show();
+					this.x = 51.76174;
+					this.y = 19.46801;
+					this.location_name = "Lodz";
+				}
 			}
 		} catch (Exception e) {
 			throw new Exception(e);

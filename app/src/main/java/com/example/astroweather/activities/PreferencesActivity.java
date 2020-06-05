@@ -49,6 +49,7 @@ public class PreferencesActivity extends AppCompatActivity {
 		}
 		return key;
 	}
+	//TODO: handle default.json
 
 
 	public void createDefaultData(String location_name) throws Exception {
@@ -198,9 +199,11 @@ public class PreferencesActivity extends AppCompatActivity {
 				String[] pathnames;
 				pathnames = f.list();
 				for (String pathname : pathnames) {
-					String fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
-					File fileToDelete = new File(fullFilePath);
-					fileToDelete.delete();
+					if (!pathname.equals("default.json")) {
+						String fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
+						File fileToDelete = new File(fullFilePath);
+						fileToDelete.delete();
+					}
 				}
 				Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
 				Bundle b = new Bundle();
