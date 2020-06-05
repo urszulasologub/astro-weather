@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-	public void createDefaultData(String location_name) {
+	public void createDefaultData(String location_name) throws Exception {
 		try {
 			WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, this, true);
 			communication.execute();
@@ -52,11 +52,7 @@ public class MainActivity extends AppCompatActivity {
 				this.location_name = "Lodz";
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			Toast.makeText(this, "Couldn't connect Internet. Default data is set to Lodz. Weather may be outdated", Toast.LENGTH_LONG).show();
-			x = 51.76174;
-			y = 19.46801;
-			this.location_name = "Lodz";
+			throw new Exception(e);
 		}
 	}
 

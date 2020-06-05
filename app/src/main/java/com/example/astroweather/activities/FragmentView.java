@@ -60,12 +60,11 @@ public class FragmentView extends AppCompatActivity {
 	private String default_location_name;
 
 
-	//TODO: handle empty list (default values maybe?)
 	//TODO: let user change main location
 	//TODO: let user remove things
 	//TODO: add to preferences menu option to choose degrees (Celsius or Fahrenheit)
 	//TODO: add details about weather (icons maybe?)
-	//TODO: refresh date depending on date in json file
+	//TODO: refresh date depending on date in json file or refresh time
 	//TODO: add refresh data button
 	//TODO: recreate new layouts
 
