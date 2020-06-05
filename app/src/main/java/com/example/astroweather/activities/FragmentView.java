@@ -59,9 +59,10 @@ public class FragmentView extends AppCompatActivity {
 	ViewPagerAdapter adapter;
 	private String default_location_name;
 	private Boolean isCelsius = true;
-	public Boolean shouldUpdate = false;
 	private UpdateWeatherFiles update;
 
+	public Boolean shouldUpdate = false;
+	public Boolean shouldRefreshFragments = false;
 
 	//TODO: add details about weather (icons maybe?)
 	//TODO: refresh date depending on date in json file or refresh time
@@ -219,8 +220,6 @@ public class FragmentView extends AppCompatActivity {
 				moon_fragment.calculate(day, month, year, hour, minute, second);
 			}
 		}
-
-
 		createDataFromAstroDirectory();
 	}
 
@@ -254,6 +253,11 @@ public class FragmentView extends AppCompatActivity {
 										}
 									} catch (Exception e) {
 									}
+								}
+								if (shouldRefreshFragments) {
+									shouldRefreshFragments = false;
+									updateDataFromAstroDirectory();
+									Toast.makeText(FragmentView.this, "Data has been updated", Toast.LENGTH_LONG).show();
 								}
 							}
 						});

@@ -41,7 +41,7 @@ public class WeatherMainFragment extends WeatherFragment {
 
 
 	@Override
-	void updateTextViews() throws JSONException {
+	public void updateTextViews() throws JSONException {
 		JSONObject locationObject = json_object.getJSONObject("location");
 
 		city_name = locationObject.get("city").toString();

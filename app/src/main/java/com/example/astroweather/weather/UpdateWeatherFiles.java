@@ -44,25 +44,21 @@ public class UpdateWeatherFiles extends Thread {
 					if (!pathname.equals("default.json"))
 						yahooCommunication = new WeatherYahooCommunication(pathname, activity, isCelsius);
 					else {
-						System.out.println("full path: " + fullFilePath);
 						String content = new String(Files.readAllBytes(Paths.get(fullFilePath)));
 						JSONObject jsonObject = new JSONObject(content);
 						JSONObject locationObject = jsonObject.getJSONObject("location");
 						yahooCommunication = new WeatherYahooCommunication(locationObject.get("city").toString(), activity, isCelsius);
 					}
 					yahooCommunication.execute();
-					System.out.println("Execution");
 					if (yahooCommunication.get() != null) {
 						yahooCommunication.updateFile(pathname, yahooCommunication.get(), activity);
 					}
-					System.out.println("Executed");
 				}
 			} catch (Exception e) {
-				System.out.println("Couldn't execute");
 				e.printStackTrace();
 			}
 		}
-		activity.updateDataFromAstroDirectory();
+		activity.shouldRefreshFragments = true;
 	}
 
 
