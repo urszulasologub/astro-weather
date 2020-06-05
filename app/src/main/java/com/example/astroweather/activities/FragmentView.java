@@ -57,9 +57,9 @@ public class FragmentView extends AppCompatActivity {
 	private File astroDirectory = null;
 	ViewPager view_pager;
 	ViewPagerAdapter adapter;
+	private String default_location_name;
 
 
-	//TODO: set main location
 	//TODO: handle empty list (default values maybe?)
 	//TODO: let user change main location
 	//TODO: let user remove things
@@ -156,12 +156,11 @@ public class FragmentView extends AppCompatActivity {
 		Intent this_intent = getIntent();
 		x = this_intent.getDoubleExtra("x", 0);
 		y = this_intent.getDoubleExtra("y", 0);
+		default_location_name = this_intent.getStringExtra("location_name");
 		update_time = this_intent.getIntExtra("update_time", 15 * 60);
 
-		TextView x_label = (TextView)findViewById(R.id.x_label);
-		x_label.setText("x: " + Double.toString(x));
-		TextView y_label = (TextView)findViewById(R.id.y_label);
-		y_label.setText("y: " + Double.toString(y));
+		TextView location_label = findViewById(R.id.location_name_label);
+		location_label.setText(default_location_name);
 
 		current_time = (TextView)findViewById(R.id.current_time);
 		setCurrentTime(current_time);

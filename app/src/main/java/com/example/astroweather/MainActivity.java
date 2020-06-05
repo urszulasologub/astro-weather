@@ -44,13 +44,13 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject locationObject = jsonObject.getJSONObject("location");
                 x = Double.parseDouble(locationObject.get("lat").toString());
                 y = Double.parseDouble(locationObject.get("long").toString());
-                location_name = locationObject.get("city").toString();
+                this.location_name = locationObject.get("city").toString();
             } catch (Exception e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Couldn't connect Internet. Default data is set to Lodz", Toast.LENGTH_LONG).show();
                 x = 51.76174;
                 y = 19.46801;
-                location_name = "Lodz";
+                this.location_name = "Lodz";
             }
         }
     }
@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                     Bundle b = new Bundle();
                     b.putDouble("x", x);
                     b.putDouble("y", y);
+                    System.out.println(location_name);
                     b.putString("location_name", location_name);
                     b.putInt("update_time", default_update_time);
                     intent.putExtras(b);
