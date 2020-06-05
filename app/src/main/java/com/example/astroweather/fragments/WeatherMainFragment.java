@@ -52,25 +52,25 @@ public class WeatherMainFragment extends WeatherFragment {
 		weather_condition_text.setText(condition.get("text").toString());
 
 		TextView temp = getView().findViewById(R.id.temp);
-		temp.setText(condition.get("temperature").toString() + "°");
+		temp.setText(condition.get("temperature").toString() + " " + temperature_unit);
 
 		JSONArray forecastArray = json_object.getJSONArray("forecasts");
 
 		TextView low_temp = getView().findViewById(R.id.low_temp);
-		low_temp.setText(forecastArray.getJSONObject(0).get("low").toString() + "°");
+		low_temp.setText(forecastArray.getJSONObject(0).get("low").toString() + " " + temperature_unit);
 
 		TextView high_temp = getView().findViewById(R.id.high_temp);
-		high_temp.setText(forecastArray.getJSONObject(0).get("high").toString() + "°");
+		high_temp.setText(forecastArray.getJSONObject(0).get("high").toString() + " " + temperature_unit);
 
 		JSONObject atmosphereObject = observation.getJSONObject("atmosphere");
 
 		TextView pressure_val = getView().findViewById(R.id.pressure_val);
-		pressure_val.setText(atmosphereObject.get("pressure").toString());
+		pressure_val.setText(atmosphereObject.get("pressure").toString() + pressure_unit);
 
 		JSONObject windObject = observation.getJSONObject("wind");
 
 		TextView wind_val = getView().findViewById(R.id.wind_val);
-		wind_val.setText(windObject.get("speed").toString());
+		wind_val.setText(windObject.get("speed").toString() + speed_unit);
 	}
 
 

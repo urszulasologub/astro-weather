@@ -67,7 +67,6 @@ public class FragmentView extends AppCompatActivity {
 	//TODO: add to preferences menu option to choose degrees (Celsius or Fahrenheit)
 	//TODO: add details about weather (icons maybe?)
 	//TODO: refresh date depending on date in json file or refresh time
-	//TODO: add refresh data button
 	//TODO: recreate new layouts
 
 

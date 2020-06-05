@@ -26,6 +26,23 @@ public class WeatherFragment extends Fragment {
 	String city_name = "City";
 	String filepath;
 	JSONObject json_object;
+	Boolean isMetric = true;
+	String temperature_unit = " °C";
+	String speed_unit = " km/h";
+	String pressure_unit = " hPa";
+
+
+	void setMetricUnits() {
+		temperature_unit = " °C";
+		speed_unit = " km/h";
+		pressure_unit = " hPa";
+	}
+
+	void setImperialUnits() {
+		temperature_unit = " °F";
+		speed_unit = " mph";
+		pressure_unit = " Hg";
+	}
 
 
 	public WeatherFragment(String filepath) throws Exception {
@@ -91,23 +108,23 @@ public class WeatherFragment extends Fragment {
 		TextView date5 = (TextView)getView().findViewById(R.id.date5);
 		date5.setText(clean_date5);
 
-		String clean_date1_temp = forecastArray.getJSONObject(0).get("low").toString() + "°/" + forecastArray.getJSONObject(0).get("high").toString() + "°";
+		String clean_date1_temp = forecastArray.getJSONObject(0).get("low").toString() + " / " + forecastArray.getJSONObject(0).get("high").toString() + " " + temperature_unit;
 		TextView date1_temperature = (TextView)getView().findViewById(R.id.date1_temperature);
 		date1_temperature.setText(clean_date1_temp);
 
-		String clean_date2_temp = forecastArray.getJSONObject(1).get("low").toString() + "°/" + forecastArray.getJSONObject(1).get("high").toString() + "°";
+		String clean_date2_temp = forecastArray.getJSONObject(1).get("low").toString() + " / " + forecastArray.getJSONObject(1).get("high").toString() + " " + temperature_unit;
 		TextView date2_temperature = (TextView)getView().findViewById(R.id.date2_temperature);
 		date2_temperature.setText(clean_date2_temp);
 
-		String clean_date3_temp = forecastArray.getJSONObject(2).get("low").toString() + "°/" + forecastArray.getJSONObject(2).get("high").toString() + "°";
+		String clean_date3_temp = forecastArray.getJSONObject(2).get("low").toString() + " / " + forecastArray.getJSONObject(2).get("high").toString() + " " + temperature_unit;
 		TextView date3_temperature = (TextView)getView().findViewById(R.id.date3_temperature);
 		date3_temperature.setText(clean_date3_temp);
 
-		String clean_date4_temp = forecastArray.getJSONObject(3).get("low").toString() + "°/" + forecastArray.getJSONObject(3).get("high").toString() + "°";
+		String clean_date4_temp = forecastArray.getJSONObject(3).get("low").toString() + " / " + forecastArray.getJSONObject(3).get("high").toString() + " " + temperature_unit;
 		TextView date4_temperature = (TextView)getView().findViewById(R.id.date4_temperature);
 		date4_temperature.setText(clean_date4_temp);
 
-		String clean_date5_temp = forecastArray.getJSONObject(4).get("low").toString() + "°/" + forecastArray.getJSONObject(4).get("high").toString() + "°";
+		String clean_date5_temp = forecastArray.getJSONObject(4).get("low").toString() + " / " + forecastArray.getJSONObject(4).get("high").toString() + " " + temperature_unit;
 		TextView date5_temperature = (TextView)getView().findViewById(R.id.date5_temperature);
 		date5_temperature.setText(clean_date5_temp);
 	}
