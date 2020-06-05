@@ -157,6 +157,8 @@ public class FragmentView extends AppCompatActivity {
 		shouldUpdate = this_intent.getBooleanExtra("should_update", false);
 		default_location_name = this_intent.getStringExtra("location_name");
 		update_time = this_intent.getIntExtra("update_time", 15 * 60);
+		isCelsius = this_intent.getBooleanExtra("isCelsius", true);
+		System.out.println("FragmentView isCelsius: " + isCelsius.toString());
 
 		TextView location_label = findViewById(R.id.location_name_label);
 		location_label.setText(default_location_name);
@@ -175,6 +177,7 @@ public class FragmentView extends AppCompatActivity {
 					b.putDouble("y", y);
 					b.putInt("update_time", update_time);
 					b.putString("location_name", default_location_name);
+					b.putBoolean("isCelsius", isCelsius);
 					intent.putExtras(b);
 					startActivity(intent);
 					finish();

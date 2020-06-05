@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -83,6 +84,7 @@ public class PreferencesActivity extends AppCompatActivity {
 		y = this_intent.getDoubleExtra("y", 0);
 		default_location_name = this_intent.getStringExtra("location_name");
 		update_time = this_intent.getIntExtra("update_time", 15 * 60);
+		isCelsius = this_intent.getBooleanExtra("isCelsius", isCelsius);
 
 		final Spinner spinner = (Spinner)findViewById(R.id.time_spinner);
 
@@ -130,24 +132,28 @@ public class PreferencesActivity extends AppCompatActivity {
 		dialog.setTitle("Incorrect input");
 		dialog.setMessage("Entered incorrect data");
 
+		Switch units_switch = findViewById(R.id.units_switch);
+		units_switch.setChecked(!isCelsius);
+
 		Button ok_button_p = findViewById(R.id.ok_button);
 		ok_button_p.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				update_time = getKeyFromValue((String) spinner.getSelectedItem());
-				update_time = getKeyFromValue((String) spinner.getSelectedItem());
+				//update_time = getKeyFromValue((String) spinner.getSelectedItem());
 				EditText location_input = (EditText) findViewById(R.id.location_input);
 				if (!location_input.getText().toString().equals(default_location_name)) {
 					String location = location_input.getText().toString().toString().toLowerCase().replaceAll("\\s", "_");
 					try {
 						createDefaultData(location);
 						Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
+						isCelsius = !units_switch.isChecked();
 						Bundle b = new Bundle();
 						b.putDouble("x", x);
 						b.putDouble("y", y);
-						System.out.println(default_location_name);
 						b.putString("location_name", default_location_name);
 						b.putInt("update_time", update_time);
+						b.putBoolean("isCelsius", isCelsius);
 						intent.putExtras(b);
 						startActivity(intent);
 						finish();
@@ -158,10 +164,12 @@ public class PreferencesActivity extends AppCompatActivity {
 				} else {
 					Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
 					Bundle b = new Bundle();
+					isCelsius = !units_switch.isChecked();
 					b.putDouble("x", x);
 					b.putDouble("y", y);
 					b.putString("location_name", default_location_name);
 					b.putInt("update_time", update_time);
+					b.putBoolean("isCelsius", isCelsius);
 					intent.putExtras(b);
 					startActivity(intent);
 					finish();
@@ -183,6 +191,7 @@ public class PreferencesActivity extends AppCompatActivity {
 					b.putDouble("y", y);
 					b.putString("location_name", default_location_name);
 					b.putInt("update_time", update_time);
+					b.putBoolean("isCelsius", isCelsius);
 					try {
 						WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, PreferencesActivity.this, isCelsius);
 						communication.execute();
@@ -193,7 +202,7 @@ public class PreferencesActivity extends AppCompatActivity {
 						}
 					} catch (Exception e) {
 							e.printStackTrace();
-							Toast.makeText(PreferencesActivity.this, "Couldn't add city", Toast.LENGTH_LONG).show();
+							Toast.makeText(PreferencesActivity.this, "An error occured", Toast.LENGTH_LONG).show();
 					}
 					intent.putExtras(b);
 					startActivity(intent);
@@ -225,6 +234,7 @@ public class PreferencesActivity extends AppCompatActivity {
 				b.putDouble("y", y);
 				b.putString("location_name", default_location_name);
 				b.putInt("update_time", update_time);
+				b.putBoolean("isCelsius", isCelsius);
 				intent.putExtras(b);
 				startActivity(intent);
 				Toast.makeText(PreferencesActivity.this, "Deleted all cities", Toast.LENGTH_LONG).show();
@@ -242,6 +252,7 @@ public class PreferencesActivity extends AppCompatActivity {
 				b.putDouble("y", y);
 				b.putString("location_name", default_location_name);
 				b.putInt("update_time", update_time);
+				b.putBoolean("isCelsius", isCelsius);
 				intent.putExtras(b);
 				startActivity(intent);
 				finish();
@@ -255,14 +266,13 @@ public class PreferencesActivity extends AppCompatActivity {
 			public void onClick(View v) {
 				Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
 				Bundle b = new Bundle();
-				//UpdateWeatherFiles update = new UpdateWeatherFiles(PreferencesActivity.this, isCelsius);
-				//update.start();
 				Toast.makeText(PreferencesActivity.this, "Weather is being updated", Toast.LENGTH_LONG).show();
 				b.putDouble("x", x);
 				b.putDouble("y", y);
 				b.putString("location_name", default_location_name);
 				b.putInt("update_time", update_time);
 				b.putBoolean("should_update", true);
+				b.putBoolean("isCelsius", isCelsius);
 				intent.putExtras(b);
 				startActivity(intent);
 				finish();
