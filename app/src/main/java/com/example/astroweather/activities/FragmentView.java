@@ -175,6 +175,7 @@ public class FragmentView extends AppCompatActivity {
 					b.putDouble("x", x);
 					b.putDouble("y", y);
 					b.putInt("update_time", update_time);
+					b.putString("location_name", default_location_name);
 					intent.putExtras(b);
 					startActivity(intent);
 					finish();

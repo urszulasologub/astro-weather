@@ -35,6 +35,7 @@ public class PreferencesActivity extends AppCompatActivity {
 	private Double x;
 	private Double y;
 	private int update_time;
+	private String default_location_name;
 	private final Map<Integer, String> spinner_dictionary = new HashMap<Integer, String>();
 
 	private Integer getKeyFromValue(String value) {
@@ -55,6 +56,7 @@ public class PreferencesActivity extends AppCompatActivity {
 		Intent this_intent = getIntent();
 		x = this_intent.getDoubleExtra("x", 0);
 		y = this_intent.getDoubleExtra("y", 0);
+		default_location_name = this_intent.getStringExtra("location_name");
 		update_time = this_intent.getIntExtra("update_time", 15 * 60);
 
 		final Spinner spinner = (Spinner)findViewById(R.id.time_spinner);
@@ -97,6 +99,7 @@ public class PreferencesActivity extends AppCompatActivity {
 		});
 
 
+		//TODO: remove coords, add name
 		EditText x_input = (EditText)findViewById(R.id.x_input);
 		x_input.setText(x.toString());
 		EditText y_input = (EditText)findViewById(R.id.y_input);
@@ -123,6 +126,7 @@ public class PreferencesActivity extends AppCompatActivity {
 						b.putDouble("x", x);
 						b.putDouble("y", y);
 						b.putInt("update_time", update_time);
+						b.putString("location_name", default_location_name);
 						intent.putExtras(b);
 						startActivity(intent);
 						finish();
@@ -145,16 +149,19 @@ public class PreferencesActivity extends AppCompatActivity {
 					Bundle b = new Bundle();
 					b.putDouble("x", x);
 					b.putDouble("y", y);
+					b.putString("location_name", default_location_name);
 					b.putInt("update_time", update_time);
-					WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, PreferencesActivity.this, true);
-					communication.execute();
-					if (communication.get() != null) {
-						try {
+					try {
+						WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, PreferencesActivity.this, true);
+						communication.execute();
+						if (communication.get() != null) {
 							communication.createFile(communication.get(), PreferencesActivity.this);
-						} catch (Exception e) {
-							e.printStackTrace();
+						} else {
 							Toast.makeText(PreferencesActivity.this, "Couldn't add city", Toast.LENGTH_LONG).show();
 						}
+					} catch (Exception e) {
+							e.printStackTrace();
+							Toast.makeText(PreferencesActivity.this, "Couldn't add city", Toast.LENGTH_LONG).show();
 					}
 					intent.putExtras(b);
 					startActivity(intent);

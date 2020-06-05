@@ -91,8 +91,8 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 
 
 	protected void onPostExecute(String result) {
-		if (result == null)
-			Toast.makeText(mainActivity, "Couldn't download city info. Data may be outdated", Toast.LENGTH_LONG).show();
+		//if (result == null)
+		//	Toast.makeText(mainActivity, "Couldn't download city info. Data may be outdated", Toast.LENGTH_LONG).show();
 	}
 
 
