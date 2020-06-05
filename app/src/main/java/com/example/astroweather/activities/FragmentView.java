@@ -61,7 +61,6 @@ public class FragmentView extends AppCompatActivity {
 	private String default_location_name;
 
 
-	//TODO: let user remove things
 	//TODO: add to preferences menu option to choose degrees (Celsius or Fahrenheit)
 	//TODO: add details about weather (icons maybe?)
 	//TODO: refresh date depending on date in json file or refresh time
@@ -205,7 +204,7 @@ public class FragmentView extends AppCompatActivity {
 		view_pager = findViewById(R.id.view_pager);
 		adapter = null;
 		if (view_pager != null) {
-			adapter = new ViewPagerAdapter(getSupportFragmentManager());
+			adapter = new ViewPagerAdapter(getSupportFragmentManager(), getCacheDir().toString() + "/AstroWeather/default.json");
 			view_pager.setAdapter(adapter);
 			sun_fragment = (SunFragment)adapter.instantiateItem(view_pager, 0);
 			if (sun_fragment != null) {

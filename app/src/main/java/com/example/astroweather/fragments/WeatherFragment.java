@@ -27,9 +27,6 @@ public class WeatherFragment extends Fragment {
 	String filepath;
 	JSONObject json_object;
 
-	/*public WeatherFragment(JSONObject json_object) {
-		this.json_object = json_object;
-	}*/
 
 	public WeatherFragment(String filepath) throws Exception {
 		this.filepath = filepath;

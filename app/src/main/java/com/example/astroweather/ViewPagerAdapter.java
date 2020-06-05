@@ -10,7 +10,9 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import com.example.astroweather.fragments.MoonFragment;
 import com.example.astroweather.fragments.SunFragment;
 import com.example.astroweather.fragments.WeatherFragment;
+import com.example.astroweather.fragments.WeatherMainFragment;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +21,21 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
 	private SunFragment sun_fragment = new SunFragment();
 	private MoonFragment moon_fragment = new MoonFragment();
+	private WeatherMainFragment main_weather_fragment;
 	private List<Fragment> fragmentList = new ArrayList<>();
 	private List<WeatherFragment> weatherFragments = new ArrayList<>();
 
 
-	public ViewPagerAdapter(FragmentManager fm) {
+	public ViewPagerAdapter(FragmentManager fm, String default_location_path)  {
 		super(fm);
 		fragmentList.add(sun_fragment);
 		fragmentList.add(moon_fragment);
+		try {
+			main_weather_fragment = new WeatherMainFragment(default_location_path);
+			fragmentList.add(main_weather_fragment);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 
