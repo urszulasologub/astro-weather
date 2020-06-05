@@ -221,6 +221,7 @@ public class FragmentView extends AppCompatActivity {
 			}
 		}
 
+
 		astroDirectory = new File(getCacheDir(),"AstroWeather");
 		if (!astroDirectory.exists())
 			astroDirectory.mkdirs();

@@ -183,6 +183,7 @@ public class PreferencesActivity extends AppCompatActivity {
 					}
 					intent.putExtras(b);
 					startActivity(intent);
+					finish();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -201,10 +202,16 @@ public class PreferencesActivity extends AppCompatActivity {
 					File fileToDelete = new File(fullFilePath);
 					fileToDelete.delete();
 				}
-				final AlertDialog.Builder dialog = new AlertDialog.Builder(PreferencesActivity.this);
-				dialog.setTitle("Deleted");
-				dialog.setMessage("All locations on the list were deleted");
-				dialog.show();
+				Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
+				Bundle b = new Bundle();
+				b.putDouble("x", x);
+				b.putDouble("y", y);
+				b.putString("location_name", default_location_name);
+				b.putInt("update_time", update_time);
+				intent.putExtras(b);
+				startActivity(intent);
+				Toast.makeText(PreferencesActivity.this, "Deleted all cities", Toast.LENGTH_LONG).show();
+				finish();
 			}
 		});
 

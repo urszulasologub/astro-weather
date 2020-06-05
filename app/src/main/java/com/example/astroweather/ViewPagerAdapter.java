@@ -30,6 +30,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 	}
 
 
+
 	public void addNewWeatherFragment(WeatherFragment fragment) {
 		fragmentList.add(fragment);
 		weatherFragments.add(fragment);

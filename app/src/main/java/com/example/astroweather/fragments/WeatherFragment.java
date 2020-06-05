@@ -9,12 +9,14 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.example.astroweather.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -39,6 +41,7 @@ public class WeatherFragment extends Fragment {
 		String content = new String(Files.readAllBytes(Paths.get(this.filepath)));
 		json_object = new JSONObject(content);
 	}
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
