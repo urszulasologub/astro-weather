@@ -158,7 +158,6 @@ public class FragmentView extends AppCompatActivity {
 		default_location_name = this_intent.getStringExtra("location_name");
 		update_time = this_intent.getIntExtra("update_time", 15 * 60);
 		isCelsius = this_intent.getBooleanExtra("isCelsius", true);
-		System.out.println("FragmentView isCelsius: " + isCelsius.toString());
 
 		TextView location_label = findViewById(R.id.location_name_label);
 		location_label.setText(default_location_name);
@@ -276,6 +275,7 @@ public class FragmentView extends AppCompatActivity {
 		if (shouldUpdate) {
 			update = new UpdateWeatherFiles(this, isCelsius);
 			update.start();
+			shouldUpdate = false;
 		}
 
 	}

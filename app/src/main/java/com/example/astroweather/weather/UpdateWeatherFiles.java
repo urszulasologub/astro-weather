@@ -36,7 +36,7 @@ public class UpdateWeatherFiles extends Thread {
 			String fullFilePath = null;
 			try {
 				fullFilePath = activity.getCacheDir().toString() + "/AstroWeather/" + pathname;
-				System.out.println("File to update: " + fullFilePath.toString());
+				System.out.println("File to update: " + fullFilePath);
 				File fp = new File(fullFilePath);
 				if (fp.exists()) {
 					WeatherYahooCommunication yahooCommunication = new WeatherYahooCommunication(pathname, activity, isCelsius);

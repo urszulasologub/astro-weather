@@ -42,6 +42,7 @@ public class PreferencesActivity extends AppCompatActivity {
 	private String default_location_name;
 	private final Map<Integer, String> spinner_dictionary = new HashMap<Integer, String>();
 	private Boolean isCelsius = true;
+	private Boolean shouldUpdate = false;
 
 	private Integer getKeyFromValue(String value) {
 		Integer key = null;
@@ -139,6 +140,7 @@ public class PreferencesActivity extends AppCompatActivity {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				isCelsius = !units_switch.isChecked();
+				shouldUpdate = true;
 			}
 		});
 
@@ -160,6 +162,7 @@ public class PreferencesActivity extends AppCompatActivity {
 						b.putString("location_name", default_location_name);
 						b.putInt("update_time", update_time);
 						b.putBoolean("isCelsius", isCelsius);
+						b.putBoolean("should_update", shouldUpdate);
 						intent.putExtras(b);
 						startActivity(intent);
 						finish();
@@ -175,6 +178,7 @@ public class PreferencesActivity extends AppCompatActivity {
 					b.putString("location_name", default_location_name);
 					b.putInt("update_time", update_time);
 					b.putBoolean("isCelsius", isCelsius);
+					b.putBoolean("should_update", shouldUpdate);
 					intent.putExtras(b);
 					startActivity(intent);
 					finish();
@@ -197,6 +201,7 @@ public class PreferencesActivity extends AppCompatActivity {
 					b.putString("location_name", default_location_name);
 					b.putInt("update_time", update_time);
 					b.putBoolean("isCelsius", isCelsius);
+					b.putBoolean("should_update", shouldUpdate);
 					try {
 						WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, PreferencesActivity.this, isCelsius);
 						communication.execute();
@@ -226,7 +231,7 @@ public class PreferencesActivity extends AppCompatActivity {
 				String[] pathnames;
 				pathnames = f.list();
 				for (String pathname : pathnames) {
-					if (!pathname.equals("default.json") && !pathname.equals("config.json")) {
+					if (!pathname.equals("default.json")) {
 						System.out.println("File to remove: " + getCacheDir().toString() + "/AstroWeather/" + pathname);
 						String fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
 						File fileToDelete = new File(fullFilePath);
@@ -240,6 +245,7 @@ public class PreferencesActivity extends AppCompatActivity {
 				b.putString("location_name", default_location_name);
 				b.putInt("update_time", update_time);
 				b.putBoolean("isCelsius", isCelsius);
+				b.putBoolean("should_update", shouldUpdate);
 				intent.putExtras(b);
 				startActivity(intent);
 				Toast.makeText(PreferencesActivity.this, "Deleted all cities", Toast.LENGTH_LONG).show();
@@ -258,6 +264,7 @@ public class PreferencesActivity extends AppCompatActivity {
 				b.putString("location_name", default_location_name);
 				b.putInt("update_time", update_time);
 				b.putBoolean("isCelsius", isCelsius);
+				b.putBoolean("should_update", shouldUpdate);
 				intent.putExtras(b);
 				startActivity(intent);
 				finish();
