@@ -49,7 +49,6 @@ public class PreferencesActivity extends AppCompatActivity {
 		}
 		return key;
 	}
-	//TODO: handle default.json
 
 
 	public void createDefaultData(String location_name) throws Exception {
@@ -58,12 +57,12 @@ public class PreferencesActivity extends AppCompatActivity {
 			communication.execute();
 			if (communication.get() != null) {
 				String content = communication.get();
-				communication.createFile(content, this);
 				JSONObject jsonObject = new JSONObject(content);
 				JSONObject locationObject = jsonObject.getJSONObject("location");
 				x = Double.parseDouble(locationObject.get("lat").toString());
 				y = Double.parseDouble(locationObject.get("long").toString());
 				default_location_name = locationObject.get("city").toString();
+				communication.createMainFile(content, this);
 			} else {
 				Toast.makeText(this, "Couldn't update data", Toast.LENGTH_LONG).show();
 			}
