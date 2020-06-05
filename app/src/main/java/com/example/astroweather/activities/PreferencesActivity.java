@@ -212,6 +212,7 @@ public class PreferencesActivity extends AppCompatActivity {
 				pathnames = f.list();
 				for (String pathname : pathnames) {
 					if (!pathname.equals("default.json") && !pathname.equals("config.json")) {
+						System.out.println("File to remove: " + getCacheDir().toString() + "/AstroWeather/" + pathname);
 						String fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
 						File fileToDelete = new File(fullFilePath);
 						fileToDelete.delete();

@@ -35,6 +35,7 @@ public class WeatherFragment extends Fragment {
 	}
 
 	public void update() throws Exception {
+		System.out.println(this.filepath);
 		String content = new String(Files.readAllBytes(Paths.get(this.filepath)));
 		json_object = new JSONObject(content);
 	}

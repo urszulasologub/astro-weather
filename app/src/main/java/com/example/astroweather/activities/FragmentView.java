@@ -224,7 +224,8 @@ public class FragmentView extends AppCompatActivity {
 		if (!astroDirectory.exists())
 			astroDirectory.mkdirs();
 
-		new UpdateWeatherFiles(this, isCelsius).start();
+		UpdateWeatherFiles update = new UpdateWeatherFiles(this, isCelsius);
+		update.start();
 
 		createDataFromAstroDirectory();
 
@@ -249,7 +250,6 @@ public class FragmentView extends AppCompatActivity {
 								if (elapsed_seconds >= update_time) {
 									elapsed_seconds = 0;
 									updateDateTime();
-									//new UpdateWeatherFiles(FragmentView.this, true).start();
 									try {
 										if (moon_fragment != null) {
 											moon_fragment.calculate(day, month, year, hour, minute, second);
