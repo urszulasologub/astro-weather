@@ -38,6 +38,7 @@ public class PreferencesActivity extends AppCompatActivity {
 	private int update_time;
 	private String default_location_name;
 	private final Map<Integer, String> spinner_dictionary = new HashMap<Integer, String>();
+	private Boolean isCelsius = true;
 
 	private Integer getKeyFromValue(String value) {
 		Integer key = null;
@@ -182,7 +183,7 @@ public class PreferencesActivity extends AppCompatActivity {
 					b.putString("location_name", default_location_name);
 					b.putInt("update_time", update_time);
 					try {
-						WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, PreferencesActivity.this, true);
+						WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, PreferencesActivity.this, isCelsius);
 						communication.execute();
 						if (communication.get() != null) {
 							communication.createFile(communication.get(), PreferencesActivity.this);
@@ -210,7 +211,7 @@ public class PreferencesActivity extends AppCompatActivity {
 				String[] pathnames;
 				pathnames = f.list();
 				for (String pathname : pathnames) {
-					if (!pathname.equals("default.json")) {
+					if (!pathname.equals("default.json") && !pathname.equals("config.json")) {
 						String fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
 						File fileToDelete = new File(fullFilePath);
 						fileToDelete.delete();

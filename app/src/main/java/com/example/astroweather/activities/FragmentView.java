@@ -59,6 +59,7 @@ public class FragmentView extends AppCompatActivity {
 	ViewPager view_pager;
 	ViewPagerAdapter adapter;
 	private String default_location_name;
+	private Boolean isCelsius = true;
 
 
 	//TODO: add to preferences menu option to choose degrees (Celsius or Fahrenheit)
@@ -75,17 +76,13 @@ public class FragmentView extends AppCompatActivity {
 		pathnames = f.list();
 		for (String pathname : pathnames) {
 			String fullFilePath = null;
-			if (!pathname.equals("default.json")) {
+			if (!pathname.equals("default.json") && !pathname.equals("config.json")) {
 				try {
 					fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
 					WeatherFragment weather_fragment = new WeatherFragment(fullFilePath);
 					adapter.addNewWeatherFragment(weather_fragment);
 					view_pager.setAdapter(adapter);
 				} catch (Exception e) {
-				/*if (fullFilePath != null) {
-					File fileToDelete = new File(fullFilePath);
-					fileToDelete.delete();
-				}*/
 					e.printStackTrace();
 				}
 			}
@@ -227,7 +224,7 @@ public class FragmentView extends AppCompatActivity {
 		if (!astroDirectory.exists())
 			astroDirectory.mkdirs();
 
-		new UpdateWeatherFiles(this, true).start();
+		new UpdateWeatherFiles(this, isCelsius).start();
 
 		createDataFromAstroDirectory();
 
