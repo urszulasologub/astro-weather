@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -134,6 +135,12 @@ public class PreferencesActivity extends AppCompatActivity {
 
 		Switch units_switch = findViewById(R.id.units_switch);
 		units_switch.setChecked(!isCelsius);
+		units_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				isCelsius = !units_switch.isChecked();
+			}
+		});
 
 		Button ok_button_p = findViewById(R.id.ok_button);
 		ok_button_p.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +154,6 @@ public class PreferencesActivity extends AppCompatActivity {
 					try {
 						createDefaultData(location);
 						Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
-						isCelsius = !units_switch.isChecked();
 						Bundle b = new Bundle();
 						b.putDouble("x", x);
 						b.putDouble("y", y);
@@ -164,7 +170,6 @@ public class PreferencesActivity extends AppCompatActivity {
 				} else {
 					Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
 					Bundle b = new Bundle();
-					isCelsius = !units_switch.isChecked();
 					b.putDouble("x", x);
 					b.putDouble("y", y);
 					b.putString("location_name", default_location_name);

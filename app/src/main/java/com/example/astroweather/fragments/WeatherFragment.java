@@ -26,7 +26,6 @@ public class WeatherFragment extends Fragment {
 	String city_name = "City";
 	String filepath;
 	JSONObject json_object;
-	Boolean isMetric = true;
 	String temperature_unit = " °C";
 	String speed_unit = " km/h";
 	String pressure_unit = " hPa";
@@ -49,12 +48,20 @@ public class WeatherFragment extends Fragment {
 		this.filepath = filepath;
 		String content = new String(Files.readAllBytes(Paths.get(this.filepath)));
 		json_object = new JSONObject(content);
+		if (json_object.get("unit").toString().equals("c"))
+			setMetricUnits();
+		else
+			setImperialUnits();
 	}
 
 	public void update() throws Exception {
 		System.out.println(this.filepath);
 		String content = new String(Files.readAllBytes(Paths.get(this.filepath)));
 		json_object = new JSONObject(content);
+		if (json_object.get("unit").toString().equals("c"))
+			setMetricUnits();
+		else
+			setImperialUnits();
 	}
 
 

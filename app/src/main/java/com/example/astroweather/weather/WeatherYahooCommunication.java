@@ -64,6 +64,10 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 
 	public String createFile(String jsonContent, Activity activity) throws Exception {
 		JSONObject object = new JSONObject(jsonContent);
+		if (isCelsius)
+			object.put("unit", "c");
+		else
+			object.put("unit", "f");
 		JSONObject locationObject = object.getJSONObject("location");
 		String location_name = locationObject.get("city").toString();
 		String filename = location_name.toLowerCase().replaceAll("\\s","");
@@ -76,6 +80,10 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 
 	public String updateFile(String jsonContent, Activity activity) throws Exception {
 		JSONObject object = new JSONObject(jsonContent);
+		if (isCelsius)
+			object.put("unit", "c");
+		else
+			object.put("unit", "f");
 		JSONObject locationObject = object.getJSONObject("location");
 		String location_name = locationObject.get("city").toString();
 		String filename = location_name.toLowerCase().replaceAll("\\s","");
@@ -93,6 +101,10 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 
 	public String createMainFile(String jsonContent, Activity activity) throws Exception {
 		JSONObject object = new JSONObject(jsonContent);
+		if (isCelsius)
+			object.put("unit", "c");
+		else
+			object.put("unit", "f");
 		JSONObject locationObject = object.getJSONObject("location");
 		String location_name = locationObject.get("city").toString();
 		//String filename = location_name.toLowerCase().replaceAll("\\s","");
