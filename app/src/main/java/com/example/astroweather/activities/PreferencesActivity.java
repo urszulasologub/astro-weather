@@ -135,7 +135,7 @@ public class PreferencesActivity extends AppCompatActivity {
 				update_time = getKeyFromValue((String)spinner.getSelectedItem());
 				update_time = getKeyFromValue((String)spinner.getSelectedItem());
 				EditText location_input = (EditText)findViewById(R.id.location_input);
-				String location = location_input.getText().toString();
+				String location = location_input.getText().toString().toString().toLowerCase().replaceAll("\\s","");
 				try {
 					createDefaultData(location);
 					Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
@@ -161,7 +161,7 @@ public class PreferencesActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				EditText add_city_input = (EditText)findViewById(R.id.add_city_input);
-				String location_name = add_city_input.getText().toString();
+				String location_name = add_city_input.getText().toString().toLowerCase().replaceAll("\\s","");
 				try {
 					Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
 					Bundle b = new Bundle();

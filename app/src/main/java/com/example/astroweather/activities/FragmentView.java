@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.astroweather.MainActivity;
 import com.example.astroweather.R;
 import com.example.astroweather.ViewPagerAdapter;
 import com.example.astroweather.fragments.MoonFragment;
@@ -60,7 +61,6 @@ public class FragmentView extends AppCompatActivity {
 	private String default_location_name;
 
 
-	//TODO: let user change main location
 	//TODO: let user remove things
 	//TODO: add to preferences menu option to choose degrees (Celsius or Fahrenheit)
 	//TODO: add details about weather (icons maybe?)
@@ -225,7 +225,7 @@ public class FragmentView extends AppCompatActivity {
 		if (!astroDirectory.exists())
 			astroDirectory.mkdirs();
 
-		new UpdateWeatherFiles(this, true).start();;
+		new UpdateWeatherFiles(this, true).start();
 
 		createDataFromAstroDirectory();
 
@@ -250,6 +250,7 @@ public class FragmentView extends AppCompatActivity {
 								if (elapsed_seconds >= update_time) {
 									elapsed_seconds = 0;
 									updateDateTime();
+									//new UpdateWeatherFiles(FragmentView.this, true).start();
 									try {
 										if (moon_fragment != null) {
 											moon_fragment.calculate(day, month, year, hour, minute, second);

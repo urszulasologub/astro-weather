@@ -64,21 +64,20 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		final AlertDialog.Builder about_dialog = new AlertDialog.Builder(this);
-		about_dialog.setTitle("Incorrect input");
-		about_dialog.setMessage("City name is not valid");
+		about_dialog.setTitle("Error");
+		about_dialog.setMessage("Can't update information");
 		Button ok_button = (Button)findViewById(R.id.ok_button);
 		ok_button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				EditText location_input = (EditText)findViewById(R.id.location_input);
-				String location = location_input.getText().toString();
+				String location = location_input.getText().toString().toLowerCase().replaceAll("\\s","");
 				try {
 					createDefaultData(location);
 					Intent intent = new Intent(MainActivity.this, FragmentView.class);
 					Bundle b = new Bundle();
 					b.putDouble("x", x);
 					b.putDouble("y", y);
-					System.out.println(location_name);
 					b.putString("location_name", location_name);
 					b.putInt("update_time", default_update_time);
 					intent.putExtras(b);
