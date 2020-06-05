@@ -14,9 +14,9 @@
 	<string name="new_moon">New moon</string>
 	<string name="moonset">Moonset</string>
 	<string name="moonrise">Moonrise</string>
-	<string name="preferences">Preferences</string>
+	<string name="preferences">Change main location</string>
 	<string name="refresh_time">Refresh time</string>
 	<string name="add_city">Add city</string>
-	<string name="enter_location">Enter location</string>
+	<string name="enter_location">Enter new location</string>
 	<string name="remove_all_cities">Remove all cities</string>
 </resources>

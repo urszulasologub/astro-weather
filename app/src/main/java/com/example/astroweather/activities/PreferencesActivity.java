@@ -15,6 +15,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.astroweather.MainActivity;
 import com.example.astroweather.R;
 import com.example.astroweather.fragments.WeatherFragment;
 import com.example.astroweather.weather.WeatherYahooCommunication;
@@ -48,6 +49,28 @@ public class PreferencesActivity extends AppCompatActivity {
 		}
 		return key;
 	}
+
+
+	public void createDefaultData(String location_name) throws Exception {
+		try {
+			WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, this, true);
+			communication.execute();
+			if (communication.get() != null) {
+				String content = communication.get();
+				communication.createFile(content, this);
+				JSONObject jsonObject = new JSONObject(content);
+				JSONObject locationObject = jsonObject.getJSONObject("location");
+				x = Double.parseDouble(locationObject.get("lat").toString());
+				y = Double.parseDouble(locationObject.get("long").toString());
+				default_location_name = locationObject.get("city").toString();
+			} else {
+				Toast.makeText(this, "Couldn't update data", Toast.LENGTH_LONG).show();
+			}
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+	}
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -99,11 +122,8 @@ public class PreferencesActivity extends AppCompatActivity {
 		});
 
 
-		//TODO: remove coords, add name
-		EditText x_input = (EditText)findViewById(R.id.x_input);
-		x_input.setText(x.toString());
-		EditText y_input = (EditText)findViewById(R.id.y_input);
-		y_input.setText(y.toString());
+		EditText location_input = (EditText)findViewById(R.id.location_input);
+		location_input.setText(default_location_name.toString());
 		final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 		dialog.setTitle("Incorrect input");
 		dialog.setMessage("Entered incorrect data");
@@ -112,27 +132,25 @@ public class PreferencesActivity extends AppCompatActivity {
 		ok_button_p.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				EditText x_input = (EditText)findViewById(R.id.x_input);
-				EditText y_input = (EditText)findViewById(R.id.y_input);
-				x = Double.parseDouble(x_input.getText().toString());
-				y = Double.parseDouble(y_input.getText().toString());
 				update_time = getKeyFromValue((String)spinner.getSelectedItem());
+				update_time = getKeyFromValue((String)spinner.getSelectedItem());
+				EditText location_input = (EditText)findViewById(R.id.location_input);
+				String location = location_input.getText().toString();
 				try {
-					if (x < -90 || x > 90 || y < -180 || y > 180) {
-						dialog.show();
-					} else {
-						Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
-						Bundle b = new Bundle();
-						b.putDouble("x", x);
-						b.putDouble("y", y);
-						b.putInt("update_time", update_time);
-						b.putString("location_name", default_location_name);
-						intent.putExtras(b);
-						startActivity(intent);
-						finish();
-					}
+					createDefaultData(location);
+					Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
+					Bundle b = new Bundle();
+					b.putDouble("x", x);
+					b.putDouble("y", y);
+					System.out.println(default_location_name);
+					b.putString("location_name", default_location_name);
+					b.putInt("update_time", update_time);
+					intent.putExtras(b);
+					startActivity(intent);
+					finish();
 				} catch (Exception e) {
 					dialog.show();
+					e.printStackTrace();
 				}
 			}
 		});
