@@ -22,7 +22,8 @@
 			android:gravity="center"
 			android:text="City"
 			android:textColor="#FFFFFF"
-			android:textSize="24sp" />
+			android:textSize="24sp"
+			android:visibility="gone" />
 
 		<TextView
 			android:id="@+id/city_location"

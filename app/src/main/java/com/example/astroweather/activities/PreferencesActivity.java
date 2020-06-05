@@ -137,7 +137,7 @@ public class PreferencesActivity extends AppCompatActivity {
 				update_time = getKeyFromValue((String) spinner.getSelectedItem());
 				EditText location_input = (EditText) findViewById(R.id.location_input);
 				if (!location_input.getText().toString().equals(default_location_name)) {
-					String location = location_input.getText().toString().toString().toLowerCase().replaceAll("\\s", "");
+					String location = location_input.getText().toString().toString().toLowerCase().replaceAll("\\s", "_");
 					try {
 						createDefaultData(location);
 						Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
@@ -174,7 +174,7 @@ public class PreferencesActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				EditText add_city_input = (EditText)findViewById(R.id.add_city_input);
-				String location_name = add_city_input.getText().toString().toLowerCase().replaceAll("\\s","");
+				String location_name = add_city_input.getText().toString().toLowerCase().replaceAll("\\s","_");
 				try {
 					Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
 					Bundle b = new Bundle();
@@ -226,6 +226,22 @@ public class PreferencesActivity extends AppCompatActivity {
 				intent.putExtras(b);
 				startActivity(intent);
 				Toast.makeText(PreferencesActivity.this, "Deleted all cities", Toast.LENGTH_LONG).show();
+				finish();
+			}
+		});
+
+		FloatingActionButton exit_preferences_button = findViewById(R.id.exit_preferences_button);
+		exit_preferences_button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
+				Bundle b = new Bundle();
+				b.putDouble("x", x);
+				b.putDouble("y", y);
+				b.putString("location_name", default_location_name);
+				b.putInt("update_time", update_time);
+				intent.putExtras(b);
+				startActivity(intent);
 				finish();
 			}
 		});

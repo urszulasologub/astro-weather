@@ -83,7 +83,8 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				EditText location_input = (EditText)findViewById(R.id.location_input);
-				String location = location_input.getText().toString().toLowerCase().replaceAll("\\s","");
+				String location = location_input.getText().toString().toLowerCase().replaceAll("\\s","_");
+				System.out.println(location);
 				try {
 					createDefaultData(location);
 					Intent intent = new Intent(MainActivity.this, FragmentView.class);
