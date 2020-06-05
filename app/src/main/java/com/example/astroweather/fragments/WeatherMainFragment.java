@@ -52,7 +52,7 @@ public class WeatherMainFragment extends WeatherFragment {
 		weather_condition_text.setText(condition.get("text").toString());
 
 		TextView temp = getView().findViewById(R.id.temp);
-		temp.setText(condition.get("temperature").toString());
+		temp.setText(condition.get("temperature").toString() + "°");
 
 		JSONArray forecastArray = json_object.getJSONArray("forecasts");
 
