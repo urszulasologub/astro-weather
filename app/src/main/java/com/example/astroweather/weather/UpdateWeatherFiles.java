@@ -1,8 +1,10 @@
 package com.example.astroweather.weather;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
 
 import com.example.astroweather.activities.FragmentView;
 import com.example.astroweather.activities.PreferencesActivity;
@@ -25,6 +27,7 @@ public class UpdateWeatherFiles extends Thread {
 		this.isCelsius = isCelsius;
 	}
 
+
 	@Override
 	public void run() {
 		File f = new File(activity.getCacheDir().toString() + "/AstroWeather");
@@ -38,14 +41,19 @@ public class UpdateWeatherFiles extends Thread {
 				if (fp.exists()) {
 					WeatherYahooCommunication yahooCommunication = new WeatherYahooCommunication(pathname, activity, isCelsius);
 					yahooCommunication.execute();
+					System.out.println("Execution");
 					if (yahooCommunication.get() != null) {
 						yahooCommunication.updateFile(yahooCommunication.get(), activity);
-						//activity.updateDataFromAstroDirectory();
 					}
+					System.out.println("Executed");
 				}
 			} catch (Exception e) {
+				System.out.println("Couldn't execute");
 				e.printStackTrace();
 			}
 		}
+		activity.updateDataFromAstroDirectory();
 	}
+
+
 }

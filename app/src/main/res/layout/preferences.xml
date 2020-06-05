@@ -17,6 +17,19 @@
 		app:layout_constraintEnd_toEndOf="parent"
 		app:srcCompat="@drawable/abc_vector_test" />
 
+	<com.google.android.material.floatingactionbutton.FloatingActionButton
+		android:id="@+id/refresh_button"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="20dp"
+		android:layout_marginBottom="10dp"
+		android:clickable="true"
+		app:backgroundTint="#7C4DFF"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toStartOf="@+id/exit_preferences_button"
+		app:rippleColor="@color/cardview_dark_background"
+		app:srcCompat="@android:drawable/ic_popup_sync" />
+
 	<LinearLayout
 		android:id="@+id/linearLayout4"
 		android:layout_width="match_parent"

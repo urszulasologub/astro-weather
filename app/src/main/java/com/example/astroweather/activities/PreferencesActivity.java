@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.astroweather.MainActivity;
 import com.example.astroweather.R;
 import com.example.astroweather.fragments.WeatherFragment;
+import com.example.astroweather.weather.UpdateWeatherFiles;
 import com.example.astroweather.weather.WeatherYahooCommunication;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -241,6 +242,27 @@ public class PreferencesActivity extends AppCompatActivity {
 				b.putDouble("y", y);
 				b.putString("location_name", default_location_name);
 				b.putInt("update_time", update_time);
+				intent.putExtras(b);
+				startActivity(intent);
+				finish();
+			}
+		});
+
+
+		FloatingActionButton refresh_button = findViewById(R.id.refresh_button);
+		refresh_button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
+				Bundle b = new Bundle();
+				//UpdateWeatherFiles update = new UpdateWeatherFiles(PreferencesActivity.this, isCelsius);
+				//update.start();
+				Toast.makeText(PreferencesActivity.this, "Weather is being updated", Toast.LENGTH_LONG).show();
+				b.putDouble("x", x);
+				b.putDouble("y", y);
+				b.putString("location_name", default_location_name);
+				b.putInt("update_time", update_time);
+				b.putBoolean("should_update", true);
 				intent.putExtras(b);
 				startActivity(intent);
 				finish();

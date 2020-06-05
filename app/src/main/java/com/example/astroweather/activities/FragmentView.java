@@ -60,6 +60,8 @@ public class FragmentView extends AppCompatActivity {
 	ViewPagerAdapter adapter;
 	private String default_location_name;
 	private Boolean isCelsius = true;
+	public Boolean shouldUpdate = false;
+	private UpdateWeatherFiles update;
 
 
 	//TODO: add to preferences menu option to choose degrees (Celsius or Fahrenheit)
@@ -153,6 +155,7 @@ public class FragmentView extends AppCompatActivity {
 		Intent this_intent = getIntent();
 		x = this_intent.getDoubleExtra("x", 0);
 		y = this_intent.getDoubleExtra("y", 0);
+		shouldUpdate = this_intent.getBooleanExtra("should_update", false);
 		default_location_name = this_intent.getStringExtra("location_name");
 		update_time = this_intent.getIntExtra("update_time", 15 * 60);
 
@@ -224,11 +227,7 @@ public class FragmentView extends AppCompatActivity {
 		if (!astroDirectory.exists())
 			astroDirectory.mkdirs();
 
-		UpdateWeatherFiles update = new UpdateWeatherFiles(this, isCelsius);
-		update.start();
-
 		createDataFromAstroDirectory();
-
 	}
 
 
@@ -270,6 +269,13 @@ public class FragmentView extends AppCompatActivity {
 		};
 
 		update_time_thread.start();
+
+		//TODO: add condition if file is old enough
+		if (shouldUpdate) {
+			update = new UpdateWeatherFiles(this, isCelsius);
+			update.start();
+		}
+
 	}
 
 

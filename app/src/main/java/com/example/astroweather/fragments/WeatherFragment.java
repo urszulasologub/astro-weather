@@ -57,9 +57,9 @@ public class WeatherFragment extends Fragment {
 	void updateTextViews() throws JSONException {
 		JSONObject locationObject = json_object.getJSONObject("location");
 
-		city_name = locationObject.get("city").toString() + ", " + locationObject.get("country");
+		city_name = locationObject.get("city").toString();
 		TextView city = (TextView)getView().findViewById(R.id.city);
-		city.setText(city_name);
+		city.setText(city_name  + ", " + locationObject.get("country"));
 
 		String latitude = locationObject.get("lat").toString();
 		TextView latitude_x = (TextView)getView().findViewById(R.id.latitude_x);

@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 					JSONObject json_object = new JSONObject(content);
 					JSONObject locationObject = json_object.getJSONObject("location");
 					Toast.makeText(this, "Couldn't connect Internet. Weather may be outdated", Toast.LENGTH_LONG).show();
-					this.location_name = locationObject.get("city").toString() + ", " + locationObject.get("country");
+					this.location_name = locationObject.get("city").toString();
 					this.x = Double.parseDouble(locationObject.get("lat").toString());
 					this.y = Double.parseDouble(locationObject.get("long").toString());
 				} catch (Exception e) {
