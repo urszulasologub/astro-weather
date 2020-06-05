@@ -39,7 +39,6 @@ public class UpdateWeatherFiles extends Thread {
 					yahooCommunication.createFile(yahooCommunication.get(), activity);
 					activity.updateDataFromAstroDirectory();
 				}
-				System.out.println("Updated successfully");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

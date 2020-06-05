@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 			communication.execute();
 			if (communication.get() != null) {
 				String content = communication.get();
-				communication.createFile(content, this);
+				communication.createMainFile(content, this);
 				JSONObject jsonObject = new JSONObject(content);
 				JSONObject locationObject = jsonObject.getJSONObject("location");
 				x = Double.parseDouble(locationObject.get("lat").toString());

@@ -75,17 +75,19 @@ public class FragmentView extends AppCompatActivity {
 		pathnames = f.list();
 		for (String pathname : pathnames) {
 			String fullFilePath = null;
-			try {
-				fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
-				WeatherFragment weather_fragment = new WeatherFragment(fullFilePath);
-				adapter.addNewWeatherFragment(weather_fragment);
-				view_pager.setAdapter(adapter);
-			} catch (Exception e) {
+			if (!pathname.equals("default.json")) {
+				try {
+					fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
+					WeatherFragment weather_fragment = new WeatherFragment(fullFilePath);
+					adapter.addNewWeatherFragment(weather_fragment);
+					view_pager.setAdapter(adapter);
+				} catch (Exception e) {
 				/*if (fullFilePath != null) {
 					File fileToDelete = new File(fullFilePath);
 					fileToDelete.delete();
 				}*/
-				e.printStackTrace();
+					e.printStackTrace();
+				}
 			}
 		}
 	}

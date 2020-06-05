@@ -74,6 +74,19 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 	}
 
 
+	public String createMainFile(String jsonContent, Activity activity) throws Exception {
+		JSONObject object = new JSONObject(jsonContent);
+		JSONObject locationObject = object.getJSONObject("location");
+		String location_name = locationObject.get("city").toString();
+		//String filename = location_name.toLowerCase().replaceAll("\\s","");
+		String filename = "default.json";
+		PrintWriter out = new PrintWriter(new FileWriter(activity.getCacheDir().toString() + "/AstroWeather/" + filename));
+		out.write(object.toString());
+		out.close();
+		return location_name;
+	}
+
+
 	@Override
 	protected String doInBackground(Void... voids) {
 		String response = "";
