@@ -14,17 +14,36 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class WeatherMainFragment extends WeatherFragment {
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
+public class WeatherMainFragment extends WeatherFragment {
+	String filepath;
 
 	public WeatherMainFragment(String filepath) throws Exception {
 		super(filepath);
+		this.filepath = filepath;
+		String content = new String(Files.readAllBytes(Paths.get(this.filepath)));
+		json_object = new JSONObject(content);
+		if (json_object.get("unit").toString().equals("c"))
+			setMetricUnits();
+		else
+			setImperialUnits();
+		System.out.println(json_object.toString());
 	}
 
-
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public void update() throws Exception {
+		System.out.println("Update 1: " + json_object.toString());
+		System.out.println(this.filepath);
+		String content = new String(Files.readAllBytes(Paths.get(this.filepath)));
+		System.out.println("Update 2: " + content);
+		System.out.println("Update 3: " + json_object.toString());
+		json_object = new JSONObject(content);
+		if (json_object.get("unit").toString().equals("c"))
+			setMetricUnits();
+		else
+			setImperialUnits();
 	}
 
 
@@ -35,6 +54,7 @@ public class WeatherMainFragment extends WeatherFragment {
 	}
 
 
+	@Override
 	void updateTextViews() throws JSONException {
 		JSONObject locationObject = json_object.getJSONObject("location");
 

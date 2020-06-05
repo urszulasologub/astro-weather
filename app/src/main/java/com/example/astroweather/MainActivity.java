@@ -75,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		File astroDirectory = new File(getCacheDir(),"AstroWeather");
+		if (!astroDirectory.exists())
+			astroDirectory.mkdirs();
 		final AlertDialog.Builder about_dialog = new AlertDialog.Builder(this);
 		about_dialog.setTitle("Error");
 		about_dialog.setMessage("Can't update information");

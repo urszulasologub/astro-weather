@@ -54,8 +54,8 @@ public class WeatherFragment extends Fragment {
 			setImperialUnits();
 	}
 
+
 	public void update() throws Exception {
-		System.out.println(this.filepath);
 		String content = new String(Files.readAllBytes(Paths.get(this.filepath)));
 		json_object = new JSONObject(content);
 		if (json_object.get("unit").toString().equals("c"))

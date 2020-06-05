@@ -55,7 +55,6 @@ public class FragmentView extends AppCompatActivity {
 	private SunFragment sun_fragment;
 	private MoonFragment moon_fragment;
 	private int elapsed_seconds = 0;
-	private File astroDirectory = null;
 	ViewPager view_pager;
 	ViewPagerAdapter adapter;
 	private String default_location_name;
@@ -64,11 +63,9 @@ public class FragmentView extends AppCompatActivity {
 	private UpdateWeatherFiles update;
 
 
-	//TODO: add to preferences menu option to choose degrees (Celsius or Fahrenheit)
 	//TODO: add details about weather (icons maybe?)
 	//TODO: refresh date depending on date in json file or refresh time
 	//TODO: recreate new layouts
-
 
 
 	public void createDataFromAstroDirectory() {
@@ -223,10 +220,6 @@ public class FragmentView extends AppCompatActivity {
 			}
 		}
 
-
-		astroDirectory = new File(getCacheDir(),"AstroWeather");
-		if (!astroDirectory.exists())
-			astroDirectory.mkdirs();
 
 		createDataFromAstroDirectory();
 	}

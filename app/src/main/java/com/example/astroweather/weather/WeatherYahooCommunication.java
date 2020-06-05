@@ -47,6 +47,7 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 	String location = "lodz";
 	Boolean isCelsius = true;
 	Activity mainActivity;
+	String filename;
 
 
 	public String get(String url) throws IOException {
@@ -87,6 +88,8 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 		JSONObject locationObject = object.getJSONObject("location");
 		String location_name = locationObject.get("city").toString();
 		String filename = location_name.toLowerCase().replaceAll("\\s","");
+		if (this.location.equals("default.json"))
+			filename = this.location;
 		String filepath = activity.getCacheDir().toString() + "/AstroWeather/" + filename;
 		File f = new File(filepath);
 		if (f.exists()) {
@@ -99,6 +102,7 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 	}
 
 
+
 	public String createMainFile(String jsonContent, Activity activity) throws Exception {
 		JSONObject object = new JSONObject(jsonContent);
 		if (isCelsius)
@@ -107,7 +111,6 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 			object.put("unit", "f");
 		JSONObject locationObject = object.getJSONObject("location");
 		String location_name = locationObject.get("city").toString();
-		//String filename = location_name.toLowerCase().replaceAll("\\s","");
 		String filename = "default.json";
 		PrintWriter out = new PrintWriter(new FileWriter(activity.getCacheDir().toString() + "/AstroWeather/" + filename));
 		out.write(object.toString());
@@ -142,7 +145,8 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 	public WeatherYahooCommunication(String location, Activity mainActivity, Boolean isCelsius) throws Exception {
 		this.isCelsius = isCelsius;
 		this.mainActivity = mainActivity;
-		this.location = location.toLowerCase();
+		this.location = location.toLowerCase().replaceAll("\\s","");;
+
 		long timestamp = new Date().getTime() / 1000;
 		byte[] nonce = new byte[32];
 		Random rand = new Random();

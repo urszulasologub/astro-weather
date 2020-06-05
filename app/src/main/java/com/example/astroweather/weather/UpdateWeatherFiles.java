@@ -39,7 +39,15 @@ public class UpdateWeatherFiles extends Thread {
 				System.out.println("File to update: " + fullFilePath);
 				File fp = new File(fullFilePath);
 				if (fp.exists()) {
-					WeatherYahooCommunication yahooCommunication = new WeatherYahooCommunication(pathname, activity, isCelsius);
+					WeatherYahooCommunication yahooCommunication;
+					if (!pathname.equals("default.json"))
+						yahooCommunication = new WeatherYahooCommunication(pathname, activity, isCelsius);
+					else {
+						String content = new String(Files.readAllBytes(Paths.get(pathname)));
+						JSONObject jsonObject = new JSONObject(content);
+						JSONObject locationObject = jsonObject.getJSONObject("location");
+						yahooCommunication = new WeatherYahooCommunication(locationObject.get("city").toString(), activity, isCelsius);
+					}
 					yahooCommunication.execute();
 					System.out.println("Execution");
 					if (yahooCommunication.get() != null) {
