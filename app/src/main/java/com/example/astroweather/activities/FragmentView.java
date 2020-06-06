@@ -60,24 +60,24 @@ public class FragmentView extends AppCompatActivity {
 	private String default_location_name;
 	private Boolean isCelsius = true;
 	private UpdateWeatherFiles update;
+	private String astroDirectory;
 
 	public Boolean shouldUpdate = false;
 	public Boolean shouldRefreshFragments = false;
 
 	//TODO: add details about weather (icons maybe?)
-	//TODO: refresh date depending on date in json file or refresh time
 	//TODO: recreate new layouts
+	//TODO: fix toasts in offline mode
 
 
 	public void createDataFromAstroDirectory() {
-		File f = new File(getCacheDir().toString() + "/AstroWeather");
-		String[] pathnames;
-		pathnames = f.list();
+		File f = new File(astroDirectory);
+		String[] pathnames = f.list();
 		for (String pathname : pathnames) {
 			String fullFilePath = null;
-			if (!pathname.equals("default.json") && !pathname.equals("config.json")) {
+			if (!pathname.equals("default.json")) {
 				try {
-					fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
+					fullFilePath = astroDirectory + "/" + pathname;
 					WeatherFragment weather_fragment = new WeatherFragment(fullFilePath);
 					adapter.addNewWeatherFragment(weather_fragment);
 					view_pager.setAdapter(adapter);
@@ -145,6 +145,7 @@ public class FragmentView extends AppCompatActivity {
 			second = savedInstanceState.getInt("second");
 			elapsed_seconds = savedInstanceState.getInt("elapsed_seconds");
 		}
+		astroDirectory = getCacheDir().toString() + "/AstroWeather";
 		Intent this_intent = getIntent();
 		x = this_intent.getDoubleExtra("x", 0);
 		y = this_intent.getDoubleExtra("y", 0);
@@ -201,7 +202,7 @@ public class FragmentView extends AppCompatActivity {
 		view_pager = findViewById(R.id.view_pager);
 		adapter = null;
 		if (view_pager != null) {
-			adapter = new ViewPagerAdapter(getSupportFragmentManager(), getCacheDir().toString() + "/AstroWeather/default.json");
+			adapter = new ViewPagerAdapter(getSupportFragmentManager(), astroDirectory + "/default.json");
 			view_pager.setAdapter(adapter);
 			sun_fragment = (SunFragment)adapter.instantiateItem(view_pager, 0);
 			if (sun_fragment != null) {
@@ -236,6 +237,7 @@ public class FragmentView extends AppCompatActivity {
 								elapsed_seconds++;
 								setCurrentTime(current_time);
 								if (elapsed_seconds >= update_time) {
+									shouldRefreshFragments = true;
 									elapsed_seconds = 0;
 									updateDateTime();
 									try {
