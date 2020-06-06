@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 				readDefaultDataFromJson(content);
 			} else {
 				try {
-					String content = new String(Files.readAllBytes(Paths.get(getCacheDir().toString() + "/AstroWeather/default.json")));
+					String content = new String(Files.readAllBytes(Paths.get(default_data_path)));
 					readDefaultDataFromJson(content);
 					Toast.makeText(this, "Couldn't connect Internet. Weather may be outdated", Toast.LENGTH_LONG).show();
 				} catch (Exception e) {

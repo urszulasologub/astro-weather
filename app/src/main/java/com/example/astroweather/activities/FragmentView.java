@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.astroweather.DateTimeUtils;
 import com.example.astroweather.MainActivity;
 import com.example.astroweather.R;
 import com.example.astroweather.ViewPagerAdapter;
@@ -28,6 +29,7 @@ import com.example.astroweather.weather.UpdateWeatherFiles;
 import com.example.astroweather.weather.WeatherYahooCommunication;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -35,7 +37,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -61,6 +66,7 @@ public class FragmentView extends AppCompatActivity {
 	private Boolean isCelsius = true;
 	private UpdateWeatherFiles update;
 	private String astroDirectory;
+	private Date updateDate = new Date();
 
 	public Boolean shouldUpdate = false;
 	public Boolean shouldRefreshFragments = false;
@@ -87,6 +93,7 @@ public class FragmentView extends AppCompatActivity {
 			}
 		}
 	}
+
 
 
 	public void updateDataFromAstroDirectory() {
@@ -205,17 +212,13 @@ public class FragmentView extends AppCompatActivity {
 			adapter = new ViewPagerAdapter(getSupportFragmentManager(), astroDirectory + "/default.json");
 			view_pager.setAdapter(adapter);
 			sun_fragment = (SunFragment)adapter.instantiateItem(view_pager, 0);
-			if (sun_fragment != null) {
-				sun_fragment.setX(x);
-				sun_fragment.setY(y);
-				sun_fragment.calculate(day, month, year, hour, minute, second);
-			}
+			sun_fragment.setX(x);
+			sun_fragment.setY(y);
+			sun_fragment.calculate(day, month, year, hour, minute, second);
 			moon_fragment = (MoonFragment)adapter.instantiateItem(view_pager, 1);
-			if (moon_fragment != null) {
-				moon_fragment.setX(x);
-				moon_fragment.setY(y);
-				moon_fragment.calculate(day, month, year, hour, minute, second);
-			}
+			moon_fragment.setX(x);
+			moon_fragment.setY(y);
+			moon_fragment.calculate(day, month, year, hour, minute, second);
 		}
 		createDataFromAstroDirectory();
 	}
@@ -224,6 +227,13 @@ public class FragmentView extends AppCompatActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
+
+
+		if (shouldUpdate) {
+			update = new UpdateWeatherFiles(this, isCelsius);
+			update.start();
+			shouldUpdate = false;
+		}
 
 		update_time_thread = new Thread() {
 			@Override
@@ -237,7 +247,6 @@ public class FragmentView extends AppCompatActivity {
 								elapsed_seconds++;
 								setCurrentTime(current_time);
 								if (elapsed_seconds >= update_time) {
-									shouldRefreshFragments = true;
 									elapsed_seconds = 0;
 									updateDateTime();
 									try {
@@ -250,6 +259,14 @@ public class FragmentView extends AppCompatActivity {
 											sun_fragment.updateTextViews();
 										}
 									} catch (Exception e) {
+										e.printStackTrace();
+									}
+									try {
+										update = new UpdateWeatherFiles(FragmentView.this, isCelsius);
+										update.start();
+										shouldUpdate = false;
+									} catch (Exception e) {
+										e.printStackTrace();
 									}
 								}
 								if (shouldRefreshFragments) {
@@ -266,12 +283,6 @@ public class FragmentView extends AppCompatActivity {
 
 		update_time_thread.start();
 
-		//TODO: add condition if file is old enough
-		if (shouldUpdate) {
-			update = new UpdateWeatherFiles(this, isCelsius);
-			update.start();
-			shouldUpdate = false;
-		}
 
 	}
 
