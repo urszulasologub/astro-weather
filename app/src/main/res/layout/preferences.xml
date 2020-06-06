@@ -142,8 +142,32 @@
 			</TableRow>
 
 			<TableRow
-				android:layout_width="0dp"
+				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:gravity="center_horizontal"
+				android:paddingTop="10dp">
+
+				<Button
+					android:id="@+id/ok_button"
+					style="@style/Widget.AppCompat.Button"
+					android:layout_width="wrap_content"
+					android:freezesText="false"
+					android:text="Update" />
+
+			</TableRow>
+
+			<TableRow
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+
+				<Space
+					android:layout_width="wrap_content"
+					android:layout_height="20sp" />
+			</TableRow>
+
+			<TableRow
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
 				android:layout_marginTop="10dp"
 				android:layout_marginBottom="10dp"
 				android:layout_weight="0">
@@ -163,30 +187,6 @@
 					android:layout_gravity="left"
 					android:layout_weight="1"
 					android:gravity="center_horizontal" />
-			</TableRow>
-
-			<TableRow
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:gravity="center_horizontal"
-				android:paddingTop="10dp">
-
-				<Button
-					android:id="@+id/ok_button"
-					style="@style/Widget.AppCompat.Button"
-					android:layout_width="wrap_content"
-					android:freezesText="false"
-					android:text="Update" />
-
-			</TableRow>
-
-			<TableRow
-				android:layout_width="match_parent"
-				android:layout_height="match_parent" >
-
-				<Space
-					android:layout_width="wrap_content"
-					android:layout_height="20sp" />
 			</TableRow>
 
 			<TableRow
