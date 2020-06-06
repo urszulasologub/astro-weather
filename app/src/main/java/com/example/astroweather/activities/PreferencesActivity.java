@@ -56,6 +56,20 @@ public class PreferencesActivity extends AppCompatActivity {
 	}
 
 
+	public Intent prepareIntent() {
+		Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
+		Bundle b = new Bundle();
+		b.putDouble("x", x);
+		b.putDouble("y", y);
+		b.putString("location_name", default_location_name);
+		b.putInt("update_time", update_time);
+		b.putBoolean("isCelsius", isCelsius);
+		b.putBoolean("should_update", shouldUpdate);
+		intent.putExtras(b);
+		return intent;
+	}
+
+
 	public void createDefaultData(String location_name) throws Exception {
 		try {
 			WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, this, true);
@@ -92,12 +106,13 @@ public class PreferencesActivity extends AppCompatActivity {
 
 		ArrayList<String> spinner_list = new ArrayList<>();
 
-		spinner_dictionary.put(1, "1 second");
 		spinner_dictionary.put(5, "5 seconds");
-		spinner_dictionary.put(30, "30 seconds");
+		spinner_dictionary.put(3, "10 seconds");
 		spinner_dictionary.put(60, "1 minute");
-		spinner_dictionary.put(60 * 5, "5 minutes");
-		spinner_dictionary.put(15 * 60, "15 minutes");
+		spinner_dictionary.put(60 * 15, "15 minutes");
+		spinner_dictionary.put(60 * 60, "1 hour");
+		spinner_dictionary.put(60 * 60 * 3, "3 hours");
+		spinner_dictionary.put(60 * 60 * 6, "6 hours");
 
 		Iterator<Map.Entry<Integer, String>> it = spinner_dictionary.entrySet().iterator();
 		while (it.hasNext()) {
@@ -118,9 +133,11 @@ public class PreferencesActivity extends AppCompatActivity {
 		}
 		spinner.setSelection(position);
 
+
 		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				update_time = getKeyFromValue((String) spinner.getSelectedItem());
 			}
 			@Override
 			public void onNothingSelected(AdapterView <?> parent) {
@@ -144,43 +161,24 @@ public class PreferencesActivity extends AppCompatActivity {
 			}
 		});
 
+
 		Button ok_button_p = findViewById(R.id.ok_button);
 		ok_button_p.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				update_time = getKeyFromValue((String) spinner.getSelectedItem());
-				//update_time = getKeyFromValue((String) spinner.getSelectedItem());
 				EditText location_input = (EditText) findViewById(R.id.location_input);
 				if (!location_input.getText().toString().equals(default_location_name)) {
 					String location = location_input.getText().toString().toString().toLowerCase().replaceAll("\\s", "_");
 					try {
 						createDefaultData(location);
-						Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
-						Bundle b = new Bundle();
-						b.putDouble("x", x);
-						b.putDouble("y", y);
-						b.putString("location_name", default_location_name);
-						b.putInt("update_time", update_time);
-						b.putBoolean("isCelsius", isCelsius);
-						b.putBoolean("should_update", shouldUpdate);
-						intent.putExtras(b);
-						startActivity(intent);
+						startActivity(prepareIntent());
 						finish();
 					} catch (Exception e) {
 						dialog.show();
 						e.printStackTrace();
 					}
 				} else {
-					Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
-					Bundle b = new Bundle();
-					b.putDouble("x", x);
-					b.putDouble("y", y);
-					b.putString("location_name", default_location_name);
-					b.putInt("update_time", update_time);
-					b.putBoolean("isCelsius", isCelsius);
-					b.putBoolean("should_update", shouldUpdate);
-					intent.putExtras(b);
-					startActivity(intent);
+					startActivity(prepareIntent());
 					finish();
 				}
 			}
@@ -194,14 +192,7 @@ public class PreferencesActivity extends AppCompatActivity {
 				EditText add_city_input = (EditText)findViewById(R.id.add_city_input);
 				String location_name = add_city_input.getText().toString().toLowerCase().replaceAll("\\s","_");
 				try {
-					Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
-					Bundle b = new Bundle();
-					b.putDouble("x", x);
-					b.putDouble("y", y);
-					b.putString("location_name", default_location_name);
-					b.putInt("update_time", update_time);
-					b.putBoolean("isCelsius", isCelsius);
-					b.putBoolean("should_update", shouldUpdate);
+					Intent intent = prepareIntent();
 					try {
 						WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, PreferencesActivity.this, isCelsius);
 						communication.execute();
@@ -214,7 +205,6 @@ public class PreferencesActivity extends AppCompatActivity {
 							e.printStackTrace();
 							Toast.makeText(PreferencesActivity.this, "An error occured", Toast.LENGTH_LONG).show();
 					}
-					intent.putExtras(b);
 					startActivity(intent);
 					finish();
 				} catch (Exception e) {
@@ -238,16 +228,7 @@ public class PreferencesActivity extends AppCompatActivity {
 						fileToDelete.delete();
 					}
 				}
-				Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
-				Bundle b = new Bundle();
-				b.putDouble("x", x);
-				b.putDouble("y", y);
-				b.putString("location_name", default_location_name);
-				b.putInt("update_time", update_time);
-				b.putBoolean("isCelsius", isCelsius);
-				b.putBoolean("should_update", shouldUpdate);
-				intent.putExtras(b);
-				startActivity(intent);
+				startActivity(prepareIntent());
 				Toast.makeText(PreferencesActivity.this, "Deleted all cities", Toast.LENGTH_LONG).show();
 				finish();
 			}
@@ -257,16 +238,7 @@ public class PreferencesActivity extends AppCompatActivity {
 		exit_preferences_button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
-				Bundle b = new Bundle();
-				b.putDouble("x", x);
-				b.putDouble("y", y);
-				b.putString("location_name", default_location_name);
-				b.putInt("update_time", update_time);
-				b.putBoolean("isCelsius", isCelsius);
-				b.putBoolean("should_update", shouldUpdate);
-				intent.putExtras(b);
-				startActivity(intent);
+				startActivity(prepareIntent());
 				finish();
 			}
 		});
@@ -276,17 +248,9 @@ public class PreferencesActivity extends AppCompatActivity {
 		refresh_button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(PreferencesActivity.this, FragmentView.class);
-				Bundle b = new Bundle();
+				shouldUpdate = true;
 				Toast.makeText(PreferencesActivity.this, "Weather is being updated", Toast.LENGTH_LONG).show();
-				b.putDouble("x", x);
-				b.putDouble("y", y);
-				b.putString("location_name", default_location_name);
-				b.putInt("update_time", update_time);
-				b.putBoolean("should_update", true);
-				b.putBoolean("isCelsius", isCelsius);
-				intent.putExtras(b);
-				startActivity(intent);
+				startActivity(prepareIntent());
 				finish();
 			}
 		});
