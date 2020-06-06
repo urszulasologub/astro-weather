@@ -19,6 +19,7 @@ import com.example.astroweather.fragments.WeatherFragment;
 import com.example.astroweather.weather.UpdateWeatherFiles;
 import com.example.astroweather.weather.WeatherYahooCommunication;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -31,30 +32,33 @@ public class MainActivity extends AppCompatActivity {
 	private Double y;
 	private String location_name;
 	private int default_update_time = 15 * 60;
+	private String default_data_path;
+	private Boolean isCelsius = true;
 
+
+	public void readDefaultDataFromJson(String jsonContent) throws JSONException {
+		JSONObject jsonObject = new JSONObject(jsonContent);
+		JSONObject locationObject = jsonObject.getJSONObject("location");
+		x = Double.parseDouble(locationObject.get("lat").toString());
+		y = Double.parseDouble(locationObject.get("long").toString());
+		this.location_name = locationObject.get("city").toString();
+		isCelsius = jsonObject.get("unit").toString().equals("c");
+	}
 
 
 	public void createDefaultData(String location_name) throws Exception {
 		try {
-			WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, this, true);
+			WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, this, isCelsius);
 			communication.execute();
 			if (communication.get() != null) {
 				String content = communication.get();
 				communication.createMainFile(content, this);
-				JSONObject jsonObject = new JSONObject(content);
-				JSONObject locationObject = jsonObject.getJSONObject("location");
-				x = Double.parseDouble(locationObject.get("lat").toString());
-				y = Double.parseDouble(locationObject.get("long").toString());
-				this.location_name = locationObject.get("city").toString();
+				readDefaultDataFromJson(content);
 			} else {
 				try {
 					String content = new String(Files.readAllBytes(Paths.get(getCacheDir().toString() + "/AstroWeather/default.json")));
-					JSONObject json_object = new JSONObject(content);
-					JSONObject locationObject = json_object.getJSONObject("location");
+					readDefaultDataFromJson(content);
 					Toast.makeText(this, "Couldn't connect Internet. Weather may be outdated", Toast.LENGTH_LONG).show();
-					this.location_name = locationObject.get("city").toString();
-					this.x = Double.parseDouble(locationObject.get("lat").toString());
-					this.y = Double.parseDouble(locationObject.get("long").toString());
 				} catch (Exception e) {
 					e.printStackTrace();
 					Toast.makeText(this, "Couldn't connect Internet. Default data is set to Lodz. Weather may be outdated", Toast.LENGTH_LONG).show();
@@ -69,6 +73,18 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 
+	public Intent createIntent() {
+		Intent intent = new Intent(MainActivity.this, FragmentView.class);
+		Bundle b = new Bundle();
+		b.putDouble("x", x);
+		b.putDouble("y", y);
+		b.putString("location_name", location_name);
+		b.putInt("update_time", default_update_time);
+		b.putBoolean("isCelsius", isCelsius);
+		intent.putExtras(b);
+		return intent;
+	}
+
 
 	@RequiresApi(api = Build.VERSION_CODES.O)
 	@Override
@@ -78,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
 		File astroDirectory = new File(getCacheDir(),"AstroWeather");
 		if (!astroDirectory.exists())
 			astroDirectory.mkdirs();
+		default_data_path = getCacheDir().toString() + "/AstroWeather/default.json";
 		final AlertDialog.Builder about_dialog = new AlertDialog.Builder(this);
 		about_dialog.setTitle("Error");
 		about_dialog.setMessage("Can't update information");
@@ -90,14 +107,7 @@ public class MainActivity extends AppCompatActivity {
 				System.out.println(location);
 				try {
 					createDefaultData(location);
-					Intent intent = new Intent(MainActivity.this, FragmentView.class);
-					Bundle b = new Bundle();
-					b.putDouble("x", x);
-					b.putDouble("y", y);
-					b.putString("location_name", location_name);
-					b.putInt("update_time", default_update_time);
-					intent.putExtras(b);
-					startActivity(intent);
+					startActivity(createIntent());
 					finish();
 				} catch (Exception e) {
 					about_dialog.show();
@@ -105,7 +115,16 @@ public class MainActivity extends AppCompatActivity {
 				}
 			}
 		});
+		try {
+			String content = new String(Files.readAllBytes(Paths.get(default_data_path)));
+			readDefaultDataFromJson(content);
+			startActivity(createIntent());
+			finish();
+		} catch (Exception e) {
+
+		}
 	}
+
 
 
 }

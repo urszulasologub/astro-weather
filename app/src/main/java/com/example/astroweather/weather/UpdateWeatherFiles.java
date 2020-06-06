@@ -33,6 +33,7 @@ public class UpdateWeatherFiles extends Thread {
 	public void run() {
 		File f = new File(activity.getCacheDir().toString() + "/AstroWeather");
 		String[] pathnames = f.list();
+		int how_many_downloaded = 0;
 		for (String pathname : pathnames) {
 			String fullFilePath = null;
 			try {
@@ -52,13 +53,15 @@ public class UpdateWeatherFiles extends Thread {
 					yahooCommunication.execute();
 					if (yahooCommunication.get() != null) {
 						yahooCommunication.updateFile(pathname, yahooCommunication.get(), activity);
+						++how_many_downloaded;
 					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		activity.shouldRefreshFragments = true;
+		if (how_many_downloaded > 0)
+			activity.shouldRefreshFragments = true;
 	}
 
 
