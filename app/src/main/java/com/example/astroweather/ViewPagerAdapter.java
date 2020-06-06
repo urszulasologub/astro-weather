@@ -39,20 +39,27 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 	}
 
 
-
 	public void addNewWeatherFragment(WeatherFragment fragment) {
 		fragmentList.add(fragment);
 		weatherFragments.add(fragment);
 	}
 
 
-	public void updateAllWeatherFragments() throws Exception {
+	public void updateAllWeatherFragments() {
 		for (WeatherFragment fragment : weatherFragments) {
-			fragment.update();
-			fragment.updateTextViews();
+			try {
+				fragment.update();
+				fragment.updateTextViews();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		main_weather_fragment.update();
-		main_weather_fragment.updateTextViews();
+		try {
+			main_weather_fragment.update();
+			main_weather_fragment.updateTextViews();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 

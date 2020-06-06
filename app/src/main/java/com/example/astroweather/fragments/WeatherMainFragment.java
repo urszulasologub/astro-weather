@@ -40,6 +40,7 @@ public class WeatherMainFragment extends WeatherFragment {
 	}
 
 
+
 	@Override
 	public void updateTextViews() throws JSONException {
 		JSONObject locationObject = json_object.getJSONObject("location");
@@ -85,7 +86,7 @@ public class WeatherMainFragment extends WeatherFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		try {
-			updateTextViews();
+			this.updateTextViews();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

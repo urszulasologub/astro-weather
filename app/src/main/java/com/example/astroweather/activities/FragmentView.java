@@ -90,11 +90,7 @@ public class FragmentView extends AppCompatActivity {
 
 
 	public void updateDataFromAstroDirectory() {
-		try {
-			adapter.updateAllWeatherFragments();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		adapter.updateAllWeatherFragments();
 	}
 
 
