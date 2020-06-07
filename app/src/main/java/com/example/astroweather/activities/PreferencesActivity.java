@@ -31,6 +31,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -43,6 +44,7 @@ public class PreferencesActivity extends AppCompatActivity {
 	private final Map<Integer, String> spinner_dictionary = new HashMap<Integer, String>();
 	private Boolean isCelsius = true;
 	private Boolean shouldUpdate = false;
+	private Date update_date;
 
 	private Integer getKeyFromValue(String value) {
 		Integer key = null;
@@ -65,6 +67,7 @@ public class PreferencesActivity extends AppCompatActivity {
 		b.putInt("update_time", update_time);
 		b.putBoolean("isCelsius", isCelsius);
 		b.putBoolean("should_update", shouldUpdate);
+		b.putString("update_date", update_date.toString());
 		intent.putExtras(b);
 		return intent;
 	}
@@ -101,6 +104,7 @@ public class PreferencesActivity extends AppCompatActivity {
 		default_location_name = this_intent.getStringExtra("location_name");
 		update_time = this_intent.getIntExtra("update_time", 15 * 60);
 		isCelsius = this_intent.getBooleanExtra("isCelsius", isCelsius);
+		update_date = new Date(this_intent.getStringExtra("update_date"));
 
 		final Spinner spinner = (Spinner)findViewById(R.id.time_spinner);
 
@@ -138,7 +142,9 @@ public class PreferencesActivity extends AppCompatActivity {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				update_time = getKeyFromValue((String) spinner.getSelectedItem());
+				shouldUpdate = true;
 			}
+
 			@Override
 			public void onNothingSelected(AdapterView <?> parent) {
 			}
@@ -170,7 +176,6 @@ public class PreferencesActivity extends AppCompatActivity {
 				if (!location_input.getText().toString().equals(default_location_name)) {
 					String location = location_input.getText().toString().toString().toLowerCase().replaceAll("\\s", "_");
 					try {
-						shouldUpdate = true;
 						createDefaultData(location);
 						startActivity(prepareIntent());
 						finish();
@@ -187,7 +192,6 @@ public class PreferencesActivity extends AppCompatActivity {
 
 		Button add_city_button = findViewById(R.id.add_city_button);
 		add_city_button.setOnClickListener(new View.OnClickListener() {
-			@RequiresApi(api = Build.VERSION_CODES.O)
 			@Override
 			public void onClick(View v) {
 				EditText add_city_input = (EditText)findViewById(R.id.add_city_input);
@@ -206,7 +210,6 @@ public class PreferencesActivity extends AppCompatActivity {
 							e.printStackTrace();
 							Toast.makeText(PreferencesActivity.this, "An error occured", Toast.LENGTH_LONG).show();
 					}
-					shouldUpdate = true;
 					startActivity(intent);
 					finish();
 				} catch (Exception e) {
@@ -223,7 +226,7 @@ public class PreferencesActivity extends AppCompatActivity {
 				String[] pathnames;
 				pathnames = f.list();
 				for (String pathname : pathnames) {
-					if (!pathname.equals("default.json")) {
+					if (!pathname.equals("default.json") && !pathname.equals("config.json")) {
 						System.out.println("File to remove: " + getCacheDir().toString() + "/AstroWeather/" + pathname);
 						String fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
 						File fileToDelete = new File(fullFilePath);

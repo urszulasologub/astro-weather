@@ -35,29 +35,31 @@ public class UpdateWeatherFiles extends Thread {
 		String[] pathnames = f.list();
 		int how_many_downloaded = 0;
 		for (String pathname : pathnames) {
-			String fullFilePath = null;
-			try {
-				fullFilePath = activity.getCacheDir().toString() + "/AstroWeather/" + pathname;
-				System.out.println("File to update: " + fullFilePath);
-				File fp = new File(fullFilePath);
-				if (fp.exists()) {
-					WeatherYahooCommunication yahooCommunication;
-					if (!pathname.equals("default.json"))
-						yahooCommunication = new WeatherYahooCommunication(pathname, activity, isCelsius);
-					else {
-						String content = new String(Files.readAllBytes(Paths.get(fullFilePath)));
-						JSONObject jsonObject = new JSONObject(content);
-						JSONObject locationObject = jsonObject.getJSONObject("location");
-						yahooCommunication = new WeatherYahooCommunication(locationObject.get("city").toString(), activity, isCelsius);
+			if (!pathname.equals("config.json")) {
+				String fullFilePath = null;
+				try {
+					fullFilePath = activity.getCacheDir().toString() + "/AstroWeather/" + pathname;
+					System.out.println("File to update: " + fullFilePath);
+					File fp = new File(fullFilePath);
+					if (fp.exists()) {
+						WeatherYahooCommunication yahooCommunication;
+						if (!pathname.equals("default.json"))
+							yahooCommunication = new WeatherYahooCommunication(pathname, activity, isCelsius);
+						else {
+							String content = new String(Files.readAllBytes(Paths.get(fullFilePath)));
+							JSONObject jsonObject = new JSONObject(content);
+							JSONObject locationObject = jsonObject.getJSONObject("location");
+							yahooCommunication = new WeatherYahooCommunication(locationObject.get("city").toString(), activity, isCelsius);
+						}
+						yahooCommunication.execute();
+						if (yahooCommunication.get() != null) {
+							yahooCommunication.updateFile(pathname, yahooCommunication.get(), activity);
+							++how_many_downloaded;
+						}
 					}
-					yahooCommunication.execute();
-					if (yahooCommunication.get() != null) {
-						yahooCommunication.updateFile(pathname, yahooCommunication.get(), activity);
-						++how_many_downloaded;
-					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
 		}
 		if (how_many_downloaded > 0)

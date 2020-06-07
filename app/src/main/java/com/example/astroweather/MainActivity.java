@@ -23,8 +23,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -34,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
 	private int default_update_time = 15 * 60;
 	private String default_data_path;
 	private Boolean isCelsius = true;
+	private Date update_date = new Date();
+	private String config_json_path;
 
 
 	public void readDefaultDataFromJson(String jsonContent) throws JSONException {
@@ -46,6 +52,26 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 
+	public void createConfigJson() throws Exception {
+		JSONObject object = new JSONObject();
+		object.put("update_time", default_update_time);
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.SECOND, default_update_time);
+		update_date = calendar.getTime();
+		object.put("update_date", update_date);
+		PrintWriter out = new PrintWriter(new FileWriter(config_json_path));
+		out.write(object.toString());
+		out.close();
+	}
+
+
+	public void readConfigJson(String jsonContent) throws Exception {
+		JSONObject jsonObject = new JSONObject(jsonContent);
+		default_update_time = jsonObject.getInt("update_time");
+		update_date = new Date(jsonObject.getString("update_date"));
+	}
+
+
 	public void createDefaultData(String location_name) throws Exception {
 		try {
 			WeatherYahooCommunication communication = new WeatherYahooCommunication(location_name, this, isCelsius);
@@ -54,10 +80,12 @@ public class MainActivity extends AppCompatActivity {
 				String content = communication.get();
 				communication.createMainFile(content, this);
 				readDefaultDataFromJson(new String(Files.readAllBytes(Paths.get(default_data_path))));
+				createConfigJson();
 			} else {
 				try {
 					String content = new String(Files.readAllBytes(Paths.get(default_data_path)));
 					readDefaultDataFromJson(content);
+					readConfigJson(new String(Files.readAllBytes(Paths.get(config_json_path))));
 					Toast.makeText(this, "Couldn't connect Internet. Weather may be outdated", Toast.LENGTH_LONG).show();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -79,8 +107,9 @@ public class MainActivity extends AppCompatActivity {
 		b.putDouble("x", x);
 		b.putDouble("y", y);
 		b.putString("location_name", location_name);
-		b.putInt("update_time", default_update_time);
 		b.putBoolean("isCelsius", isCelsius);
+		b.putInt("update_time", default_update_time);
+		b.putString("update_date", update_date.toString());
 		intent.putExtras(b);
 		return intent;
 	}
@@ -95,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
 		if (!astroDirectory.exists())
 			astroDirectory.mkdirs();
 		default_data_path = getCacheDir().toString() + "/AstroWeather/default.json";
+		config_json_path = getCacheDir().toString() + "/AstroWeather/config.json";
 		final AlertDialog.Builder about_dialog = new AlertDialog.Builder(this);
 		about_dialog.setTitle("Error");
 		about_dialog.setMessage("Can't update information");
@@ -118,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
 		try {
 			String content = new String(Files.readAllBytes(Paths.get(default_data_path)));
 			readDefaultDataFromJson(content);
+			readConfigJson(new String(Files.readAllBytes(Paths.get(config_json_path))));
 			startActivity(createIntent());
 			finish();
 		} catch (Exception e) {

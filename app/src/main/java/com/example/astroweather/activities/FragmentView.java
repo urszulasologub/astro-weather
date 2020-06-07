@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
@@ -38,6 +39,8 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.DateFormat;
@@ -70,12 +73,10 @@ public class FragmentView extends AppCompatActivity {
 	private Boolean isCelsius = true;
 	private UpdateWeatherFiles update;
 	private String astroDirectory;
+	Date update_date = new Date();
 
 	public Boolean shouldUpdate = false;
 	public Boolean shouldRefreshFragments = false;
-
-
-	//TODO: make app remember update time
 
 
 	private boolean isAppOnForeground(Context context) {
@@ -94,8 +95,7 @@ public class FragmentView extends AppCompatActivity {
 	}
 
 
-
-		public void createDataFromAstroDirectory() {
+	public void createDataFromAstroDirectory() {
 		File f = new File(astroDirectory);
 		String[] pathnames = f.list();
 		for (String pathname : pathnames) {
@@ -112,7 +112,6 @@ public class FragmentView extends AppCompatActivity {
 			}
 		}
 	}
-
 
 
 	public void updateDataFromAstroDirectory() {
@@ -179,6 +178,7 @@ public class FragmentView extends AppCompatActivity {
 		default_location_name = this_intent.getStringExtra("location_name");
 		update_time = this_intent.getIntExtra("update_time", 15 * 60);
 		isCelsius = this_intent.getBooleanExtra("isCelsius", true);
+		update_date = new Date(this_intent.getStringExtra("update_date"));
 
 		TextView location_label = findViewById(R.id.location_name_label);
 		location_label.setText(default_location_name);
@@ -198,30 +198,12 @@ public class FragmentView extends AppCompatActivity {
 					b.putInt("update_time", update_time);
 					b.putString("location_name", default_location_name);
 					b.putBoolean("isCelsius", isCelsius);
+					b.putString("update_date", update_date.toString());
 					intent.putExtras(b);
 					startActivity(intent);
 					finish();
 				}
 			});
-		}
-
-
-		// for big displays:
-		FragmentManager fragmentManager = getSupportFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		sun_fragment = (SunFragment) fragmentManager.findFragmentById(R.id.fragment_sun);
-		if (sun_fragment != null) {
-			sun_fragment.setX(x);
-			sun_fragment.setY(y);
-			sun_fragment.calculate(day, month, year, hour, minute, second);
-			sun_fragment.updateTextViews();
-		}
-		moon_fragment = (MoonFragment) fragmentManager.findFragmentById(R.id.fragment_moon);
-		if (moon_fragment != null) {
-			moon_fragment.setX(x);
-			moon_fragment.setY(y);
-			moon_fragment.calculate(day, month, year, hour, minute, second);
-			moon_fragment.updateTextViews();
 		}
 
 		// for smaller displays:
@@ -243,16 +225,35 @@ public class FragmentView extends AppCompatActivity {
 	}
 
 
+	public void updateConfigFile(String filepath, int update_time, Activity activity) throws Exception {
+		JSONObject object = new JSONObject();
+		object.put("update_time", update_time);
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.SECOND, update_time);
+		Date update_date = calendar.getTime();
+		object.put("update_date", update_date);
+		String config_json_path = filepath;
+		File f = new File(config_json_path);
+		if (f.exists()) {
+			PrintWriter out = new PrintWriter(new FileWriter(config_json_path));
+			out.write(object.toString());
+			out.close();
+		}
+	}
+
+
+	public void readConfigJson(String jsonContent) throws Exception {
+		JSONObject jsonObject = new JSONObject(jsonContent);
+		update_time = jsonObject.getInt("update_time");
+		update_date = new Date(jsonObject.getString("update_date"));
+		System.out.println("Readed update_time: " + update_time);
+	}
+
+
 	@Override
 	protected void onStart() {
 		super.onStart();
 
-
-		if (shouldUpdate) {
-			update = new UpdateWeatherFiles(this, isCelsius);
-			update.start();
-			shouldUpdate = false;
-		}
 
 		update_time_thread = new Thread() {
 			@Override
@@ -280,19 +281,27 @@ public class FragmentView extends AppCompatActivity {
 									} catch (Exception e) {
 										e.printStackTrace();
 									}
+								}
+								if (update_date.compareTo(new Date()) <= 0 || shouldUpdate) {
 									try {
+										updateConfigFile(astroDirectory + "/config.json", update_time, FragmentView.this);
 										update = new UpdateWeatherFiles(FragmentView.this, isCelsius);
 										update.start();
 										shouldUpdate = false;
+										readConfigJson(new String(Files.readAllBytes(Paths.get(astroDirectory + "/config.json"))));
 									} catch (Exception e) {
 										e.printStackTrace();
 									}
 								}
 								if (shouldRefreshFragments) {
-									shouldRefreshFragments = false;
-									updateDataFromAstroDirectory();
-									if (isAppOnForeground(FragmentView.this))
-										Toast.makeText(FragmentView.this, "Data has been updated", Toast.LENGTH_LONG).show();
+									try {
+										updateDataFromAstroDirectory();
+										if (isAppOnForeground(FragmentView.this))
+											Toast.makeText(FragmentView.this, "Data has been updated", Toast.LENGTH_LONG).show();
+										shouldRefreshFragments = false;
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
 								}
 							}
 						});
