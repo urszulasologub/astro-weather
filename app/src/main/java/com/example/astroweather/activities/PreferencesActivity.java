@@ -170,6 +170,7 @@ public class PreferencesActivity extends AppCompatActivity {
 				if (!location_input.getText().toString().equals(default_location_name)) {
 					String location = location_input.getText().toString().toString().toLowerCase().replaceAll("\\s", "_");
 					try {
+						shouldUpdate = true;
 						createDefaultData(location);
 						startActivity(prepareIntent());
 						finish();
@@ -205,6 +206,7 @@ public class PreferencesActivity extends AppCompatActivity {
 							e.printStackTrace();
 							Toast.makeText(PreferencesActivity.this, "An error occured", Toast.LENGTH_LONG).show();
 					}
+					shouldUpdate = true;
 					startActivity(intent);
 					finish();
 				} catch (Exception e) {
