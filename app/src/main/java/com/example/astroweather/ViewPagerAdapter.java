@@ -1,5 +1,6 @@
 package com.example.astroweather;
 
+import android.os.Parcelable;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -75,7 +76,13 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 	}
 
 
-	@NonNull
+	@Override
+	public Parcelable saveState() {
+		// Do Nothing
+		return null;
+	}
+
+
 	@Override
 	public Object instantiateItem(ViewGroup container, int position) {
 		Fragment createdFragment = (Fragment) super.instantiateItem(container, position);

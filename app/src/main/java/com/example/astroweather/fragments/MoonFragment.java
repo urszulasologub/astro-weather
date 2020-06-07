@@ -66,6 +66,7 @@ public class MoonFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
 	}
 
 
@@ -98,8 +99,4 @@ public class MoonFragment extends Fragment {
 		updateTextViews();
 	}
 
-	public static MoonFragment newInstance() {
-		MoonFragment fragment = new MoonFragment();
-		return fragment;
-	}
 }

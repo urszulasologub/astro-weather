@@ -78,6 +78,7 @@ public class SunFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
 	}
 
 
@@ -94,8 +95,5 @@ public class SunFragment extends Fragment {
 		updateTextViews();
 	}
 
-	public static SunFragment newInstance() {
-		SunFragment fragment = new SunFragment();
-		return fragment;
-	}
+
 }
