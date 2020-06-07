@@ -190,26 +190,36 @@ public class WeatherFragment extends Fragment {
 		TextView date1 = (TextView)getView().findViewById(R.id.date1);
 		date1.setText(clean_date1);
 		setImageDependingOnView(forecastArray.getJSONObject(0).getInt("code"), getView().findViewById(R.id.weather_icon_1));
+		TextView weather1 = getView().findViewById(R.id.weather1);
+		weather1.setText(forecastArray.getJSONObject(0).getString("text"));
 
 		String clean_date2 = forecastArray.getJSONObject(1).get("day").toString();
 		TextView date2 = (TextView)getView().findViewById(R.id.date2);
 		date2.setText(clean_date2);
 		setImageDependingOnView(forecastArray.getJSONObject(1).getInt("code"), getView().findViewById(R.id.weather_icon_2));
+		TextView weather2 = getView().findViewById(R.id.weather2);
+		weather2.setText(forecastArray.getJSONObject(1).getString("text"));
 
 		String clean_date3 = forecastArray.getJSONObject(2).get("day").toString();
 		TextView date3 = (TextView)getView().findViewById(R.id.date3);
 		date3.setText(clean_date3);
 		setImageDependingOnView(forecastArray.getJSONObject(2).getInt("code"), getView().findViewById(R.id.weather_icon_3));
+		TextView weather3 = getView().findViewById(R.id.weather3);
+		weather3.setText(forecastArray.getJSONObject(2).getString("text"));
 
 		String clean_date4 = forecastArray.getJSONObject(3).get("day").toString();
 		TextView date4 = (TextView)getView().findViewById(R.id.date4);
 		date4.setText(clean_date4);
 		setImageDependingOnView(forecastArray.getJSONObject(3).getInt("code"), getView().findViewById(R.id.weather_icon_4));
+		TextView weather4 = getView().findViewById(R.id.weather4);
+		weather4.setText(forecastArray.getJSONObject(3).getString("text"));
 
 		String clean_date5 = forecastArray.getJSONObject(4).get("day").toString();
 		TextView date5 = (TextView)getView().findViewById(R.id.date5);
 		date5.setText(clean_date5);
 		setImageDependingOnView(forecastArray.getJSONObject(4).getInt("code"), getView().findViewById(R.id.weather_icon_5));
+		TextView weather5 = getView().findViewById(R.id.weather5);
+		weather5.setText(forecastArray.getJSONObject(4).getString("text"));
 
 		String clean_date1_temp = forecastArray.getJSONObject(0).get("low").toString() + " / " + forecastArray.getJSONObject(0).get("high").toString() + " " + temperature_unit;
 		TextView date1_temperature = (TextView)getView().findViewById(R.id.date1_temperature);
