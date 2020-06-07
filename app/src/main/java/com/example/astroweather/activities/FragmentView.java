@@ -71,7 +71,8 @@ public class FragmentView extends AppCompatActivity {
 	public Boolean shouldUpdate = false;
 	public Boolean shouldRefreshFragments = false;
 
-	//TODO: add details about weather (icons maybe?)
+
+	//TODO: make app remember update time
 	//TODO: recreate new layouts
 	//TODO: fix toasts in offline mode
 

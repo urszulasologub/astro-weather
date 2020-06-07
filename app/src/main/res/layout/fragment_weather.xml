@@ -34,8 +34,9 @@
 			android:id="@+id/city"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:layout_weight="3"
+			android:layout_weight="10"
 			android:gravity="center"
+			android:paddingTop="10sp"
 			android:text="City"
 			android:textColor="#FFFFFF" />
 
@@ -75,6 +76,7 @@
 						android:gravity="center"
 						android:text="TextView"
 						android:textColor="#FFFFFF" />
+
 				</LinearLayout>
 			</LinearLayout>
 
@@ -139,6 +141,16 @@
 						android:gravity="center"
 						android:text="Unknown"
 						android:textColor="#FFFFFF" />
+
+					<ImageView
+						android:id="@+id/weather_icon_1"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_weight="1"
+						android:scaleType="fitCenter"
+						android:scaleX="0.5"
+						android:scaleY="0.5"
+						app:srcCompat="@drawable/iconfinder_weather_11_2682840" />
 				</LinearLayout>
 			</LinearLayout>
 
@@ -171,6 +183,16 @@
 						android:gravity="center"
 						android:text="Unknown"
 						android:textColor="#FFFFFF" />
+
+					<ImageView
+						android:id="@+id/weather_icon_2"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_weight="1"
+						android:scaleType="fitCenter"
+						android:scaleX="0.5"
+						android:scaleY="0.5"
+						app:srcCompat="@drawable/iconfinder_weather_11_2682840" />
 				</LinearLayout>
 			</LinearLayout>
 
@@ -203,6 +225,16 @@
 						android:gravity="center"
 						android:text="Unknown"
 						android:textColor="#FFFFFF" />
+
+					<ImageView
+						android:id="@+id/weather_icon_3"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_weight="1"
+						android:scaleType="fitCenter"
+						android:scaleX="0.5"
+						android:scaleY="0.5"
+						app:srcCompat="@drawable/iconfinder_weather_11_2682840" />
 				</LinearLayout>
 			</LinearLayout>
 
@@ -235,6 +267,16 @@
 						android:gravity="center"
 						android:text="Unknown"
 						android:textColor="#FFFFFF" />
+
+					<ImageView
+						android:id="@+id/weather_icon_4"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_weight="1"
+						android:scaleType="fitCenter"
+						android:scaleX="0.5"
+						android:scaleY="0.5"
+						app:srcCompat="@drawable/iconfinder_weather_11_2682840" />
 				</LinearLayout>
 			</LinearLayout>
 
@@ -267,6 +309,16 @@
 						android:gravity="center"
 						android:text="Unknown"
 						android:textColor="#FFFFFF" />
+
+					<ImageView
+						android:id="@+id/weather_icon_5"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_weight="1"
+						android:scaleType="fitCenter"
+						android:scaleX="0.5"
+						android:scaleY="0.5"
+						app:srcCompat="@drawable/iconfinder_weather_11_2682840" />
 				</LinearLayout>
 			</LinearLayout>
 		</LinearLayout>
