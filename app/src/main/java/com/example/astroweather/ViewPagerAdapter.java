@@ -1,5 +1,6 @@
 package com.example.astroweather;
 
+import android.app.Activity;
 import android.os.Parcelable;
 import android.view.ViewGroup;
 
