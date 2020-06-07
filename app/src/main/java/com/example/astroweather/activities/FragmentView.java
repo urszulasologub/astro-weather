@@ -73,7 +73,6 @@ public class FragmentView extends AppCompatActivity {
 
 
 	//TODO: make app remember update time
-	//TODO: recreate new layouts
 
 
 	public void createDataFromAstroDirectory() {

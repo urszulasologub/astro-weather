@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 		x = Double.parseDouble(locationObject.get("lat").toString());
 		y = Double.parseDouble(locationObject.get("long").toString());
 		this.location_name = locationObject.get("city").toString();
-		isCelsius = jsonObject.get("unit").toString().equals("c");
+		isCelsius = jsonObject.getString("unit").equals("c");
 	}
 
 
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 			if (communication.get() != null) {
 				String content = communication.get();
 				communication.createMainFile(content, this);
-				readDefaultDataFromJson(content);
+				readDefaultDataFromJson(new String(Files.readAllBytes(Paths.get(default_data_path))));
 			} else {
 				try {
 					String content = new String(Files.readAllBytes(Paths.get(default_data_path)));
