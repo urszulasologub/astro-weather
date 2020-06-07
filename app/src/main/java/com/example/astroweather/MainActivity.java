@@ -4,7 +4,10 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -101,6 +104,19 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 
+	public boolean isOnline() {
+		try {
+			ConnectivityManager connectivityManager = (ConnectivityManager)this.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+			NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+			return (networkInfo != null && networkInfo.isAvailable() &&
+					networkInfo.isConnected());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+
 	public Intent createIntent() {
 		Intent intent = new Intent(MainActivity.this, FragmentView.class);
 		Bundle b = new Bundle();
@@ -149,6 +165,8 @@ public class MainActivity extends AppCompatActivity {
 			String content = new String(Files.readAllBytes(Paths.get(default_data_path)));
 			readDefaultDataFromJson(content);
 			readConfigJson(new String(Files.readAllBytes(Paths.get(config_json_path))));
+			if (!isOnline())
+				Toast.makeText(MainActivity.this, "No Internet connection detected. Data may be outdated", Toast.LENGTH_LONG).show();
 			startActivity(createIntent());
 			finish();
 		} catch (Exception e) {
