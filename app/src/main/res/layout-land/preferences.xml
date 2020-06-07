@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<com.google.android.material.floatingactionbutton.FloatingActionButton
+		android:id="@+id/exit_preferences_button"
+		android:layout_width="wrap_content"
+		android:layout_height="0dp"
+		android:layout_marginEnd="10dp"
+		android:layout_marginBottom="10dp"
+		android:clickable="true"
+		app:backgroundTint="#7C4DFF"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:srcCompat="@drawable/abc_vector_test" />
+
+	<com.google.android.material.floatingactionbutton.FloatingActionButton
+		android:id="@+id/refresh_button"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="20dp"
+		android:layout_marginBottom="10dp"
+		android:clickable="true"
+		app:backgroundTint="#7C4DFF"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toStartOf="@+id/exit_preferences_button"
+		app:rippleColor="@color/cardview_dark_background"
+		app:srcCompat="@android:drawable/ic_popup_sync" />
+
+	<LinearLayout
+		android:id="@+id/linearLayout4"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginStart="20dp"
+		android:layout_marginEnd="20dp"
+		android:gravity="center"
+		android:orientation="vertical"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<TableLayout
+				android:id="@+id/tableLayout"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_weight="1">
+
+				<TableRow
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:gravity="center">
+
+					<TextView
+						android:id="@+id/text_label"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:gravity="center"
+						android:text="@string/preferences"
+						android:textSize="18sp"
+						android:visibility="visible" />
+				</TableRow>
+
+				<TableRow
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_weight="0">
+
+					<EditText
+						android:id="@+id/location_input"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_weight="1"
+						android:ems="10"
+						android:inputType="textPersonName" />
+				</TableRow>
+
+				<TableRow
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:gravity="center_horizontal">
+
+					<Button
+						android:id="@+id/ok_button"
+						style="@style/Widget.AppCompat.Button"
+						android:layout_width="wrap_content"
+						android:freezesText="false"
+						android:text="Change" />
+
+				</TableRow>
+
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
+
+					<Space
+						android:layout_width="wrap_content"
+						android:layout_height="20sp" />
+				</TableRow>
+
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:layout_marginTop="10dp"
+					android:layout_marginBottom="10dp"
+					android:layout_weight="0">
+
+					<TextView
+						android:id="@+id/textView"
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:layout_weight="2"
+						android:gravity="center_horizontal|left"
+						android:text="@string/refresh_time" />
+
+					<Spinner
+						android:id="@+id/time_spinner"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_gravity="left"
+						android:layout_weight="1"
+						android:gravity="center_horizontal" />
+				</TableRow>
+
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
+
+					<Switch
+						android:id="@+id/units_switch"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_weight="1"
+						android:text="Metric/Imperial"
+						android:textColor="@android:color/tertiary_text_light" />
+				</TableRow>
+			</TableLayout>
+
+			<TableLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_weight="1">
+
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:gravity="center">
+
+					<TextView
+						android:id="@+id/add_city_label"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:gravity="center"
+						android:text="@string/enter_location"
+						android:textSize="18sp" />
+				</TableRow>
+
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:gravity="center">
+
+					<EditText
+						android:id="@+id/add_city_input"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:ems="10"
+						android:gravity="center"
+						android:inputType="textPersonName" />
+				</TableRow>
+
+				<TableRow
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:gravity="center">
+
+					<Button
+						android:id="@+id/add_city_button"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:gravity="center"
+						android:text="@string/add_city" />
+				</TableRow>
+
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:gravity="center">
+
+					<Button
+						android:id="@+id/remove_city_button"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/remove_all_cities"
+						android:textColor="#A60000" />
+				</TableRow>
+
+			</TableLayout>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

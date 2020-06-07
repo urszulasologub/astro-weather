@@ -150,7 +150,7 @@
 					style="@style/Widget.AppCompat.Button"
 					android:layout_width="wrap_content"
 					android:freezesText="false"
-					android:text="Update" />
+					android:text="Change" />
 
 			</TableRow>
 
