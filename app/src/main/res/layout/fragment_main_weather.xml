@@ -41,7 +41,9 @@
 			android:layout_height="0dp"
 			android:layout_weight="10"
 			android:adjustViewBounds="true"
-			android:scaleType="fitCenter" />
+			android:scaleType="fitCenter"
+			tools:srcCompat="@drawable/iconfinder_weather_48_2682803"
+			app:srcCompat="@drawable/iconfinder_weather_48_2682803" />
 
 		<LinearLayout
 			android:layout_width="match_parent"

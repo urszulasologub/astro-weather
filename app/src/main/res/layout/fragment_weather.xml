@@ -150,7 +150,8 @@
 						android:scaleType="fitCenter"
 						android:scaleX="0.5"
 						android:scaleY="0.5"
-						app:srcCompat="@drawable/iconfinder_weather_11_2682840" />
+						app:srcCompat="@drawable/iconfinder_weather_48_2682803"
+						tools:srcCompat="@drawable/iconfinder_weather_48_2682803" />
 				</LinearLayout>
 			</LinearLayout>
 
@@ -192,7 +193,7 @@
 						android:scaleType="fitCenter"
 						android:scaleX="0.5"
 						android:scaleY="0.5"
-						app:srcCompat="@drawable/iconfinder_weather_11_2682840" />
+						app:srcCompat="@drawable/iconfinder_weather_48_2682803" />
 				</LinearLayout>
 			</LinearLayout>
 
@@ -234,7 +235,7 @@
 						android:scaleType="fitCenter"
 						android:scaleX="0.5"
 						android:scaleY="0.5"
-						app:srcCompat="@drawable/iconfinder_weather_11_2682840" />
+						app:srcCompat="@drawable/iconfinder_weather_48_2682803" />
 				</LinearLayout>
 			</LinearLayout>
 
@@ -276,7 +277,7 @@
 						android:scaleType="fitCenter"
 						android:scaleX="0.5"
 						android:scaleY="0.5"
-						app:srcCompat="@drawable/iconfinder_weather_11_2682840" />
+						app:srcCompat="@drawable/iconfinder_weather_48_2682803" />
 				</LinearLayout>
 			</LinearLayout>
 
@@ -318,7 +319,7 @@
 						android:scaleType="fitCenter"
 						android:scaleX="0.5"
 						android:scaleY="0.5"
-						app:srcCompat="@drawable/iconfinder_weather_11_2682840" />
+						app:srcCompat="@drawable/iconfinder_weather_48_2682803" />
 				</LinearLayout>
 			</LinearLayout>
 		</LinearLayout>
