@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 					Toast.makeText(this, "Couldn't connect Internet. Weather may be outdated", Toast.LENGTH_LONG).show();
 				} catch (Exception e) {
 					e.printStackTrace();
-					Toast.makeText(this, "Couldn't connect Internet. Default data is set to Lodz. Weather may be outdated", Toast.LENGTH_LONG).show();
+					Toast.makeText(this, "Couldn't connect Internet. Default data is set to Lodz", Toast.LENGTH_LONG).show();
 					this.x = 51.76174;
 					this.y = 19.46801;
 					this.location_name = "Lodz";
