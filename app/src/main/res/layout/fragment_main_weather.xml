@@ -29,31 +29,31 @@
 			android:id="@+id/city_location"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_weight="1"
+			android:layout_weight="3"
 			android:gravity="center"
 			android:text="Location"
 			android:textColor="#FFFFFF"
-			android:textSize="18sp" />
+			android:textSize="14sp" />
 
 		<ImageView
 			android:id="@+id/imageView"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="10"
 			android:adjustViewBounds="true"
-			android:scaleType="fitStart"
-			tools:srcCompat="@tools:sample/backgrounds/scenic" />
+			android:scaleType="fitCenter" />
 
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_weight="1"
+			android:layout_weight="3"
 			android:orientation="horizontal">
 
 			<TextView
 				android:id="@+id/weather_condition"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:layout_gravity="center"
 				android:layout_weight="1"
 				android:gravity="center"
 				android:text="Condition"
@@ -64,6 +64,7 @@
 				android:id="@+id/weather_condition_text"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:layout_gravity="center"
 				android:layout_weight="1"
 				android:gravity="center"
 				android:text="Unknown"
@@ -74,13 +75,14 @@
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_weight="1"
+			android:layout_weight="3"
 			android:orientation="horizontal">
 
 			<TextView
 				android:id="@+id/regular_temp"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:layout_gravity="center"
 				android:layout_weight="1"
 				android:gravity="center"
 				android:text="Temperature"
@@ -91,6 +93,7 @@
 				android:id="@+id/temp"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:layout_gravity="center"
 				android:layout_weight="1"
 				android:gravity="center"
 				android:text="Unknown"
@@ -101,13 +104,14 @@
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_weight="1"
+			android:layout_weight="3"
 			android:orientation="horizontal">
 
 			<TextView
 				android:id="@+id/low"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:layout_gravity="center"
 				android:layout_weight="1"
 				android:gravity="center"
 				android:text="Low"
@@ -118,6 +122,7 @@
 				android:id="@+id/low_temp"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:layout_gravity="center"
 				android:layout_weight="1"
 				android:gravity="center"
 				android:text="Unknown"
@@ -128,13 +133,14 @@
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_weight="1"
+			android:layout_weight="3"
 			android:orientation="horizontal">
 
 			<TextView
 				android:id="@+id/high"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:layout_gravity="center"
 				android:layout_weight="1"
 				android:gravity="center"
 				android:text="High"
@@ -145,6 +151,7 @@
 				android:id="@+id/high_temp"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:layout_gravity="center"
 				android:layout_weight="1"
 				android:gravity="center"
 				android:text="Unknown"
@@ -155,13 +162,14 @@
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_weight="1"
+			android:layout_weight="3"
 			android:orientation="horizontal">
 
 			<TextView
 				android:id="@+id/pressure"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:layout_gravity="center"
 				android:layout_weight="1"
 				android:gravity="center"
 				android:text="Pressure"
@@ -172,6 +180,7 @@
 				android:id="@+id/pressure_val"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:layout_gravity="center"
 				android:layout_weight="1"
 				android:gravity="center"
 				android:text="Unknown"
@@ -182,13 +191,14 @@
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_weight="1"
+			android:layout_weight="3"
 			android:orientation="horizontal">
 
 			<TextView
 				android:id="@+id/wind"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:layout_gravity="center"
 				android:layout_weight="1"
 				android:gravity="center"
 				android:text="Wind Speed"
@@ -199,6 +209,7 @@
 				android:id="@+id/wind_val"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:layout_gravity="center"
 				android:layout_weight="1"
 				android:gravity="center"
 				android:text="Unknown"
