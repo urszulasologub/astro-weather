@@ -6,6 +6,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,6 +44,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -66,7 +70,6 @@ public class FragmentView extends AppCompatActivity {
 	private Boolean isCelsius = true;
 	private UpdateWeatherFiles update;
 	private String astroDirectory;
-	private Date updateDate = new Date();
 
 	public Boolean shouldUpdate = false;
 	public Boolean shouldRefreshFragments = false;
@@ -75,7 +78,24 @@ public class FragmentView extends AppCompatActivity {
 	//TODO: make app remember update time
 
 
-	public void createDataFromAstroDirectory() {
+	private boolean isAppOnForeground(Context context) {
+		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+		List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+		if (appProcesses == null) {
+			return false;
+		}
+		final String packageName = context.getPackageName();
+		for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+			if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND && appProcess.processName.equals(packageName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+
+		public void createDataFromAstroDirectory() {
 		File f = new File(astroDirectory);
 		String[] pathnames = f.list();
 		for (String pathname : pathnames) {
@@ -271,7 +291,8 @@ public class FragmentView extends AppCompatActivity {
 								if (shouldRefreshFragments) {
 									shouldRefreshFragments = false;
 									updateDataFromAstroDirectory();
-									Toast.makeText(FragmentView.this, "Data has been updated", Toast.LENGTH_LONG).show();
+									if (isAppOnForeground(FragmentView.this))
+										Toast.makeText(FragmentView.this, "Data has been updated", Toast.LENGTH_LONG).show();
 								}
 							}
 						});
