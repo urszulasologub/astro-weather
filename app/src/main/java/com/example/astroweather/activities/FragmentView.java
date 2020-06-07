@@ -264,10 +264,18 @@ public class FragmentView extends AppCompatActivity {
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
-								elapsed_seconds++;
 								setCurrentTime(current_time);
-								if (elapsed_seconds >= update_time) {
-									elapsed_seconds = 0;
+								if (update_date.compareTo(new Date()) <= 0 || shouldUpdate) {		// <-- if config.json lets update or preferences menu says update should be made
+									try {		// updating weather in files
+										updateConfigFile(astroDirectory + "/config.json", update_time, FragmentView.this);
+										update = new UpdateWeatherFiles(FragmentView.this, isCelsius);
+										update.start();
+										shouldUpdate = false;
+										readConfigJson(new String(Files.readAllBytes(Paths.get(astroDirectory + "/config.json"))));
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+									// updating moon/sun fragments
 									updateDateTime();
 									try {
 										if (moon_fragment != null) {
@@ -282,17 +290,7 @@ public class FragmentView extends AppCompatActivity {
 										e.printStackTrace();
 									}
 								}
-								if (update_date.compareTo(new Date()) <= 0 || shouldUpdate) {
-									try {
-										updateConfigFile(astroDirectory + "/config.json", update_time, FragmentView.this);
-										update = new UpdateWeatherFiles(FragmentView.this, isCelsius);
-										update.start();
-										shouldUpdate = false;
-										readConfigJson(new String(Files.readAllBytes(Paths.get(astroDirectory + "/config.json"))));
-									} catch (Exception e) {
-										e.printStackTrace();
-									}
-								}
+								// refreshing weather fragments
 								if (shouldRefreshFragments) {
 									try {
 										updateDataFromAstroDirectory();
