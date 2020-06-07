@@ -79,7 +79,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 	@Override
 	public Object instantiateItem(ViewGroup container, int position) {
 		Fragment createdFragment = (Fragment) super.instantiateItem(container, position);
-		// save the appropriate reference depending on position
 		switch (position) {
 			case 0:
 				sun_fragment = (SunFragment) createdFragment;

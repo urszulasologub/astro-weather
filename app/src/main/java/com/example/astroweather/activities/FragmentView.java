@@ -74,7 +74,6 @@ public class FragmentView extends AppCompatActivity {
 
 	//TODO: make app remember update time
 	//TODO: recreate new layouts
-	//TODO: fix toasts in offline mode
 
 
 	public void createDataFromAstroDirectory() {

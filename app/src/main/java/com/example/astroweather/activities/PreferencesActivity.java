@@ -251,7 +251,7 @@ public class PreferencesActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				shouldUpdate = true;
-				Toast.makeText(PreferencesActivity.this, "Weather is being updated", Toast.LENGTH_LONG).show();
+				Toast.makeText(PreferencesActivity.this, "Trying to update...", Toast.LENGTH_LONG).show();
 				startActivity(prepareIntent());
 				finish();
 			}
