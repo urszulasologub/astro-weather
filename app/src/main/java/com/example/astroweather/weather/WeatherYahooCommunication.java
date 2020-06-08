@@ -72,7 +72,7 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 			object.put("unit", "f");
 		JSONObject locationObject = object.getJSONObject("location");
 		String location_name = locationObject.get("city").toString();
-		String filename = location_name.toLowerCase().replaceAll("\\s","");
+		String filename = location_name.toLowerCase().replaceAll("\\s","_");
 		PrintWriter out = new PrintWriter(new FileWriter(activity.getCacheDir().toString() + "/AstroWeather/" + filename));
 		out.write(object.toString());
 		out.close();
@@ -144,7 +144,7 @@ public class WeatherYahooCommunication extends AsyncTask<Void, Void, String> {
 	public WeatherYahooCommunication(String location, Activity mainActivity, Boolean isCelsius) throws Exception {
 		this.isCelsius = isCelsius;
 		this.mainActivity = mainActivity;
-		this.location = location.toLowerCase().replaceAll("\\s","");;
+		this.location = location.toLowerCase().replaceAll("\\s","_");;
 
 		long timestamp = new Date().getTime() / 1000;
 		byte[] nonce = new byte[32];

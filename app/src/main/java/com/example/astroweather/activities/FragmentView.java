@@ -129,6 +129,7 @@ public class FragmentView extends AppCompatActivity {
 		savedInstanceState.putInt("minute", minute);
 		savedInstanceState.putInt("second", second);
 		savedInstanceState.putInt("elapsed_seconds", elapsed_seconds);
+		savedInstanceState.putBoolean("should_refresh", shouldRefreshFragments);
 	}
 
 
@@ -169,6 +170,7 @@ public class FragmentView extends AppCompatActivity {
 			minute = savedInstanceState.getInt("minute");
 			second = savedInstanceState.getInt("second");
 			elapsed_seconds = savedInstanceState.getInt("elapsed_seconds");
+			shouldRefreshFragments = savedInstanceState.getBoolean("should_refresh");
 		}
 		astroDirectory = getCacheDir().toString() + "/AstroWeather";
 		Intent this_intent = getIntent();

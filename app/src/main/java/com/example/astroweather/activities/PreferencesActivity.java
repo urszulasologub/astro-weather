@@ -110,13 +110,12 @@ public class PreferencesActivity extends AppCompatActivity {
 
 		ArrayList<String> spinner_list = new ArrayList<>();
 
-		spinner_dictionary.put(5, "5 seconds");
-		spinner_dictionary.put(3, "10 seconds");
 		spinner_dictionary.put(60, "1 minute");
 		spinner_dictionary.put(60 * 15, "15 minutes");
 		spinner_dictionary.put(60 * 60, "1 hour");
 		spinner_dictionary.put(60 * 60 * 3, "3 hours");
 		spinner_dictionary.put(60 * 60 * 6, "6 hours");
+		spinner_dictionary.put(60 * 60 * 12, "12 hours");
 
 		Iterator<Map.Entry<Integer, String>> it = spinner_dictionary.entrySet().iterator();
 		while (it.hasNext()) {
