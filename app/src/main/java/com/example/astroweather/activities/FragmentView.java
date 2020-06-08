@@ -294,8 +294,8 @@ public class FragmentView extends AppCompatActivity {
 								if (shouldRefreshFragments) {
 									try {
 										updateDataFromAstroDirectory();
-										if (isAppOnForeground(FragmentView.this))
-											Toast.makeText(FragmentView.this, "Data has been updated", Toast.LENGTH_LONG).show();
+										//if (isAppOnForeground(FragmentView.this))
+										//	Toast.makeText(FragmentView.this, "Data has been updated", Toast.LENGTH_LONG).show();
 										shouldRefreshFragments = false;
 									} catch (Exception e) {
 										e.printStackTrace();
