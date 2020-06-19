@@ -131,13 +131,20 @@
 				android:layout_height="wrap_content"
 				android:layout_weight="0">
 
+				<Spinner
+					android:id="@+id/main_location_spinner"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="1" />
+
 				<EditText
 					android:id="@+id/location_input"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
 					android:ems="10"
-					android:inputType="textPersonName" />
+					android:inputType="textPersonName"
+					android:visibility="gone" />
 			</TableRow>
 
 			<TableRow
@@ -150,7 +157,8 @@
 					style="@style/Widget.AppCompat.Button"
 					android:layout_width="wrap_content"
 					android:freezesText="false"
-					android:text="Change" />
+					android:text="Change"
+					android:visibility="visible" />
 
 			</TableRow>
 

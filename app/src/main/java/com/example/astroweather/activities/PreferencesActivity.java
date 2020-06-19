@@ -28,8 +28,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -45,6 +48,9 @@ public class PreferencesActivity extends AppCompatActivity {
 	private Boolean isCelsius = true;
 	private Boolean shouldUpdate = false;
 	private Date update_date;
+	private String astroDirectory;
+	private String selectedFilePath;
+	private final Map<String, String> location_dictionary = new HashMap<String, String>();
 
 	private Integer getKeyFromValue(String value) {
 		Integer key = null;
@@ -68,6 +74,7 @@ public class PreferencesActivity extends AppCompatActivity {
 		b.putBoolean("isCelsius", isCelsius);
 		b.putBoolean("should_update", shouldUpdate);
 		b.putString("update_date", update_date.toString());
+		b.putString("location_name", default_location_name);
 		intent.putExtras(b);
 		return intent;
 	}
@@ -105,6 +112,8 @@ public class PreferencesActivity extends AppCompatActivity {
 		update_time = this_intent.getIntExtra("update_time", 15 * 60);
 		isCelsius = this_intent.getBooleanExtra("isCelsius", isCelsius);
 		update_date = new Date(this_intent.getStringExtra("update_date"));
+		astroDirectory = getCacheDir().toString() + "/AstroWeather";
+		selectedFilePath = astroDirectory + "/default.json";
 
 		final Spinner spinner = (Spinner)findViewById(R.id.time_spinner);
 
@@ -148,6 +157,33 @@ public class PreferencesActivity extends AppCompatActivity {
 			}
 		});
 
+		final Spinner main_location_spinner = (Spinner)findViewById(R.id.main_location_spinner);
+		ArrayList<String> main_location_spinner_list = new ArrayList<>();
+		File f = new File(astroDirectory);
+		String[] pathnames = f.list();
+		for (String pathname : pathnames) {
+			String fullFilePath = null;
+			try {
+				fullFilePath = astroDirectory + "/" + pathname;
+				JSONObject json_object = new JSONObject(new String(Files.readAllBytes(Paths.get(fullFilePath))));
+				JSONObject locationObject = json_object.getJSONObject("location");
+				String city_name = locationObject.get("city").toString();
+				if (pathname.equals("default.json")) {
+					default_location_name = city_name;
+				} else {
+					main_location_spinner_list.add(city_name);
+					location_dictionary.put(city_name, fullFilePath);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		ArrayAdapter<String> main_location_array_adapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, main_location_spinner_list);
+		main_location_array_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		main_location_spinner.setAdapter(main_location_array_adapter);
+		main_location_spinner.setSelection(main_location_array_adapter.getPosition(default_location_name));
+
 
 		EditText location_input = (EditText)findViewById(R.id.location_input);
 		location_input.setText(default_location_name);
@@ -170,7 +206,7 @@ public class PreferencesActivity extends AppCompatActivity {
 		ok_button_p.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				EditText location_input = (EditText) findViewById(R.id.location_input);
+				/*EditText location_input = (EditText) findViewById(R.id.location_input);
 				if (!location_input.getText().toString().equals(default_location_name)) {
 					String location = location_input.getText().toString().toString().toLowerCase().replaceAll("\\s", "_");
 					try {
@@ -184,7 +220,19 @@ public class PreferencesActivity extends AppCompatActivity {
 				} else {
 					startActivity(prepareIntent());
 					finish();
+				}*/
+				if (main_location_spinner_list.size() > 0) {
+					try {
+						default_location_name = (String) main_location_spinner.getSelectedItem();
+						selectedFilePath = location_dictionary.get(default_location_name);
+						String default_file = astroDirectory + "/default.json";
+						Files.copy(Paths.get(selectedFilePath), new FileOutputStream(default_file));
+					} catch (Exception e) {
+						default_location_name = astroDirectory + "/default.json";
+					}
 				}
+				startActivity(prepareIntent());
+				finish();
 			}
 		});
 
@@ -225,14 +273,23 @@ public class PreferencesActivity extends AppCompatActivity {
 				pathnames = f.list();
 				for (String pathname : pathnames) {
 					if (!pathname.equals("default.json") && !pathname.equals("config.json")) {
-						System.out.println("File to remove: " + getCacheDir().toString() + "/AstroWeather/" + pathname);
-						String fullFilePath = getCacheDir().toString() + "/AstroWeather/" + pathname;
-						File fileToDelete = new File(fullFilePath);
-						fileToDelete.delete();
+						try {
+							String fullFilePath = astroDirectory + "/" + pathname;
+							JSONObject json_object = new JSONObject(new String(Files.readAllBytes(Paths.get(fullFilePath))));
+							JSONObject locationObject = json_object.getJSONObject("location");
+							String city_name = locationObject.get("city").toString();
+							if (!city_name.equals(default_location_name)) {
+								System.out.println("File to remove: " + fullFilePath);
+								File fileToDelete = new File(fullFilePath);
+								fileToDelete.delete();
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
 				}
 				startActivity(prepareIntent());
-				Toast.makeText(PreferencesActivity.this, "Deleted all cities", Toast.LENGTH_LONG).show();
+				Toast.makeText(PreferencesActivity.this, "Deleted cities", Toast.LENGTH_LONG).show();
 				finish();
 			}
 		});
