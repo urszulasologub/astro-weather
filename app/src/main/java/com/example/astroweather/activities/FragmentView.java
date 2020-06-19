@@ -130,7 +130,16 @@ public class FragmentView extends AppCompatActivity {
 		savedInstanceState.putInt("second", second);
 		savedInstanceState.putInt("elapsed_seconds", elapsed_seconds);
 		savedInstanceState.putBoolean("should_refresh", shouldRefreshFragments);
-		savedInstanceState.putString("location_name", default_location_name);
+	}
+
+
+	public void readDefaultDataFromJson(String jsonContent) throws JSONException {
+		JSONObject jsonObject = new JSONObject(jsonContent);
+		JSONObject locationObject = jsonObject.getJSONObject("location");
+		x = Double.parseDouble(locationObject.get("lat").toString());
+		y = Double.parseDouble(locationObject.get("long").toString());
+		default_location_name = locationObject.get("city").toString();
+		isCelsius = jsonObject.getString("unit").equals("c");
 	}
 
 
@@ -172,7 +181,6 @@ public class FragmentView extends AppCompatActivity {
 			second = savedInstanceState.getInt("second");
 			elapsed_seconds = savedInstanceState.getInt("elapsed_seconds");
 			shouldRefreshFragments = savedInstanceState.getBoolean("should_refresh");
-			default_location_name = savedInstanceState.getString("location_name");
 		}
 		astroDirectory = getCacheDir().toString() + "/AstroWeather";
 		Intent this_intent = getIntent();
@@ -183,6 +191,12 @@ public class FragmentView extends AppCompatActivity {
 		update_time = this_intent.getIntExtra("update_time", 15 * 60);
 		isCelsius = this_intent.getBooleanExtra("isCelsius", true);
 		update_date = new Date(this_intent.getStringExtra("update_date"));
+
+		try {
+			readDefaultDataFromJson(new String(Files.readAllBytes(Paths.get(astroDirectory + "/default.json"))));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		TextView location_label = findViewById(R.id.location_name_label);
 		location_label.setText(default_location_name);
