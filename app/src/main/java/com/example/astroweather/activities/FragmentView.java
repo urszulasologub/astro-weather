@@ -139,7 +139,7 @@ public class FragmentView extends AppCompatActivity {
 		x = Double.parseDouble(locationObject.get("lat").toString());
 		y = Double.parseDouble(locationObject.get("long").toString());
 		default_location_name = locationObject.get("city").toString();
-		isCelsius = jsonObject.getString("unit").equals("c");
+		//isCelsius = jsonObject.getString("unit").equals("c");
 	}
 
 
