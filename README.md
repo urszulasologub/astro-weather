@@ -13,6 +13,7 @@ First time you use the application, you will be asked to enter default location.
 
 ## Features
 Three firsts fragments are always displaying information about sun and moon and today's weather for the main location. You can also add unlimited number of other locations. For every added place there will be one fragment created - showing weather predicts for a few days ahead.
+
 <img src="screenshots/sun.png" width="200"><img src="screenshots/moon.png" width="200"><img src="screenshots/main_location.png" width="200"><img src="screenshots/imperial.png" width="200">
 
 ## Preferences menu
